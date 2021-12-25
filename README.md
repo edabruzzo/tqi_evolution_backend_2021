@@ -9,6 +9,17 @@
 ### Arquitetura escolhida
   Optamos por modelar nossa aplicação em microserviços possui necessidades específicas e sua independência do resto da aplicação induz ao baixo acoplamento. Com isso, temos mais facilidade de lidar com questões técnicas, que são fortemente influenciadas pelos requisitos funcionais e não funcionais do negócio que estamos informatizando.
 
+  + Um microsserviço é a implementação de um contexto menor do domínio da aplicação, 
+
+  + Teremos os seguintes microsserviços: Cliente, Empréstimo e Frontend
+
+  + Quebraremos o domínio em contextos menores (bounded context)
+  
+  + Optamos pelo uso de Webflux para que nossos serviços, que expõem recursos, sejam reativos e elásticos
+
+  + Optamos pelo uso do DynamoDB da AWS como banco de dados NoSQL (não-relacional), para garantir boa escalabilidade
+
+
 
 
 #### API SPRING REST PARA CÁLCULO DE DISTÂNCIA ENTRE CIDADES COM BASE NO RAIO DA TERRA - SUPORTE A CÁLCULO COM DIFERENTES MÉTODOS E MEDIDAS
