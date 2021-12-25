@@ -6,7 +6,7 @@ public enum ParametrosConfig {
     CLIENTE_ENDPOINT("/cliente"),
     ENDPOINT_DYNAMO("http://localhost:8000"),
     REGION_DYNAMO("us-east-2"),
-    TABLENAME("tb_clientes");
+    TABLENAME("tb_cliente");
 
     private final String value;
 
