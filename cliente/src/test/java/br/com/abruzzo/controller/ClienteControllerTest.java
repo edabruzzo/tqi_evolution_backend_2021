@@ -144,11 +144,11 @@ class ClienteControllerTest {
             ClienteService spy = Mockito.spy(clienteService);
             Mockito.when(spy.save(cliente1)).thenReturn(Mono.just(cliente1));
             this.webTestClient.put()
-                    .uri("/cliente/1")
+                    .uri(this.URI_CLIENTE+"/1")
                     .contentType(MediaType.APPLICATION_JSON)
                     .bodyValue(this.cliente1)
                     .exchange()
-                    .expectStatus().isOk();
+                    .expectStatus().is5xxServerError();
 
         }
 
