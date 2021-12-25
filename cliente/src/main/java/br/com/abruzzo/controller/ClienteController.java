@@ -2,9 +2,9 @@ package br.com.abruzzo.controller;
 
 
 import br.com.abruzzo.config.ParametrosConfig;
+import br.com.abruzzo.exceptions.ErroOperacaoTransacionalBancoException;
 import br.com.abruzzo.model.Cliente;
 import br.com.abruzzo.service.ClienteService;
-import br.com.abruzzo.service.clienteService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,20 +74,24 @@ public class ClienteController {
      *  Método responsável por cadastrar um cliente na base de dados
      *  após uma request via chamada Rest utilizando o método HTTP POST
      *
-     *  @param id  Id do cliente cadastrado em banco
+     * @param id Id do cliente cadastrado em banco
      * @return    retorna uma Mono stream com o cliente salvo no formato JSON
      */
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<Cliente> createCliente(@RequestBody Cliente cliente){
+    public Mono<Cliente> createCliente(@RequestBody Cliente cliente) throws ErroOperacaoTransacionalBancoException {
+
         logger.info("Requisição para salvar um cliente na base", cliente.toString());
         logger.info("{}", cliente.toString());
         logger.info("POST request received on endpoint: {}", ParametrosConfig.ENDPOINT_BASE.getValue());
+
         Mono<Cliente> clienteSalvo = null;
         try{
             clienteSalvo = clienteService.save(cliente);
         }catch(Exception erro){
-            logger.debug(erro.getLocalizedMessage());
+
+            throw new ErroOperacaoTransacionalBancoException(erro.getLocalizedMessage(), logger);
+
         }
         logger.info("Cliente {} was saved", cliente.toString());
         logger.info("{}", cliente);
@@ -98,6 +102,7 @@ public class ClienteController {
     /**
      *  Método responsável por atualizar um cliente na base de dados
      *  após uma request via chamada Rest utilizando o método HTTP PUT
+     *
      * @param id  Id do cliente cadastrado em banco
      * @return    retorna uma Mono stream com o cliente salvo no formato JSON
      */
@@ -105,22 +110,27 @@ public class ClienteController {
     @PutMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public Mono<ResponseEntity<Cliente>> atualizaCliente(@PathVariable String id,
-                                                 @RequestBody Cliente clienteUpdated) {
+    public Mono<ResponseEntity<Cliente>> atualizaCliente(@PathVariable String id, @RequestBody Cliente clienteUpdated) throws ErroOperacaoTransacionalBancoException {
         clienteUpdated.setId(id);
         Mono<ResponseEntity<Cliente>> resposta = Mono.just(ResponseEntity.notFound().build());
         try {
             resposta = clienteService.findById(id)
                     .flatMap(oldCliente -> {
                         oldCliente.setId(clienteUpdated.getId());
-                        oldCliente.setUniverse(clienteUpdated.getUniverse());
-                        oldCliente.setName(clienteUpdated.getName());
-                        oldCliente.setCountFilms(clienteUpdated.getCountFilms());
+                        oldCliente.setCPF(clienteUpdated.getCPF());
+                        oldCliente.setEmail(clienteUpdated.getEmail());
+                        oldCliente.setEndereçoCompleto(clienteUpdated.getEndereçoCompleto());
+                        oldCliente.setNome(clienteUpdated.getNome());
+                        oldCliente.setRenda(clienteUpdated.getRenda());
+                        oldCliente.setRG(clienteUpdated.getRG());
+
                         return clienteService.save(oldCliente);
-                    }).map(Cliente -> ResponseEntity.ok(Cliente))
+
+                    }).map(cliente -> ResponseEntity.ok(cliente))
                     .defaultIfEmpty(ResponseEntity.notFound().build());
+
         }catch(Exception erro){
-            logger.debug(erro.getLocalizedMessage());
+            throw new ErroOperacaoTransacionalBancoException(erro.getLocalizedMessage(), logger);
         }
         return resposta;
 
@@ -129,17 +139,15 @@ public class ClienteController {
 
     @DeleteMapping(value="{id}")
     @ResponseStatus(code=HttpStatus.OK)
-    public void delete(@PathVariable String id){
+    public void delete(@PathVariable String id) throws ErroOperacaoTransacionalBancoException {
         logger.info("DELETE request received on endpoint: {}", ParametrosConfig.ENDPOINT_BASE.getValue());
         try{
             clienteService.deleteById(id);
             logger.info("Cliente with id {} was deleted", id);
         }catch (Exception erro){
-            logger.debug(erro.getLocalizedMessage());
+            throw new ErroOperacaoTransacionalBancoException(erro.getLocalizedMessage(), logger);
         }
     }
     
-    
-
 
 }
