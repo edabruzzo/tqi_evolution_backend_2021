@@ -137,6 +137,14 @@ public class ClienteController {
     }
 
 
+
+    /**
+     *  Método responsável por receber o request para deletar um cliente na base de dados
+     *  após uma request via chamada Rest utilizando o método HTTP DELETE
+     *
+     * @param id  Id do cliente cadastrado em banco
+     * @return    retorna uma Mono stream com o cliente salvo no formato JSON
+     */
     @DeleteMapping(value="{id}")
     @ResponseStatus(code=HttpStatus.OK)
     public void delete(@PathVariable String id) throws ErroOperacaoTransacionalBancoException {
