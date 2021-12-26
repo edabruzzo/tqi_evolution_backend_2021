@@ -1,3 +1,5 @@
+![tqi_evolution_backend_2021](tqi_banner.jpg)
+
 # Projeto Final TQI backend em parceria com a Digital Innovation One
 ## Projeto entregue como requisito final para avançar no processo seletivo da TQI - JAVA DEVELOPER
 
