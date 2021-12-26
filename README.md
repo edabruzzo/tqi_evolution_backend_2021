@@ -26,15 +26,9 @@
 #### DynamoDB AWS
 + https://www.tutorialspoint.com/dynamodb/dynamodb_load_table.htm
 ```shell
-  aws dynamodb create-table --table-name tb_cliente 
-  --attribute-definitions  AttributeName=id,AttributeType=S
-       --key-schema AttributeName=id,KeyType=HASH   
-   --provisioned-throughput  ReadCapacityUnits=10,WriteCapacityUnits=5  
-   --table-class STANDARD
+  aws dynamodb create-table --table-name tb_cliente --attribute-definitions  AttributeName=id,AttributeType=S  --key-schema AttributeName=id,KeyType=HASH   --provisioned-throughput  ReadCapacityUnits=10,WriteCapacityUnits=5  --table-class STANDARD
 
 ```  
-#### Compatibilidade entre Spring-data-dynamodb e Springboot
-+ https://github.com/boostchicken/spring-data-dynamodb
 
 + https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.Java.01.html
 

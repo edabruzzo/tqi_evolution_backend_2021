@@ -40,3 +40,6 @@ src/main/resources/META-INF/persistence.xml
 /src/main/resources/application-desenvolvimento.properties
 /cliente/src/main/resources/application.properties
 /cliente/docker-compose.yml
+/cliente/src/main/resources/application-dynamodb.properties
+/cliente/src/main/resources/application.properties
+/emprestimo/src/main/resources/application.properties
