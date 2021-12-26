@@ -9,18 +9,35 @@
 
 
 ### Arquitetura escolhida
-  Optamos por modelar nossa aplicação em microserviços possui necessidades específicas e sua independência do resto da aplicação induz ao baixo acoplamento. Com isso, temos mais facilidade de lidar com questões técnicas, que são fortemente influenciadas pelos requisitos funcionais e não funcionais do negócio que estamos informatizando.
+  Optamos por modelar nossa aplicação em microserviços para garantir independência de cada funcionalidade do resto da aplicação induz ao baixo acoplamento. Com isso, temos mais facilidade de lidar com questões técnicas, que são fortemente influenciadas pelos requisitos funcionais e não funcionais do negócio que estamos informatizando.
+  
+  Pretendemos, com isso baixo acoplamento entre os módulos, que solicitam serviços através de chamadas Rest, sendo que cada serviço expõe recursos 
+  
+  Para controle de acesso aos recursos e segurança da aplicação optamos pela implementação de um módulo de segurança para garantir acesso a recursos por:
+  * autenticação 
+  * papeis 
+
+
+### Conceitos trabalhados 
 
   + Um microsserviço é a implementação de um contexto menor do domínio da aplicação, 
 
-  + Teremos os seguintes microsserviços: Cliente, Empréstimo e Frontend
+  + Teremos os seguintes microsserviços: Cliente, Empréstimo, Service Discovery, Segurança e Frontend
 
   + Quebraremos o domínio em contextos menores (bounded context)
   
-  + Optamos pelo uso de Webflux para que nossos serviços, que expõem recursos, sejam reativos e elásticos
+  + Optamos inicialmente pelo uso de Webflux para que nossos serviços, que expõem recursos, fossem reativos e elásticos
 
-  + Optamos pelo uso do DynamoDB da AWS como banco de dados NoSQL (não-relacional), para garantir boa escalabilidade
+  + Optamos inicialmente pelo uso do DynamoDB da AWS como banco de dados NoSQL (não-relacional), para garantir boa escalabilidade
+
+  + Tivemos alguns problemas com o DynamoDB e, por fim, optamos pelo uso de bancos relacionais
+
+  + Criamos branches específicas para uso de banco não relacional e também o conceito de API reativa  
+
+  + Diante do deadline para entrega do projeto optamos por trabalhar na branch master com banco relacional (PostgreSQL) e API não reativa
   
+  + Porém, deixamos a branch 'reativa com Dynamo' preparada para evolução e posterior troca de paradigma após entrega do MVP (Minimum Viable Product)
+
   + Vide notas abaixo em relação ao DynamoDB
 
 
@@ -32,8 +49,8 @@
 
 #### Conclusão
 
-    Trabalhar com banco de dados não relacional (ainda mais banco de alta perfomance como o DynamoDB da AWS é ótimo
-+ Percebemos claramente o quanto a escolha do tipo de banco (relacional / não-relacional) tem impacto na estrutura do projeto
+    Trabalhar com banco de dados não relacional (ainda mais banco de alta perfomance como o DynamoDB da AWS é ótimo. 
+    Mas percebemos claramente o quanto a escolha do tipo de banco (relacional / não-relacional) tem impacto na estrutura do projeto
 
 
 #### AWS CLI
@@ -63,12 +80,6 @@
 + #### Video deploy
 + https://youtu.be/6Vd3WYr5r3E
 + https://youtu.be/MM0CQyWEQ7s
-
-
-#### Desenvolvimento #Developer
-#### Spring
-##### JAVA
-#### Digital Innovation One
 
 
 ## Endpoints das APIs expostos pelos microsserviços - testes executados com POSTMAN
