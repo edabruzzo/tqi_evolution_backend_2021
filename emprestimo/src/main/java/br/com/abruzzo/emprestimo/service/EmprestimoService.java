@@ -1,8 +1,7 @@
-package br.com.abruzzo.service;
+package br.com.abruzzo.emprestimo.service;
 
-import br.com.abruzzo.model.Emprestimo;
-import br.com.abruzzo.repository.EmprestimoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.abruzzo.emprestimo.model.Emprestimo;
+import br.com.abruzzo.emprestimo.repository.EmprestimoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +15,13 @@ import java.util.Optional;
 public class EmprestimoService {
 
 
-    @Autowired
+
     private EmprestimoRepository emprestimoRepository;
+
+
+    public EmprestimoService(EmprestimoRepository emprestimoRepository) {
+        this.emprestimoRepository = emprestimoRepository;
+    }
 
     public List<Emprestimo> findAll() {return emprestimoRepository.findAll();}
 

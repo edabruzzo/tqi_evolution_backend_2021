@@ -1,29 +1,13 @@
-spring.datasource.url=jdbc:postgresql://localhost:5432/tqi_evolution_backend_2021
-spring.datasource.username=********
-spring.datasource.password=********
+
+# ~/.aws/credentials
+amazon.aws.accesskey=key
+amazon.aws.secretkey=key2
 
 
-#PROFILE ATIVO
-#spring.profiles.active=desenvolvimento
-#spring.profiles.active=heroku
+# DynamoDB
+amazon.dynamodb.endpoint=http://localhost:8000/
 
-# INDEX
-# https://stackoverflow.com/questions/29318811/thymeleaf-error-resolving-template
-spring.mvc.view.prefix=/WEB-INF/views
-spring.mvc.view.suffix=.html
+spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 
-# https://docs.spring.io/spring-data/rest/docs/current/reference/html/#getting-started.changing-base-uri
-#spring.data.rest.basePath=/api
-
-
-
-# https://www.baeldung.com/spring-boot-custom-error-page
-server.error.whitelabel.enabled=false
-
-# Hibernate properties
-org.springframework.orm.jpa.vendor.Database = org.hibernate.dialect.PostgreSQLDialect
-spring.jpa.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
-spring.jpa.show-sql=true
-spring.jpa.hibernate.ddl-auto= create
-spring.jpa.hibernate.naming.implicit-strategy = org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
-spring.jpa.properties.hibernate.format_sql=true
+# RESTAPI Documentation
+springdoc.swagger-ui.path=/swagger-ui-reactive-api-clientes.html

@@ -1,4 +1,4 @@
-package br.com.abruzzo.config;
+package br.com.abruzzo.emprestimo.config;
 
 public enum ParametrosConfig {
 

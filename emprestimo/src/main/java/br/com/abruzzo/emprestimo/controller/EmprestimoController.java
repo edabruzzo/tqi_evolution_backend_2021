@@ -1,9 +1,9 @@
-package br.com.abruzzo.controller;
+package br.com.abruzzo.emprestimo.controller;
 
-import br.com.abruzzo.config.ParametrosConfig;
-import br.com.abruzzo.exceptions.ErroOperacaoTransacionalBancoException;
-import br.com.abruzzo.model.Emprestimo;
-import br.com.abruzzo.service.EmprestimoService;
+import br.com.abruzzo.emprestimo.config.ParametrosConfig;
+import br.com.abruzzo.emprestimo.exceptions.ErroOperacaoTransacionalBancoException;
+import br.com.abruzzo.emprestimo.model.Emprestimo;
+import br.com.abruzzo.emprestimo.service.EmprestimoService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
