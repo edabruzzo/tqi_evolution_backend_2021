@@ -26,18 +26,7 @@
 #### DynamoDB AWS
 + https://www.tutorialspoint.com/dynamodb/dynamodb_load_table.htm
 ```shell
-  aws dynamodb create-table --table-name tb_cliente  \
-  --attribute-definitions  AttributeName=id,AttributeType=HASH AttributeName=nome \
-  ,AttributeType=RANGE  AttributeName=email,AttributeType=RANGE \
-  AttributeName=CPF,AttributeType=RANGE   AttributeName=RG,AttributeType=RANGE \
-  AttributeName=endereçoCompleto,AttributeType=S \
-     AttributeName=renda,AttributeType=N   AttributeName=senha,AttributeType=S \
-       --key-schema AttributeName=id,KeyType=HASH   AttributeName=nome,KeyType=RANGE  \
-        AttributeName=email,KeyType=RANGE   AttributeName=CPF,KeyType=RANGE  \
-         AttributeName=RG,KeyType=RANGE   \
-  AttributeName=endereçoCompleto,KeyType=RANGE  \
-  AttributeName=renda,KeyType=N   AttributeName=senha,KeyType=RANGE  \
-   --provisioned-throughput  ReadCapacityUnits=10,WriteCapacityUnits=5  --table-class STANDARD
+  aws dynamodb create-table --table-name tb_cliente --attribute-definitions  AttributeName=id,AttributeType=S  --key-schema AttributeName=id,KeyType=HASH   --provisioned-throughput  ReadCapacityUnits=10,WriteCapacityUnits=5  --table-class STANDARD
 
 ```  
 
