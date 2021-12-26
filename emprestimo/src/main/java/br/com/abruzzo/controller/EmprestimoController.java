@@ -1,9 +1,9 @@
-package br.com.abruzzo.emprestimo.controller;
+package br.com.abruzzo.controller;
 
-import br.com.abruzzo.emprestimo.config.ParametrosConfig;
-import br.com.abruzzo.emprestimo.exceptions.ErroOperacaoTransacionalBancoException;
-import br.com.abruzzo.emprestimo.model.Emprestimo;
-import br.com.abruzzo.emprestimo.service.EmprestimoService;
+import br.com.abruzzo.config.ParametrosConfig;
+import br.com.abruzzo.exceptions.ErroOperacaoTransacionalBancoException;
+import br.com.abruzzo.model.Emprestimo;
+import br.com.abruzzo.service.EmprestimoService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,9 +33,11 @@ public class EmprestimoController {
 
     private static final Logger logger = LoggerFactory.getLogger(EmprestimoController.class);
 
-    @Autowired
     private EmprestimoService emprestimoService;
 
+    public EmprestimoController(EmprestimoService emprestimoService) {
+        this.emprestimoService = emprestimoService;
+    }
 
     /**
      *  Método que retorna um emprestimo conforme id especificado,

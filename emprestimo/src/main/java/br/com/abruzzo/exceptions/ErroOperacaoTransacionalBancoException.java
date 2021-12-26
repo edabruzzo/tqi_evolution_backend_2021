@@ -1,4 +1,4 @@
-package br.com.abruzzo.emprestimo.exceptions;
+package br.com.abruzzo.exceptions;
 
 import org.slf4j.Logger;
 

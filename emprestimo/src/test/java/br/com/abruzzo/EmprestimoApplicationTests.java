@@ -1,4 +1,4 @@
-package br.com.abruzzo.emprestimo;
+package br.com.abruzzo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

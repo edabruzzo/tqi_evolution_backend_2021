@@ -1,7 +1,7 @@
-package br.com.abruzzo.emprestimo.service;
+package br.com.abruzzo.service;
 
-import br.com.abruzzo.emprestimo.model.Emprestimo;
-import br.com.abruzzo.emprestimo.repository.EmprestimoRepository;
+import br.com.abruzzo.model.Emprestimo;
+import br.com.abruzzo.repository.EmprestimoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

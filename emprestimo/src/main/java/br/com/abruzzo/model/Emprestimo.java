@@ -2,11 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.com.abruzzo.emprestimo.model;
+package br.com.abruzzo.model;
 
-
-import br.com.abruzzo.emprestimo.config.ParametrosConfig;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
