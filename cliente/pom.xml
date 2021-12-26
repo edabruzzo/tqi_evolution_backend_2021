@@ -43,18 +43,18 @@
 			<artifactId>springdoc-openapi-webflux-ui</artifactId>
 			<version>1.2.32</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/software.amazon.awssdk/dynamodb
+		<!-- https://mvnrepository.com/artifact/software.amazon.awssdk/dynamodb-->
 		<dependency>
 			<groupId>software.amazon.awssdk</groupId>
 			<artifactId>dynamodb</artifactId>
 			<version>2.17.96</version>
-		</dependency>-->
-		<!-- https://mvnrepository.com/artifact/com.github.derjust/spring-data-dynamodb
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.github.derjust/spring-data-dynamodb-->
 		<dependency>
 			<groupId>com.github.derjust</groupId>
 			<artifactId>spring-data-dynamodb</artifactId>
 			<version>5.1.0</version>
-		</dependency>-->
+		</dependency>
 
 		<dependency>
 			<groupId>io.github.boostchicken</groupId>
