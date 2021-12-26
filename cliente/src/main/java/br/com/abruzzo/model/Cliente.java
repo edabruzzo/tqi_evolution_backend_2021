@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import java.util.Objects;
 
 
-@DynamoDBTable(tableName = "tb_heroes")
+@DynamoDBTable(tableName = "tb_cliente")
 @Data
 @NoArgsConstructor
 public class Cliente {

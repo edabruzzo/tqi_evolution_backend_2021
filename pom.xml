@@ -12,6 +12,7 @@
         <module>cliente</module>
         <module>config-server</module>
         <module>emprestimo</module>
+        <module>frontend_cliente_emprestimo</module>
     </modules>
 
     <properties>
