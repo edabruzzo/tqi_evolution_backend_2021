@@ -119,7 +119,14 @@ class ClienteControllerTest {
         Mockito.when(restTemplate.getForEntity((this.URI_CLIENTE + "/" + cliente2.getId()),
                         Mono.class))
                 .thenReturn(new ResponseEntity(cliente2, HttpStatus.OK));
-        assertThat(cliente2.getNome()).isEqualTo("José");
+
+        webTestClient.get()
+                .uri("/cliente/2")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBodyList(Cliente.class);
+
+        Mockito.verify(clienteService, Mockito.times(1)).findById("2");
 
     }
 
