@@ -19,8 +19,8 @@ import java.sql.Date;
 @Entity
 @Table(name = "tb_emprestimo", catalog = "emprestimo", schema = "public")
 //@Data //Using @Data for JPA entities is not recommended. It can cause severe performance and memory consumption issues.
+@NoArgsConstructor
 public class Emprestimo implements Serializable {
-
 
     private static final long serialVersionUID = 1L;
 
