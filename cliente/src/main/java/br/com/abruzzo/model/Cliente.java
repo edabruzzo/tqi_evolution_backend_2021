@@ -1,7 +1,6 @@
 package br.com.abruzzo.model;
 
 
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -30,14 +29,14 @@ public class Cliente implements Serializable {
     @Column(name="email")
     private String email;
 
-    @Column(name="CPF")
-    private String CPF;
+    @Column(name="cpf")
+    private String cpf;
 
-    @Column(name="RG")
-    private String RG;
+    @Column(name="rg")
+    private String rg;
 
-    @Column(name="endereçoCompleto")
-    private String endereçoCompleto;
+    @Column(name="enderecoCompleto")
+    private String enderecoCompleto;
 
     @Column(name="renda")
     private Double renda;
@@ -46,16 +45,18 @@ public class Cliente implements Serializable {
     private String senha;
 
 
-    public Cliente(Long id, String nome, String email, String CPF, String RG, String endereçoCompleto, Double renda, String senha) {
+    public Cliente(Long id, String nome, String email, String cpf, String rg, String enderecoCompleto, Double renda, String senha) {
         this.id = id;
         this.nome = nome;
         this.email = email;
-        this.CPF = CPF;
-        this.RG = RG;
-        this.endereçoCompleto = endereçoCompleto;
+        this.cpf = cpf;
+        this.rg = rg;
+        this.enderecoCompleto = enderecoCompleto;
         this.renda = renda;
         this.senha = senha;
     }
+
+
 
 
     public Long getId() {
@@ -82,28 +83,28 @@ public class Cliente implements Serializable {
         this.email = email;
     }
 
-    public String getCPF() {
-        return CPF;
+    public String getCpf() {
+        return cpf;
     }
 
-    public void setCPF(String CPF) {
-        this.CPF = CPF;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
-    public String getRG() {
-        return RG;
+    public String getRg() {
+        return rg;
     }
 
-    public void setRG(String RG) {
-        this.RG = RG;
+    public void setRg(String rg) {
+        this.rg = rg;
     }
 
-    public String getEndereçoCompleto() {
-        return endereçoCompleto;
+    public String getEnderecoCompleto() {
+        return enderecoCompleto;
     }
 
-    public void setEndereçoCompleto(String endereçoCompleto) {
-        this.endereçoCompleto = endereçoCompleto;
+    public void setEnderecoCompleto(String enderecoCompleto) {
+        this.enderecoCompleto = enderecoCompleto;
     }
 
     public Double getRenda() {
@@ -128,9 +129,9 @@ public class Cliente implements Serializable {
                 "id=" + id +
                 ", nome='" + nome + '\'' +
                 ", email='" + email + '\'' +
-                ", CPF='" + CPF + '\'' +
-                ", RG='" + RG + '\'' +
-                ", endereçoCompleto='" + endereçoCompleto + '\'' +
+                ", CPF='" + cpf + '\'' +
+                ", RG='" + rg + '\'' +
+                ", enderecoCompleto='" + enderecoCompleto + '\'' +
                 ", renda=" + renda +
                 ", senha='" + senha + '\'' +
                 '}';
@@ -141,11 +142,11 @@ public class Cliente implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Cliente cliente = (Cliente) o;
-        return Objects.equals(id, cliente.id) && Objects.equals(nome, cliente.nome) && Objects.equals(email, cliente.email) && Objects.equals(CPF, cliente.CPF) && Objects.equals(RG, cliente.RG) && Objects.equals(endereçoCompleto, cliente.endereçoCompleto) && Objects.equals(renda, cliente.renda) && Objects.equals(senha, cliente.senha);
+        return Objects.equals(id, cliente.id) && Objects.equals(nome, cliente.nome) && Objects.equals(email, cliente.email) && Objects.equals(cpf, cliente.cpf) && Objects.equals(rg, cliente.rg) && Objects.equals(enderecoCompleto, cliente.enderecoCompleto) && Objects.equals(renda, cliente.renda) && Objects.equals(senha, cliente.senha);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nome, email, CPF, RG, endereçoCompleto, renda, senha);
+        return Objects.hash(id, nome, email, cpf, rg, enderecoCompleto, renda, senha);
     }
 }

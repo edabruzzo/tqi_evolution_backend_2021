@@ -5,6 +5,7 @@
 package br.com.abruzzo.model;
 
 
+import br.com.abruzzo.config.ParametrosConfig;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;

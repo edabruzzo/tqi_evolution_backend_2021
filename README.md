@@ -2,7 +2,7 @@
 ## Projeto entregue como requisito final para avançar no processo seletivo da TQI - JAVA DEVELOPER
 
 ## Emmanuel de Oliveira Abruzzo - Dezembro/2021 - Janeiro/2022
-+ Projeto Final TQI - DIGITAL INNOVATION ONE - BOOTCAMP - TQI-JAVA-DEVELOPER - NOV/2021
++ Projeto Final TQI - DIGITAL INNOVATION ONE - BOOTCAMP - TQI-JAVA-DEVELOPER - Dez/2021
 
 
 
@@ -18,10 +18,25 @@
   + Optamos pelo uso de Webflux para que nossos serviços, que expõem recursos, sejam reativos e elásticos
 
   + Optamos pelo uso do DynamoDB da AWS como banco de dados NoSQL (não-relacional), para garantir boa escalabilidade
+  
+  + Vide notas abaixo em relação ao DynamoDB
+
+
+### Opção por uma branch específica para testar banco não-relacional  DynamoDB e outra branch para Postgres (relacional)
+  
+  + Durante o processo de desenvolvimento houve problemas na execução de operações de banco no DynamoDB local pela aplicação
+  + Optamos por separar o projeto do Microserviço de clientes em duas branchs específicas para cada banco
+
+
+#### Conclusão
+
+    Trabalhar com banco de dados não relacional (ainda mais banco de alta perfomance como o DynamoDB da AWS é ótimo
++ Percebemos claramente o quanto a escolha do tipo de banco (relacional / não-relacional) tem impacto na estrutura do projeto
+
 
 #### AWS CLI
 + https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/getting-started-step-1.html
-
++ https://github.com/aws/aws-sdk-java
 
 #### DynamoDB AWS
 + https://www.tutorialspoint.com/dynamodb/dynamodb_load_table.htm
@@ -33,10 +48,10 @@
 + https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.Java.01.html
 
 
-#### API SPRING REST PARA CÁLCULO DE DISTÂNCIA ENTRE CIDADES COM BASE NO RAIO DA TERRA - SUPORTE A CÁLCULO COM DIFERENTES MÉTODOS E MEDIDAS
+#### Microserviços integrados num sistema de cadastro de clientes e pedido de empréstimos
 + https://fierce-atoll-34490.herokuapp.com/    deployed to Heroku
 #### GITHUB:
-+ https://github.com/edabruzzo/
++ https://github.com/edabruzzo/tqi_evolution_backend_2021
 #### LINKEDIN:
 + https://www.linkedin.com/in/emmanuel-abruzzo-8ba80a36/
 #### DISCORD - DIO
@@ -54,11 +69,27 @@
 #### Digital Innovation One
 
 
-## Endpoints
+## Endpoints das APIs expostos pelos microsserviços
 
-#### Lista cidades próximas de uma determinada cidade (nomeCidadeFrom) num determinado raio em kilometros (raioDistancia)
+### Microservice Cliente
+
+#### POST - cadastro novo cliente
 + https://fierce-atoll-34490.herokuapp.com/distances/Curitiba/100
-+ http://localhost:8080/distances/Curitiba/150
+```
+curl --location --request POST 'http://localhost:8080/cliente' \
+  --header 'Content-Type: application/json' \
+  --data-raw '{
+  "nome" : "Andrea",
+  "email": "andrea@gmail.com",
+  "cpf": "11111111111",
+  "rg":  "11111111-1",
+  "enderecoCompleto": "Rua 1",
+  "renda":10000,
+  "senha":"123"
+  }
+  '
+
+```
 
 
 ### Diferentes approachs (RequestParam / PathVariable)
