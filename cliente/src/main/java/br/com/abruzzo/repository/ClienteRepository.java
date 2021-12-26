@@ -1,13 +1,14 @@
 package br.com.abruzzo.repository;
 
 import br.com.abruzzo.model.Cliente;
-import org.socialsignin.spring.data.dynamodb.repository.EnableScan;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 
 /**
  * @author Emmanuel Abruzzo
  * @date 25/12/2021
  */
-@EnableScan
-public interface ClienteRepository extends CrudRepository<Cliente, String> { }
+
+@Repository
+public interface ClienteRepository extends JpaRepository<Cliente, Long> { }

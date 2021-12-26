@@ -4,8 +4,6 @@ public enum ParametrosConfig {
 
     ENDPOINT_BASE("https://localhost:8080"),
     CLIENTE_ENDPOINT("/cliente"),
-    ENDPOINT_DYNAMO("http://localhost:8000"),
-    REGION_DYNAMO("us-east-2"),
     TABLENAME("tb_cliente");
 
     private final String value;

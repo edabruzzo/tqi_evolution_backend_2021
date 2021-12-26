@@ -5,8 +5,6 @@
 package br.com.abruzzo.model;
 
 
-
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -20,8 +18,7 @@ import java.sql.Date;
 
 @Entity
 @Table(name = "tb_emprestimo", catalog = "emprestimo", schema = "public")
-@Data
-@NoArgsConstructor
+//@Data //Using @Data for JPA entities is not recommended. It can cause severe performance and memory consumption issues.
 public class Emprestimo implements Serializable {
 
 
@@ -44,6 +41,56 @@ public class Emprestimo implements Serializable {
 
     @Column(name="idCliente")
     private Integer idCliente;
+
+
+    public Emprestimo(Long id, Double valor, Date data_primeira_parcela, Integer numeroMaximoParcelas, Integer idCliente) {
+        this.id = id;
+        this.valor = valor;
+        this.data_primeira_parcela = data_primeira_parcela;
+        this.numeroMaximoParcelas = numeroMaximoParcelas;
+        this.idCliente = idCliente;
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Double getValor() {
+        return valor;
+    }
+
+    public void setValor(Double valor) {
+        this.valor = valor;
+    }
+
+    public Date getData_primeira_parcela() {
+        return data_primeira_parcela;
+    }
+
+    public void setData_primeira_parcela(Date data_primeira_parcela) {
+        this.data_primeira_parcela = data_primeira_parcela;
+    }
+
+    public Integer getNumeroMaximoParcelas() {
+        return numeroMaximoParcelas;
+    }
+
+    public void setNumeroMaximoParcelas(Integer numeroMaximoParcelas) {
+        this.numeroMaximoParcelas = numeroMaximoParcelas;
+    }
+
+    public Integer getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(Integer idCliente) {
+        this.idCliente = idCliente;
+    }
 
     @Override
     public String toString() {

@@ -13,8 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+
+
+import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -41,16 +43,17 @@ public class ClienteController {
      */
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Mono<Cliente>> getClienteById(@PathVariable String id) {
+    public ResponseEntity<Cliente> getClienteById(@PathVariable Long id) {
 
         logger.info("Chegou GET request no Endpoint {}/{}/{}",
                   ParametrosConfig.ENDPOINT_BASE.getValue()
                 , ParametrosConfig.CLIENTE_ENDPOINT.getValue(),id);
 
-        Mono<Cliente> cliente = clienteService.findById(id);
-        HttpStatus status = (cliente != null) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        Optional<Cliente> cliente = clienteService.findById(id);
 
-        return new ResponseEntity<>(cliente,status);
+        if (cliente.isPresent()) return ResponseEntity.ok().body(cliente.get());
+        else return (ResponseEntity) ResponseEntity.notFound().build();
+
     }
 
 
@@ -61,7 +64,8 @@ public class ClienteController {
      * @return    retorna um Flux stream de clientes no formato JSON
      */
     @GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
-    public Flux<Cliente> retornaTodosClientes(){
+    @ResponseStatus(HttpStatus.OK)
+    public List<Cliente> retornaTodosClientes(){
         logger.info("Chegou GET request no Endpoint {}/{}", ParametrosConfig.ENDPOINT_BASE.getValue()
                 , ParametrosConfig.CLIENTE_ENDPOINT.getValue());
         return clienteService.findAll();
@@ -78,12 +82,12 @@ public class ClienteController {
      */
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<Cliente> createCliente(@RequestBody Cliente cliente) throws ErroOperacaoTransacionalBancoException {
+    public Cliente createCliente(@RequestBody Cliente cliente) throws ErroOperacaoTransacionalBancoException {
 
         logger.info("Requisição para salvar um cliente na base");
         logger.info("POST recebido no seguinte endpoint: {}", ParametrosConfig.ENDPOINT_BASE.getValue());
 
-        Mono<Cliente> clienteSalvo = null;
+        Cliente clienteSalvo = null;
         try{
             clienteSalvo = clienteService.save(cliente);
         }catch(Exception erro){
@@ -106,33 +110,18 @@ public class ClienteController {
      * @return    retorna uma Mono stream com o cliente salvo no formato JSON
      */
     @PutMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public Mono<ResponseEntity<Cliente>> atualizaCliente(@PathVariable String id,
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Cliente> atualizaCliente(@PathVariable Long id,
                                                          @RequestBody Cliente clienteUpdated) throws ErroOperacaoTransacionalBancoException {
 
         logger.info("Requisição para atualizar um cliente na base");
         logger.info("PUT request recebido no seguinte endpoint: {}", ParametrosConfig.ENDPOINT_BASE.getValue());
-
-
         clienteUpdated.setId(id);
-        Mono<ResponseEntity<Cliente>> resposta = Mono.just(ResponseEntity.notFound().build());
+        ResponseEntity<Cliente> resposta = null;
         try {
-            resposta = clienteService.findById(id)
-                    .flatMap(oldCliente -> {
-                        oldCliente.setId(clienteUpdated.getId());
-                        oldCliente.setCPF(clienteUpdated.getCPF());
-                        oldCliente.setEmail(clienteUpdated.getEmail());
-                        oldCliente.setEndereçoCompleto(clienteUpdated.getEndereçoCompleto());
-                        oldCliente.setNome(clienteUpdated.getNome());
-                        oldCliente.setRenda(clienteUpdated.getRenda());
-                        oldCliente.setRG(clienteUpdated.getRG());
-
-                        return clienteService.save(oldCliente);
-
-                    }).map(ResponseEntity::ok)
-                    .defaultIfEmpty(ResponseEntity.notFound().build());
-
+            clienteService.save(clienteUpdated);
         }catch(Exception erro){
+            resposta = ResponseEntity.notFound().build();
             throw new ErroOperacaoTransacionalBancoException(erro.getLocalizedMessage(), logger);
         }
         return resposta;
@@ -150,7 +139,7 @@ public class ClienteController {
      */
     @DeleteMapping(value="{id}")
     @ResponseStatus(code=HttpStatus.OK)
-    public void delete(@PathVariable String id) throws ErroOperacaoTransacionalBancoException {
+    public void delete(@PathVariable Long id) throws ErroOperacaoTransacionalBancoException {
         logger.info("DELETE request recebido no endpoint: {}", ParametrosConfig.ENDPOINT_BASE.getValue());
         try{
             clienteService.deleteById(id);

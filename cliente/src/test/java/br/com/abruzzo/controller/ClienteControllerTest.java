@@ -3,6 +3,7 @@ package br.com.abruzzo.controller;
 import br.com.abruzzo.config.ParametrosConfig;
 import br.com.abruzzo.model.Cliente;
 import br.com.abruzzo.service.ClienteService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,7 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
@@ -22,14 +23,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.reactive.function.BodyInserters;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 /**
@@ -38,9 +42,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 
 @ExtendWith(SpringExtension.class)
-@WebFluxTest(controllers = ClienteController.class)
+@WebMvcTest(ClienteController.class)
 @Import(ClienteService.class)
 class ClienteControllerTest {
+
 
     @Mock
     private RestTemplate restTemplate;
@@ -57,15 +62,16 @@ class ClienteControllerTest {
 
     private Logger logger = LoggerFactory.getLogger(ClienteControllerTest.class);
 
-    private Cliente cliente1  = new Cliente("1","Andrea","andrea@gmail.com","11111111111","11111111-1","Rua 1",10000d,"123");
-    private Cliente cliente2 = new Cliente("2","José","jose@gmail.com","22222222222","22222222-2","Rua 2",5000d,"123456");
-    private Cliente cliente3 = new Cliente("3","Alberto","alberto@gmail.com","33333333333","33333333-3","Rua 3",15000d,"333333");
-    private Cliente cliente4 = new Cliente("4","Maria","maria@gmail.com","44444444444","44444444-4","Rua 2",8500d,"321654987");
+    private Cliente cliente1  = new Cliente(1L,"Andrea","andrea@gmail.com","11111111111","11111111-1","Rua 1",10000d,"123");
+    private Cliente cliente2 = new Cliente(2L,"José","jose@gmail.com","22222222222","22222222-2","Rua 2",5000d,"123456");
+    private Cliente cliente3 = new Cliente(3L,"Alberto","alberto@gmail.com","33333333333","33333333-3","Rua 3",15000d,"333333");
+    private Cliente cliente4 = new Cliente(4L,"Maria","maria@gmail.com","44444444444","44444444-4","Rua 2",8500d,"321654987");
 
 
     @InjectMocks
     private ClienteController clienteController;
 
+    @Autowired
     MockMvc mockMvc;
 
     @Before
@@ -75,24 +81,21 @@ class ClienteControllerTest {
         MockitoAnnotations.initMocks(this);
 
         this.mockMvc = MockMvcBuilders.standaloneSetup(clienteController)
-                .alwaysExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
+                .alwaysExpect(content().contentType("application/json;charset=UTF-8"))
                 .build();
     }
 
 
     @Test
-    void whenCallPOSTRequest_saveNewClientOnDatabase(){
+    void whenCallPOSTRequest_saveNewClientOnDatabase() throws Exception {
 
-        Mockito.when(clienteService.save(cliente1)).thenReturn(Mono.just(cliente1));
+        Mockito.when(clienteService.save(Mockito.any(Cliente.class))).thenReturn(this.cliente1);
 
-        webTestClient.post()
-                .uri(URI_CLIENTE)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromValue(cliente1))
-                .exchange()
-                .expectStatus().isCreated();
-
-        Mockito.verify(clienteService, Mockito.times(1)).save(cliente1);
+        mockMvc.perform(MockMvcRequestBuilders.post("/cliente/")
+                        .content(asJsonString(this.cliente1))
+                        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json;charset=UTF-8"));
 
 
     }
@@ -101,24 +104,22 @@ class ClienteControllerTest {
     @Test
     void whenCallGETMethod_findAllClients() {
 
-        Mockito.when(clienteService.findAll()).thenReturn(Flux.just(cliente1, cliente2, cliente3,cliente4));
 
-        webTestClient.get()
-                .uri(URI_CLIENTE)
-                .exchange()
-                .expectStatus().isOk()
-                .expectBodyList(Cliente.class);
+        List<Cliente> listaClientes = new ArrayList<>();
+        listaClientes.add(this.cliente1);
+        listaClientes.add(this.cliente2);
+        listaClientes.add(this.cliente3);
+        listaClientes.add(this.cliente4);
 
-        Mockito.verify(clienteService, Mockito.times(1)).findAll();
+        Mockito.when(restTemplate.getForEntity("/cliente", List.class))
+                .thenReturn(new ResponseEntity(listaClientes, HttpStatus.OK));
+
+        assertThat(listaClientes.size()).isEqualTo(4);
     }
 
 
     @Test
     void whenCallGETMethodById_findOneClient() {
-
-        Mockito.when(restTemplate.getForEntity((this.URI_CLIENTE + "/" + cliente2.getId()),
-                        Mono.class))
-                .thenReturn(new ResponseEntity(cliente2, HttpStatus.OK));
 
         webTestClient.get()
                 .uri("/cliente/2")
@@ -126,17 +127,17 @@ class ClienteControllerTest {
                 .expectStatus().isOk()
                 .expectBodyList(Cliente.class);
 
-        Mockito.verify(clienteService, Mockito.times(1)).findById("2");
+        Mockito.verify(clienteService, Mockito.times(1)).findById(2L);
 
     }
 
 
 
     @Test
-    public void testFooDelete() throws Exception {
+    public void testDelete() throws Exception {
 
         ClienteService spy = Mockito.spy(clienteService);
-        Mockito.doNothing().when(spy).deleteById("1");
+        Mockito.doNothing().when(spy).deleteById(1L);
 
         webTestClient.delete()
                 .uri("/cliente/1")
@@ -146,18 +147,27 @@ class ClienteControllerTest {
 
 
     @Test
-    void whenCallUpdateById_AssertThatClienteisUpdated(){
+    void whenCallUpdateById_AssertThatClienteisUpdated() throws Exception {
 
-            ClienteService spy = Mockito.spy(clienteService);
-            Mockito.when(spy.save(cliente1)).thenReturn(Mono.just(cliente1));
-            this.webTestClient.put()
-                    .uri(this.URI_CLIENTE+"/1")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .bodyValue(this.cliente1)
-                    .exchange()
-                    .expectStatus().is5xxServerError();
+        Mockito.when(clienteService.save(Mockito.any(Cliente.class))).thenReturn(this.cliente1);
 
+        mockMvc.perform(MockMvcRequestBuilders.post("/cliente/1")
+                        .content(asJsonString(this.cliente1))
+                        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json;charset=UTF-8"));
+    }
+
+    public static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+
+
+
+    }
 
 
 

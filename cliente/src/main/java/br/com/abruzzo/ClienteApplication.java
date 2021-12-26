@@ -1,7 +1,6 @@
 package br.com.abruzzo;
 
 
-import br.com.abruzzo.config.ClienteTableConfig;
 import br.com.abruzzo.exceptions.ProblemaCriacaoTabelaException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
