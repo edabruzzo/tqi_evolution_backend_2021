@@ -4,13 +4,14 @@
  */
 package br.com.abruzzo.model;
 
-// https://stackoverflow.com/questions/31440496/hibernate-spatial-5-geometrytype
-//import com.vividsolutions.jts.geom.Point;
 
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
+import java.sql.Date;
 
 /**
  * @author Emmanuel Abruzzo
@@ -19,9 +20,10 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "tb_emprestimo", catalog = "emprestimo", schema = "public")
+@Data
+@NoArgsConstructor
 public class Emprestimo implements Serializable {
 
-    public Emprestimo() { }
 
     private static final long serialVersionUID = 1L;
 
@@ -31,33 +33,26 @@ public class Emprestimo implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "nome")
-    private String nome;
+    @Column(name = "valor")
+    private Double valor;
 
-    @Column(name = "uf")
-    private Integer uf;
+    @Column(name = "data_primeira_parcela")
+    private Date data_primeira_parcela;
 
-    @Column(name = "ibge")
-    private Integer ibge;
+    @Column(name = "numeroMaximoParcelas")
+    private Integer numeroMaximoParcelas;
 
-    // 1st
-    @Column(name = "lat_lon")
-    private String geolocation;
+    @Column(name="idCliente")
+    private Integer idCliente;
 
-    // 2nd
-    @Column(name = "lat_lon", updatable = false, insertable = false)
-    private Point location;
-
-
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "latitude")
-    private Double latitude;
-
-    @Column(name = "longitude")
-    private Double longitude;
-
-    @Column(name="cod_tom")
-    private int cod_tom;
-
-
+    @Override
+    public String toString() {
+        return "Emprestimo{" +
+                "id=" + id +
+                ", valor=" + valor +
+                ", data_primeira_parcela=" + data_primeira_parcela +
+                ", numeroMaximoParcelas=" + numeroMaximoParcelas +
+                ", idCliente=" + idCliente +
+                '}';
+    }
 }
