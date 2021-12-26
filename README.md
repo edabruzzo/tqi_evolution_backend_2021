@@ -71,12 +71,13 @@
 #### Digital Innovation One
 
 
-## Endpoints das APIs expostos pelos microsserviços
+## Endpoints das APIs expostos pelos microsserviços - testes executados com POSTMAN
+  Os testes da API foram realizados utilizando o Postman e abaixo estão as chamadas via CURL para testes
 
 ### Microservice Cliente
 
+
 #### POST - cadastro novo cliente
-+ https://fierce-atoll-34490.herokuapp.com/distances/Curitiba/100
 ```
 curl --location --request POST 'http://localhost:8080/cliente' \
   --header 'Content-Type: application/json' \
@@ -93,6 +94,77 @@ curl --location --request POST 'http://localhost:8080/cliente' \
 
 ```
 
+
+
+#### PUT - atualização novo cliente
+```
+curl --location --request PUT 'http://localhost:8080/cliente/1' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "nome" : "Andrea",
+    "email": "andrea@gmail.com",
+    "cpf":"9999999",
+    "rg": "9999990-1",
+    "renda":30000,
+    "endereçoCompleto": "Rua 9",
+    "senha":"123"
+ }
+'
+
+```
+
+
+#### GET - listar clientes
+```shell
+curl --location --request GET 'http://localhost:8080/cliente'
+```
+
+#### GET - listar cliente por id
+```shell
+curl --location --request GET 'http://localhost:8080/cliente/1'
+```
+
+
+
+### Microservice Empréstimo
+
+
+#### POST - cadastro novo empréstimo
+```shell
+curl --location --request POST 'http://localhost:8081/emprestimo' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "valor" : 10000,
+    "data_primeira_parcela" : "2022-01-02",
+    "numeroMaximoParcelas" : 60,
+    "idCliente" : 1
+}'
+```
+
+
+#### PUT - atualização de empréstimo existente
+```shell
+curl --location --request PUT 'http://localhost:8081/emprestimo/1' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "valor" : 1555555555,
+    "data_primeira_parcela" : "2030-10-30",
+    "numeroMaximoParcelas" : 60,
+    "idCliente" : 1
+}'
+```
+
+
+#### GET - listar empréstimo por id
+```shell
+curl --location --request GET 'http://localhost:8081/emprestimo/1'
+```
+
+
+#### GET - listar empréstimos
+```shell
+curl --location --request GET 'http://localhost:8081/emprestimo'
+```
 
 ### Diferentes approachs (RequestParam / PathVariable)
 * No Rest Controller temos sobrecarga de métodos no Backend (mesmo nome e diferentes assinaturas)
