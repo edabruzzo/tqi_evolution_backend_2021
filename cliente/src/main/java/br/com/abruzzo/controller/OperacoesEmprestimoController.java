@@ -1,7 +1,6 @@
 package br.com.abruzzo.controller;
 
 import br.com.abruzzo.config.ParametrosConfig;
-import br.com.abruzzo.exceptions.ErroNegocioAutorizacaoEmprestimoException;
 import br.com.abruzzo.service.OperacoesEmprestimoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,14 +50,9 @@ public class OperacoesEmprestimoController {
             ResponseEntity<String> resultado = operacoesEmprestimoService.solicitarEmprestimo(idCliente,valor,parcelas,dataPrimeiraParcela);
             return resultado;
         }catch(Exception erro){
-
-            try {
-                throw new ErroNegocioAutorizacaoEmprestimoException(erro.getLocalizedMessage(), logger);
-            } catch (ErroNegocioAutorizacaoEmprestimoException e) {
-                e.printStackTrace();
-                return resposta;
-            }
-
+            erro.printStackTrace();
+            logger.error(erro.getMessage());
+            return resposta;
         }
 
     }

@@ -48,11 +48,11 @@ public class ValidacoesCliente {
      */
     public static boolean margemRendaCompativelComValorParcela(double rendaCliente, double valorEmprestimo, int numeroParcelas){
 
-        /**
-         * TODO implementar validação da renda
-         */
-        return true;
-    };
+        double margem = rendaCliente * 0.3;
+        double valorParcela = valorEmprestimo / numeroParcelas;
+
+        return margem > valorParcela;
+    }
 
 
 
