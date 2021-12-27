@@ -2,14 +2,24 @@
 
 DATA_HORA=$(date +"%d_%m_%Y_%H_hs_%M_min")
 
+diretorio_log_testes=/home/$USER/IdeaProjects/tqi_evolution_backend_2021/logs_testes
 
-function testaAPIClientes{
+#logAPIClientes=$diretorio_log_testes/TESTES_API_CLIENTES_$DATA_HORA.log
+#logAPIEmprestimos=$diretorio_log_testes/TESTES_API_EMPRESTIMOS_$DATA_HORA.log
+#logSolicitacaoEmprestimosRequest=$diretorio_log_testes/TESTES_API_SOLICITACAO_EMPRESTIMO_$DATA_HORA.log
+
+#touch $logAPIClientes
+#touch $logAPIEmprestimos
+#touch $logSolicitacaoEmprestimosRequest
+
+
+function testaAPIClientes {
 
 echo 'Cadastrando cliente Andrea'
 
 echo '\n'
 
-curl -o logs_testes/logTestesAPI.log --location --request POST 'http://localhost:8080/cliente' \
+curl --location --request POST 'http://localhost:8080/cliente' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "nome" : "Andrea",
@@ -33,6 +43,7 @@ echo '\n'
 echo 'Cadastrando cliente José'
 
 echo '\n'
+
 curl --location --request POST 'http://localhost:8080/cliente' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -48,13 +59,15 @@ curl --location --request POST 'http://localhost:8080/cliente' \
 echo '\n'
 
 
- curl --location --request GET 'http://localhost:8080/cliente'
+curl --location --request GET 'http://localhost:8080/cliente')
 
  
 echo '\n'
- echo 'Atualizando Cliente de id 1'
+
+echo 'Atualizando Cliente de id 1'
 
 echo '\n'
+
  curl --location --request PUT 'http://localhost:8080/cliente/1' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -81,6 +94,7 @@ echo '\n'
 echo 'Deletando cliente de id 1'
 
 echo '\n'
+
 curl --location --request DELETE 'http://localhost:8080/cliente/1'
 
 echo '\n'
@@ -88,19 +102,19 @@ echo '\n'
 curl --location --request GET 'http://localhost:8080/cliente/'
 
 echo '\n'
-} >> logs_testes/TESTES_API_CLIENTES_$DATA_HORA.log
+}
 
 
 
 
-function testaAPIEmprestimos{
+function testaAPIEmprestimos {
 
 
 echo 'Criando empréstimo na base'
 
 echo '\n'
 
-  curl --location --request POST 'http://localhost:8081/emprestimo' \
+curl --location --request POST 'http://localhost:8081/emprestimo' \
  --header 'Content-Type: application/json' \
  --data-raw '{
      "valor" : 10000,
@@ -111,24 +125,27 @@ echo '\n'
 
 
 echo '\n'
-} >> logs_testes/TESTES_API_EMPRESTIMOS_$DATA_HORA.log
+}
 
 
 
-function testaSolicitacaoEmprestimo{
+function testaSolicitacaoEmprestimo {
 
 
 echo 'Testando solicitação de empréstimo pelo cliente'
 
 echo '\n'
 
-curl --location --request GET 'http://localhost:8080/emprestimo/solicitar?idCliente=1&valor=50000&parcelas=60&dataPrimeiraParcela=2022-02-01'
-
+ curl --location --request GET 'http://localhost:8080/emprestimo/solicitar?idCliente=1&valor=50000&parcelas=60&dataPrimeiraParcela=2022-02-01'
 
 echo '\n'
-} >> logs_testes/TESTES_API_SOLICITACAO_EMPRESTIMO_$DATA_HORA.log
 
+}
 
-call testaAPIClientes
-call testaAPIEmprestimos
-call testaSolicitacaoEmprestimo
+#testaAPIClientes) | tee logs_testes/$logAPIClientes >/dev/null
+#testaAPIEmprestimos) | tee logs_testes/$logAPIEmprestimos >/dev/null
+#testaSolicitacaoEmprestimo) | tee logs_testes/$logSolicitacaoEmprestimosRequest >/dev/null
+
+testaAPIClientes
+testaAPIEmprestimos
+testaSolicitacaoEmprestimo
