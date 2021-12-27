@@ -51,6 +51,20 @@
 
     Trabalhar com banco de dados não relacional (ainda mais banco de alta perfomance como o DynamoDB da AWS é ótimo. 
     Mas percebemos claramente o quanto a escolha do tipo de banco (relacional / não-relacional) tem impacto na estrutura do projeto
+    
+#### Benefícios de bancos NoSQL (não-relacionais) em aplicações de microserviços
+    
+      * Estamos trabalhando inicialmente com banco relacional PostgreSQL para ter um produto minimamente viável
+      * A ideia, porém, é trabalhar com ElasticSearch ou DynamoDB como bancos não relacionais para melhorar a performance 
+        e preparar a aplicação para escalar de forma fácil e performática
+
+      * Percebemos claremente que bancos relacionais têm a tendência de criar alto acoplamento entre serviços
+    
+      * Optamos por utilizar um DTO no serviço Cliente para fazer uma espécie de Mock da entidade empréstimo e mandá-lo na requisição
+      * Com isso, não precisamos criar dependência entre serviços com mapeamento objeto relacional e chaves estrangeiras
+      * Basta que o Cliente saiba como invocar o serviço Rest exposto pelo serviço Empréstimo ao solicitar um empréstimo
+      * Em nenhum momento é criada uma dependência relacional entre as Entidades JPA Cliente e Emprestimo
+    
 
 
 #### AWS CLI
@@ -67,8 +81,61 @@
 + https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.Java.01.html
 
 
+### Service Discovery
+    Quando trabalhamos com arquiteturas orientadas a eventos que possuam microsserviços distribuídos entre diferentes hosts,
+    precisamos de uma estratégia para mapeamento dos endereços onde os serviços estão hospedados, porta para acesso 
+    e um mecanismo para traduzir a URL do serviço em um nome mapeado
+
+    Desta forma os demais serviços não precisam conhecer o endereço exato dos serviços dos quais dependem, bastando para tanto
+    se registrarem em um servidor que fará este mapeamento e será responsável por traduzir as diversas URLs para nomes mapeados.
+
+    Para tanto, utilizamos o Eureka Server e dizemos a cada microsserviço que ele deve se registrar no Eureka Server
+
+#### Chamadas REST para o Eureka Server
+```shell
+
+#!/bin/bash
+
+DATA_HORA=$(date +"%d_%m_%Y_%H_hs_%M_min")
+
+diretorio_log_testes=/home/$USER/IdeaProjects/tqi_evolution_backend_2021/logs_testes
+
+logServiceDiscoveryEurekaRequest=$diretorio_log_testes/TESTES_SERVICE_DISCOVERY_EUREKA_SERVER_$DATA_HORA.log
+
+touch $logServiceDiscoveryEurekaRequest
+
+
+function testaServiceDiscoveryEurekaRequest {
+
+
+echo 'Testando aplicações registradas no Eureka Server'
+
+echo '\n'
+
+curl --location --request GET 'http://localhost:8761/eureka/apps'
+
+echo '\n'
+
+}
+
+echo $(testaSolicitacaoEmprestimo) | tee $logSolicitacaoEmprestimosRequest >/dev/null
+
+#testaAPIClientes
+#testaAPIEmprestimos
+call testaServiceDiscoveryEurekaRequest >> $logServiceDiscoveryEurekaRequest
+
+
+
+
+
+```
+
+
+
+
+
 #### Microserviços integrados num sistema de cadastro de clientes e pedido de empréstimos
-+ https://fierce-atoll-34490.herokuapp.com/    deployed to Heroku
+
 #### GITHUB:
 + https://github.com/edabruzzo/tqi_evolution_backend_2021
 #### LINKEDIN:
@@ -85,31 +152,79 @@
 ## Endpoints das APIs expostos pelos microsserviços - testes executados com POSTMAN
   Os testes da API foram realizados utilizando o Postman e abaixo estão as chamadas via CURL para testes
 
+  Criamos arquivos de testes bash scripts com chamadas CURL para as APIs
+
 ### Microservice Cliente
+  
+
+```shell
+#!/bin/bash
+
+DATA_HORA=$(date +"%d_%m_%Y_%H_hs_%M_min")
+
+diretorio_log_testes=/home/$USER/IdeaProjects/tqi_evolution_backend_2021/logs_testes
+
+logAPIClientes=$diretorio_log_testes/TESTES_API_CLIENTES_$DATA_HORA.log
+
+touch $logAPIClientes
 
 
-#### POST - cadastro novo cliente
-```
+function testaAPIClientes {
+
+echo 'Cadastrando cliente Andrea'
+
+echo '\n'
+
 curl --location --request POST 'http://localhost:8080/cliente' \
-  --header 'Content-Type: application/json' \
-  --data-raw '{
-  "nome" : "Andrea",
-  "email": "andrea@gmail.com",
-  "cpf": "11111111111",
-  "rg":  "11111111-1",
-  "enderecoCompleto": "Rua 1",
-  "renda":10000,
-  "senha":"123"
-  }
-  '
-
-```
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "nome" : "Andrea",
+    "email": "andrea@gmail.com",
+    "cpf": "11111111111",
+    "rg":  "11111111-1",
+    "enderecoCompleto": "Rua 1",
+    "renda":10000,
+    "senha":"123"
+ }'
 
 
+echo '\n'
 
-#### PUT - atualização novo cliente
-```
-curl --location --request PUT 'http://localhost:8080/cliente/1' \
+
+curl --location --request GET 'http://localhost:8080/cliente/1'
+
+
+echo '\n'
+
+echo 'Cadastrando cliente José'
+
+echo '\n'
+
+curl --location --request POST 'http://localhost:8080/cliente' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "nome" : "José",
+    "email": "jose@gmail.com",
+    "cpf": "222222222222",
+    "rg":  "222222222-2",
+    "enderecoCompleto": "Rua 2",
+    "renda":8000,
+    "senha":"456"
+ }'
+
+echo '\n'
+
+
+curl --location --request GET 'http://localhost:8080/cliente'
+
+ 
+echo '\n'
+
+echo 'Atualizando Cliente de id 1'
+
+echo '\n'
+
+ curl --location --request PUT 'http://localhost:8080/cliente/1' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "nome" : "Andrea",
@@ -119,42 +234,74 @@ curl --location --request PUT 'http://localhost:8080/cliente/1' \
     "renda":30000,
     "endereçoCompleto": "Rua 9",
     "senha":"123"
- }
-'
-
-```
+ }'
 
 
-#### GET - listar clientes
-```shell
-curl --location --request GET 'http://localhost:8080/cliente'
-```
+echo '\n'
 
-#### GET - listar cliente por id
-```shell
 curl --location --request GET 'http://localhost:8080/cliente/1'
-```
 
+echo '\n'
+
+curl --location --request GET 'http://localhost:8080/cliente/'
+
+echo '\n'
+
+echo 'Deletando cliente de id 1'
+
+echo '\n'
+
+curl --location --request DELETE 'http://localhost:8080/cliente/1'
+
+echo '\n'
+
+curl --location --request GET 'http://localhost:8080/cliente/'
+
+echo '\n'
+}
+
+echo $(testaAPIClientes) | tee $logAPIClientes >/dev/null
+
+call testaAPIClientes >> $logAPIClientes
+```
 
 
 ### Microservice Empréstimo
 
-
-#### POST - cadastro novo empréstimo
 ```shell
+#!/bin/bash
+
+DATA_HORA=$(date +"%d_%m_%Y_%H_hs_%M_min")
+
+diretorio_log_testes=/home/$USER/IdeaProjects/tqi_evolution_backend_2021/logs_testes
+
+logAPIEmprestimos=$diretorio_log_testes/TESTES_API_EMPRESTIMOS_$DATA_HORA.log
+
+touch $logAPIEmprestimos
+
+
+function testaAPIEmprestimos {
+
+
+echo 'Criando empréstimo na base'
+
+echo '\n'
+
 curl --location --request POST 'http://localhost:8081/emprestimo' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "valor" : 10000,
-    "data_primeira_parcela" : "2022-01-02",
-    "numeroMaximoParcelas" : 60,
-    "idCliente" : 1
-}'
-```
+ --header 'Content-Type: application/json' \
+ --data-raw '{
+     "valor" : 10000,
+     "data_primeira_parcela" : "2022-01-02",
+     "numeroMaximoParcelas" : 60,
+     "idCliente" : 1
+ }'
 
+echo '\n'
 
-#### PUT - atualização de empréstimo existente
-```shell
+echo 'PUT - atualização de empréstimo existente'
+
+echo '\n'
+
 curl --location --request PUT 'http://localhost:8081/emprestimo/1' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -163,116 +310,56 @@ curl --location --request PUT 'http://localhost:8081/emprestimo/1' \
     "numeroMaximoParcelas" : 60,
     "idCliente" : 1
 }'
-```
 
+echo '\n'
 
-#### GET - listar empréstimo por id
-```shell
+echo 'GET - listar empréstimo por id'
+echo '\n'
 curl --location --request GET 'http://localhost:8081/emprestimo/1'
+echo '\n'
+
+
+
+echo 'GET - listar empréstimos'
+echo '\n'
+curl --location --request GET 'http://localhost:8081/emprestimo/'
+echo '\n'
+
+echo 'GET - listar empréstimos'
+echo '\n'
+curl --location --request GET 'http://localhost:8081/emprestimo/'
+echo '\n'
+
+
+}
+
+
+
+echo $(testaAPIEmprestimos) | tee $logAPIEmprestimos >/dev/null
+
+call testaAPIEmprestimos >> $logAPIEmprestimos
 ```
 
 
-#### GET - listar empréstimos
-```shell
-curl --location --request GET 'http://localhost:8081/emprestimo'
-```
-
-### Diferentes approachs (RequestParam / PathVariable)
-* No Rest Controller temos sobrecarga de métodos no Backend (mesmo nome e diferentes assinaturas)
-
-#### Exemplo - Distância Curitiba -> Salvador
-616;"Salvador";5;2927408;"(-12.9717998504639,-38.5010986328125)";-1.29717998504638e+17;-385010986328125;3849
-2878;"Curitiba";18;4106902;"(-25.4195003509521,-49.2645988464355)";-2.5419500350952e+17;-4.92645988464354e+17;7535
-
-
-#### Calcula distância entre cidades baseadas em pontos por idCidade
-+ https://fierce-atoll-34490.herokuapp.com/distances/by-points?from=616&to=278
-+ http://localhost:8080/distances/by-points?from=616&to=278
-
-#### Calcula distância entre cidades baseadas em pontos por Nome
-+ https://fierce-atoll-34490.herokuapp.com/distances/by-points/Curitiba/Salvador
-+ http://localhost:8080/distances/by-points/Curitiba/Salvador
-
-
-#### Calcula distância entre cidades baseadas em Cube e coordenadas de Latitude e Longitude
-    X1 = Latitude da cidade 1 / Y1 = Longitude cidade 1
-    X2 = Latitude da cidade 2 / y2 = Longitude cidade 2
-+ https://fierce-atoll-34490.herokuapp.com/distances/by-cube?x1=-25.4195003509521&y1=-49.2645988464355&x2=-2.5419500350952e+17&y2=-4.92645988464354e+17
-
-+ http://localhost:8080/distances/by-cube?x1=-25.4195003509521&y1=-49.2645988464355&x2=-2.5419500350952e+17&y2=-4.92645988464354e+17
-
-#### Calcula a distância entre duas cidades por Matemática pura em três opções de unidade de medida
-
-    O cálculo é executado utilizando medidas de raio da Terra e fórmulas matemáticas
-    O parâmetro unidade de medida é opcional e, caso não especificado, será calculada a distância em KM
-
-#### Devolve o cálculo em KM
-+ https://fierce-atoll-34490.herokuapp.com/distances/calcularPorMatematicaPura/São Paulo/Curitiba/kilometers
-+ localhost:8080/distances/calcularPorMatematicaPura/São Paulo/Curitiba/kilometers
-
-#### Devolve o cálculo em uma das medidas suportadas
-
-O que permite que o usuário passe o nome do Enum EarthRadius em letra minúscula é o StringToEnumEarthRadiusConverter
-Unidades de medida suportadas: metros ou  kilômetros ou milhas
-+ https://fierce-atoll-34490.herokuapp.com/distances/calcularPorMatematicaPura/Curitiba/Salvador/{unidadeMedida}
-
-+ http://localhost:8080/distances/calcularPorMatematicaPura/Curitiba/Salvador/unidadeMedida}
-
-unidadeMedida={METERS/meters ou  KILOMETERS/kilometers ou MILES/miles}
-
-#### Lista Cidades
-+ https://fierce-atoll-34490.herokuapp.com/cities
-+ http://localhost:8080/cities
-
-Salvador
-+ https://fierce-atoll-34490.herokuapp.com/cities/616
-+ http://localhost:8080/cities/616
-
-#### Lista Estados
-+ http://localhost:8080/states
-+ https://fierce-atoll-34490.herokuapp.com/states
-+ http://localhost:8080/states/{id}
-+ https://fierce-atoll-34490.herokuapp.com/states{id}
-
-#### Lista Países
-+ http://localhost:8080/countries
-+ https://fierce-atoll-34490.herokuapp.com/states
-+ http://localhost:8080/countries/{id}
-+ https://fierce-atoll-34490.herokuapp.com/states/{id}
 
 
 #### EXPLORAÇÃO DE CONCEITOS DE ORIENTAÇÃO A OBJETO
 
-    O projeto explora também o conceito de sobrecarga de métodos e contrutores
-    Foram declarados métodos com o mesmo nome e assinaturas diferentes na camada de serviço 
-    Foi criada uma interface na camada serviço para estabelecer um contrato entre a classe de cálculo que a implementa 
-    E realizada de fato as operações para cálculo, invocando métodos na camada repositório
-    
-    @Override
-    public Double calculaDistanciaEntreCidadesUsandoMatematicaPura(Long idCidade1, Long idCidade2, EarthRadius unit) {
-
-    @Override
-    public Double calculaDistanciaEntreCidadesUsandoMatematicaPura(String nomeCidade1, String nomeCidade2, EarthRadius unit) {
-
-
-#### Exploração de declaração de @NativeNamedQueries nas Classes de Entidade, na camada modelo
-
-    O projeto explora também o conceito de Queries nomeadas declaradas na 
-    Classe de entidade e também Queries declaradas na camada Repository (DAO)
+    O projeto explora também herança na criação de Business Exceptions e outras unchecked Exceptions
 
 
 ## Requirements
 
 * Linux
-  Meu sistema já é Ubuntu (release "Bionic")
+  Meu sistema já é Ubuntu 18.04 (release "Bionic")
 * Git
 * Java 8
 * Docker
 
 * IntelliJ Community ou NetBeans
-    * Desenvolvido inicialmente no NetBeans e depois migrei para o IntelliJ Idea
+    * Desenvolvido no IntelliJ Idea
     * Adorei o IntelliJ, pois já estava muito familiarizado com o PyCharm da JetBrains
-    * Sempre desenvolvi em NetBeans, mas depois deste BootCamp, começo a considerar migrar para o IntelliJ
+    * Sempre desenvolvi em NetBeans, mas depois deste BootCamp, já migrei para o IntelliJ
 
 * Heroku CLI
 
@@ -283,7 +370,7 @@ Salvador
 * [Postgres Docker Hub](https://hub.docker.com/_/postgres)
 
 ```
-docker run --name cities-db -d -p 5432:5432 -e POSTGRES_USER=postgres_user_city -e POSTGRES_PASSWORD=super_password -e POSTGRES_DB=cities postgres
+docker run --name tqi_evolution_backend_2021 -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=super_password -e POSTGRES_DB=tqi_evolution_backend_2021 postgres
 
 ```
 
@@ -308,64 +395,21 @@ docker run --name cities-db -d -p 5432:5432 -e POSTGRES_USER=postgres_user_city 
 
 
 ```
-cd /home/$USER/NetBeansProjects/DigitalOne_2/project_cities_api/scripts/PostgreSQL &&
 /etc/init.d/postgresql stop && sudo docker run -it --rm --net=host -v $PWD:/tmp postgres /bin/bash
 
-cd tmp/ && for file in *.sql; do psql -U postgres_user_city -h localhost -p 5432 -d cities -f $file; done
+cd tmp/ && for file in *.sql; do psql -U postgres -h localhost -p 5432 -d cities -f $file; done
 
-psql -h localhost -U postgres_user_city cities
+psql -h localhost -U postgres -p 5432 -d tqi_evolution_backend_2021
 
 ##### Transportadas para um arquivo changelog de migração *.sql para serem executadas no loop for acima
-
-```
---CREATE EXTENSION cube;
---CREATE EXTENSION earthdistance;
-```
-
-* [Postgres Earth distance](https://www.postgresql.org/docs/current/earthdistance.html)
-* [earthdistance--1.0--1.1.sql](https://github.com/postgres/postgres/blob/master/contrib/earthdistance/earthdistance--1.0--1.1.sql)
-* [OPERATOR <@>](https://github.com/postgres/postgres/blob/master/contrib/earthdistance/earthdistance--1.1.sql)
-* [postgrescheatsheet](https://postgrescheatsheet.com/#/tables)
-* [datatype-geometric](https://www.postgresql.org/docs/current/datatype-geometric.html)
 
 ### Access
 
 ```
-docker exec -it cities-db /bin/bash
+docker exec -it tqi_evolution_backend_2021 /bin/bash
 
-psql -U postgres_user_city cities
+psql -U postgres tqi_evolution_backend_2021
 ```
-
-### Query Earth Distance
-
-Point
-```roomsql
-select ((select lat_lon from cidade where id = 4929) <@> (select lat_lon from cidade where id=5254)) as distance;
-```
-
-#### Consulta de cidades próximas de outra em determinado raio de distância
-
-```roomsql
-select distinct c2.id, c2.nome, (c1.lat_lon <@> c2.lat_lon) as di
-from public.cidade c1 
-	inner join public.cidade c2
-		on (c1.lat_lon <@> c2.lat_lon) < 100
-where c1.nome ilike 'São Paulo';
-```
-
-
-Cube
-```roomsql
-select earth_distance(
-    ll_to_earth(-21.95840072631836,-47.98820114135742), 
-    ll_to_earth(-22.01740074157715,-47.88600158691406)
-) as distance;
-```
-
-### Hibernate-spatial
-    Criei uma branch e profile específicos apenas para explorar o hibernate-spatial 
-    como alternativa para lidar com tipos Geoespaciais no PostgreSQL, no momento de 
-    mapear entidades e acessar os dados persistidos com tipo Point, Geometry, etc
 
 
 ## Spring Boot
@@ -378,6 +422,8 @@ select earth_distance(
 + Jar
 + Spring Web
 + Spring Data JPA
++ Spring Cloud
+# Eureka Server
 + PostgreSQL Driver
   Versão: 42.2.24
 ### Spring Data
