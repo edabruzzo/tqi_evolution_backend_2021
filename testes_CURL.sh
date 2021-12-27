@@ -59,7 +59,7 @@ curl --location --request POST 'http://localhost:8080/cliente' \
 echo '\n'
 
 
-curl --location --request GET 'http://localhost:8080/cliente')
+curl --location --request GET 'http://localhost:8080/cliente'
 
  
 echo '\n'
