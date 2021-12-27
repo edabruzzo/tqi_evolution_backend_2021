@@ -2,12 +2,12 @@ package br.com.abruzzo.service;
 
 import br.com.abruzzo.config.ParametrosConfig;
 import br.com.abruzzo.dto.EmprestimoDTO;
-import br.com.abruzzo.exceptions.BusinessExceptionClienteNaoCadastrado;
-import br.com.abruzzo.exceptions.BusinessExceptionCondicoesEmprestimoIrregulares;
-import br.com.abruzzo.exceptions.BusinessExceptionCondicoesIrregularesCliente;
+import br.com.abruzzo.exceptions.*;
 import br.com.abruzzo.model.Cliente;
 import br.com.abruzzo.validacoes.ValidacoesCliente;
 import br.com.abruzzo.validacoes.ValidacoesEmprestimo;
+import com.netflix.appinfo.InstanceInfo;
+import com.netflix.discovery.DiscoveryClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.sql.Date;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -36,6 +37,9 @@ public class OperacoesEmprestimoService {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private DiscoveryClient eurekaDiscoveryClient;
 
     public OperacoesEmprestimoService(ClienteService clienteService) {
         this.clienteService = clienteService;
@@ -57,10 +61,32 @@ public class OperacoesEmprestimoService {
         boolean clientePodePedirEmprestimo = validarSeClientePodePedirEmprestimo(idCliente, valor, parcelas);
         boolean condicoesEmprestimoRegulares = validarCondicoesEmprestimo(parcelas, dataPrimeiraParcela);
 
-        if(clientePodePedirEmprestimo && condicoesEmprestimoRegulares)
-            return restTemplate.postForEntity(this.urlSolicitacaoEmprestimo, emprestimoDTO, String.class);
-        else
-            return resultado;
+        if(clientePodePedirEmprestimo && condicoesEmprestimoRegulares){
+            List<InstanceInfo> listaInstancias = eurekaDiscoveryClient.getInstancesByVipAddressAndAppName(null,"servico_emprestimo",false);
+            listaInstancias.stream().forEach(instancia -> {
+                System.out.println(String.format("{}:{}",instancia.getHostName(),instancia.getPort()));
+            });
+
+            if(eurekaDiscoveryClient.getInstancesByVipAddressAndAppName(null,ParametrosConfig.SERVICO_EMPRESTIMO.getValue(),false)
+                    .get(0).getStatus().equals(InstanceInfo.InstanceStatus.UP))
+                return restTemplate.postForEntity(this.urlSolicitacaoEmprestimo, emprestimoDTO, String.class);
+            else{
+                try {
+                    throw new InfraStructrutureException("Serviço de empréstimo neste momento está forma",logger);
+                } catch (InfraStructrutureException e) {
+                    e.printStackTrace();
+                }
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+
+        }else{
+            try {
+                throw new AutorizacaoException(String.format("Empréstimo naõ autorizado: {}",emprestimoDTO.toString()),logger);
+            } catch (AutorizacaoException e) {
+                e.printStackTrace();
+            }
+        }
+        return resultado;
 
         }
 
