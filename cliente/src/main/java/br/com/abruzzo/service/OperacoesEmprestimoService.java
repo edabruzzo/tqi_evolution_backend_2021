@@ -1,7 +1,6 @@
 package br.com.abruzzo.service;
 
 import br.com.abruzzo.config.ParametrosConfig;
-import br.com.abruzzo.controller.ClienteController;
 import br.com.abruzzo.dto.EmprestimoDTO;
 import br.com.abruzzo.exceptions.BusinessExceptionClienteNaoCadastrado;
 import br.com.abruzzo.exceptions.BusinessExceptionCondicoesEmprestimoIrregulares;
@@ -30,7 +29,7 @@ public class OperacoesEmprestimoService {
 
     private static final Logger logger = LoggerFactory.getLogger(OperacoesEmprestimoService.class);
 
-    private URI urlSolicitacaoEmprestimo = URI.create(ParametrosConfig.OPERACAO_EMPRESTIMO_ENDPOINT.getValue());
+    private final URI urlSolicitacaoEmprestimo = URI.create(ParametrosConfig.OPERACAO_EMPRESTIMO_ENDPOINT.getValue());
 
     private ClienteService clienteService;
 
@@ -77,7 +76,7 @@ public class OperacoesEmprestimoService {
             if(!validacao1) mensagemErro += String.format("O número de parcelas escolhido ({}) é superior a 60 parcelas",dataPrimeiraParcela);
 
             try {
-                throw new BusinessExceptionCondicoesEmprestimoIrregulares(mensagemErro, this.logger);
+                throw new BusinessExceptionCondicoesEmprestimoIrregulares(mensagemErro, logger);
             } catch (BusinessExceptionCondicoesEmprestimoIrregulares e) {
                 e.printStackTrace();
             }
@@ -92,11 +91,11 @@ public class OperacoesEmprestimoService {
         boolean condicoesRegulares = false;
 
         Optional<Cliente> cliente = this.clienteService.findById(idCliente);
-        if (cliente.get() == null){
+        if (cliente.isEmpty()){
 
             try {
                 String mensagemErro = "Foi feita solicitação de empréstimo para um cliente não cadastrado";
-                throw new BusinessExceptionClienteNaoCadastrado(mensagemErro,this.logger);
+                throw new BusinessExceptionClienteNaoCadastrado(mensagemErro,logger);
             } catch (BusinessExceptionClienteNaoCadastrado e) {
                 e.printStackTrace();
                 return condicoesRegulares;
@@ -120,7 +119,7 @@ public class OperacoesEmprestimoService {
                     mensagemErro += String.format("Renda ({}) do cliente de id {} incompatível com valor do empréstimo: {} \n",cliente.get().getRenda(),cliente.get().getId(),valor);
 
                 try {
-                    throw new BusinessExceptionCondicoesIrregularesCliente(mensagemErro,this.logger);
+                    throw new BusinessExceptionCondicoesIrregularesCliente(mensagemErro,logger);
                 } catch (BusinessExceptionCondicoesIrregularesCliente e) {
                     e.printStackTrace();
                 }
