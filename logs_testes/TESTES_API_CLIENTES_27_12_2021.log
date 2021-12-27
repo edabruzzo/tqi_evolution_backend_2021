@@ -1,0 +1,35 @@
+usuario@computador ~/IdeaProjects/tqi_evolution_backend_2021 $ sh testesAPICliente.sh 
+testesAPICliente.sh: 12: testesAPICliente.sh: function: not found
+Cadastrando cliente Andrea
+
+
+{"id":3,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"}
+
+
+
+Cadastrando cliente José
+
+
+{"id":4,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"}
+
+[{"id":2,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":3,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":4,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"}]
+
+Atualizando Cliente de id 1
+
+
+
+
+
+
+[{"id":2,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":3,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":4,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":5,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"}]
+
+Deletando cliente de id 1
+
+
+{"timestamp":1640615606245,"status":500,"error":"Internal Server Error","path":"/cliente/1"}
+
+[{"id":2,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":3,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":4,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":5,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"}]
+
+testesAPICliente.sh: 101: testesAPICliente.sh: Syntax error: "}" unexpected
+usuario@computador ~/IdeaProjects/tqi_evolution_backend_2021 $ 
+

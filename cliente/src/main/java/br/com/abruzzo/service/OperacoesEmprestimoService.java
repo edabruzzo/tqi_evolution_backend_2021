@@ -10,6 +10,7 @@ import br.com.abruzzo.validacoes.ValidacoesCliente;
 import br.com.abruzzo.validacoes.ValidacoesEmprestimo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -33,13 +34,14 @@ public class OperacoesEmprestimoService {
 
     private ClienteService clienteService;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
     public OperacoesEmprestimoService(ClienteService clienteService) {
         this.clienteService = clienteService;
     }
 
     public ResponseEntity<String> solicitarEmprestimo(Long idCliente, double valor, int parcelas, Date dataPrimeiraParcela) {
-
-        RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

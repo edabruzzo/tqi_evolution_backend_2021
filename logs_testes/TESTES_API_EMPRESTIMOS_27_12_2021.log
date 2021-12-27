@@ -1,0 +1,8 @@
+
+testesAPI_Emprestimo.sh: 12: testesAPI_Emprestimo.sh: function: not found
+Criando empréstimo na base
+
+
+{"id":1,"valor":10000.0,"data_primeira_parcela":"2022-01-01","numeroMaximoParcelas":60,"idCliente":1}
+
+testesAPI_Emprestimo.sh: 30: testesAPI_Emprestimo.sh: Syntax error: "}" unexpected

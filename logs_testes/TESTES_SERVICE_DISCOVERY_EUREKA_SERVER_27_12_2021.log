@@ -1,0 +1,83 @@
+testes_Service_Discovery_Eureka.sh: 12: testes_Service_Discovery_Eureka.sh: function: not found
+Testando aplicações registradas no Eureka Server
+
+
+<applications>
+  <versions__delta>1</versions__delta>
+  <apps__hashcode>UP_2_</apps__hashcode>
+  <application>
+    <name>SERVICO-CLIENTE</name>
+    <instance>
+      <instanceId>192.168.0.102:servico-cliente:8080</instanceId>
+      <hostName>192.168.0.102</hostName>
+      <app>SERVICO-CLIENTE</app>
+      <ipAddr>192.168.0.102</ipAddr>
+      <status>UP</status>
+      <overriddenstatus>UNKNOWN</overriddenstatus>
+      <port enabled="true">8080</port>
+      <securePort enabled="false">443</securePort>
+      <countryId>1</countryId>
+      <dataCenterInfo class="com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo">
+        <name>MyOwn</name>
+      </dataCenterInfo>
+      <leaseInfo>
+        <renewalIntervalInSecs>30</renewalIntervalInSecs>
+        <durationInSecs>90</durationInSecs>
+        <registrationTimestamp>1640615278181</registrationTimestamp>
+        <lastRenewalTimestamp>1640615607992</lastRenewalTimestamp>
+        <evictionTimestamp>0</evictionTimestamp>
+        <serviceUpTimestamp>1640615277646</serviceUpTimestamp>
+      </leaseInfo>
+      <metadata>
+        <management.port>8080</management.port>
+      </metadata>
+      <homePageUrl>http://192.168.0.102:8080/</homePageUrl>
+      <statusPageUrl>http://192.168.0.102:8080/actuator/info</statusPageUrl>
+      <healthCheckUrl>http://192.168.0.102:8080/actuator/health</healthCheckUrl>
+      <vipAddress>servico-cliente</vipAddress>
+      <secureVipAddress>servico-cliente</secureVipAddress>
+      <isCoordinatingDiscoveryServer>false</isCoordinatingDiscoveryServer>
+      <lastUpdatedTimestamp>1640615278181</lastUpdatedTimestamp>
+      <lastDirtyTimestamp>1640615277258</lastDirtyTimestamp>
+      <actionType>ADDED</actionType>
+    </instance>
+  </application>
+  <application>
+    <name>SERVICO-EMPRESTIMO</name>
+    <instance>
+      <instanceId>192.168.0.102:servico-emprestimo:8081</instanceId>
+      <hostName>192.168.0.102</hostName>
+      <app>SERVICO-EMPRESTIMO</app>
+      <ipAddr>192.168.0.102</ipAddr>
+      <status>UP</status>
+      <overriddenstatus>UNKNOWN</overriddenstatus>
+      <port enabled="true">8081</port>
+      <securePort enabled="false">443</securePort>
+      <countryId>1</countryId>
+      <dataCenterInfo class="com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo">
+        <name>MyOwn</name>
+      </dataCenterInfo>
+      <leaseInfo>
+        <renewalIntervalInSecs>30</renewalIntervalInSecs>
+        <durationInSecs>90</durationInSecs>
+        <registrationTimestamp>1640615239262</registrationTimestamp>
+        <lastRenewalTimestamp>1640615624617</lastRenewalTimestamp>
+        <evictionTimestamp>0</evictionTimestamp>
+        <serviceUpTimestamp>1640615235829</serviceUpTimestamp>
+      </leaseInfo>
+      <metadata>
+        <management.port>8081</management.port>
+      </metadata>
+      <homePageUrl>http://192.168.0.102:8081/</homePageUrl>
+      <statusPageUrl>http://192.168.0.102:8081/actuator/info</statusPageUrl>
+      <healthCheckUrl>http://192.168.0.102:8081/actuator/health</healthCheckUrl>
+      <vipAddress>servico-emprestimo</vipAddress>
+      <secureVipAddress>servico-emprestimo</secureVipAddress>
+      <isCoordinatingDiscoveryServer>false</isCoordinatingDiscoveryServer>
+      <lastUpdatedTimestamp>1640615239262</lastUpdatedTimestamp>
+      <lastDirtyTimestamp>1640615233582</lastDirtyTimestamp>
+      <actionType>ADDED</actionType>
+    </instance>
+  </application>
+</applications>
+

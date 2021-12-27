@@ -1,0 +1,9 @@
+usuario@computador ~/IdeaProjects/tqi_evolution_backend_2021 $ sh testes_Solicitacao_Emprestimo.sh 
+testes_Solicitacao_Emprestimo.sh: 12: testes_Solicitacao_Emprestimo.sh: function: not found
+Testando solicitação de empréstimo pelo cliente
+
+
+{"id":2,"valor":50000.0,"data_primeira_parcela":"2022-02-01","numeroMaximoParcelas":60,"idCliente":2}
+
+testes_Solicitacao_Emprestimo.sh: 23: testes_Solicitacao_Emprestimo.sh: Syntax error: "}" unexpected
+
