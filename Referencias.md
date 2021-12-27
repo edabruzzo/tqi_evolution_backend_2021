@@ -22,3 +22,10 @@
 
 ###  Springboot Maven plugin
 + https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/htmlsingle/#?
+
+### Spring-cloud
++ https://www.baeldung.com/spring-cloud-securing-services
++ https://www.baeldung.com/spring-cloud-bootstrapping
++ https://www.baeldung.com/spring-session
++ https://github.com/eugenp/tutorials/tree/master/spring-cloud/spring-cloud-bootstrap
++ https://www.baeldung.com/spring-cloud-configuration
