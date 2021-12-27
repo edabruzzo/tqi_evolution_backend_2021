@@ -1,10 +1,15 @@
 #!/bin/bash
 
+DATA_HORA=$(date +"%d_%m_%Y_%H_hs_%M_min")
+
+
+function testaAPIClientes{
+
 echo 'Cadastrando cliente Andrea'
 
 echo '\n'
 
-curl --location --request POST 'http://localhost:8080/cliente' \
+curl -o logs_testes/logTestesAPI.log --location --request POST 'http://localhost:8080/cliente' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "nome" : "Andrea",
@@ -69,18 +74,6 @@ curl --location --request GET 'http://localhost:8080/cliente/1'
 
 echo '\n'
 
- curl --location --request POST 'http://localhost:8081/emprestimo' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "valor" : 10000,
-    "data_primeira_parcela" : "2022-01-02",
-    "numeroMaximoParcelas" : 60,
-    "idCliente" : 1
-}'
-
-
-echo '\n'
-
 curl --location --request GET 'http://localhost:8080/cliente/'
 
 echo '\n'
@@ -95,3 +88,47 @@ echo '\n'
 curl --location --request GET 'http://localhost:8080/cliente/'
 
 echo '\n'
+} >> logs_testes/TESTES_API_CLIENTES_$DATA_HORA.log
+
+
+
+
+function testaAPIEmprestimos{
+
+
+echo 'Criando empréstimo na base'
+
+echo '\n'
+
+  curl --location --request POST 'http://localhost:8081/emprestimo' \
+ --header 'Content-Type: application/json' \
+ --data-raw '{
+     "valor" : 10000,
+     "data_primeira_parcela" : "2022-01-02",
+     "numeroMaximoParcelas" : 60,
+     "idCliente" : 1
+ }'
+
+
+echo '\n'
+} >> logs_testes/TESTES_API_EMPRESTIMOS_$DATA_HORA.log
+
+
+
+function testaSolicitacaoEmprestimo{
+
+
+echo 'Testando solicitação de empréstimo pelo cliente'
+
+echo '\n'
+
+curl --location --request GET 'http://localhost:8080/emprestimo/solicitar?idCliente=1&valor=50000&parcelas=60&dataPrimeiraParcela=2022-02-01'
+
+
+echo '\n'
+} >> logs_testes/TESTES_API_SOLICITACAO_EMPRESTIMO_$DATA_HORA.log
+
+
+call testaAPIClientes
+call testaAPIEmprestimos
+call testaSolicitacaoEmprestimo
