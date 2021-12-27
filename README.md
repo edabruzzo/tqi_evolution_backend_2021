@@ -15,11 +15,8 @@
 
 
 
+### Arquitetura escolhida -  Arquitetura de microserviços orientada a eventos usando Spring Cloud
 
-
-
-
-### Arquitetura escolhida
   Optamos por modelar nossa aplicação em microserviços para garantir independência de cada funcionalidade do resto da aplicação induz ao baixo acoplamento. Com isso, temos mais facilidade de lidar com questões técnicas, que são fortemente influenciadas pelos requisitos funcionais e não funcionais do negócio que estamos informatizando.
   
   Pretendemos, com isso baixo acoplamento entre os módulos, que solicitam serviços através de chamadas Rest, sendo que cada serviço expõe recursos 
@@ -128,8 +125,76 @@ de acordo com a demanda e, em questão de segundos, são disponibilizadas funcio
 do que antes estava dentro de um servidor de aplicação numa única aplicação clássica monolítica. 
 
 Nesse cenário, configurar manualmente os servidores com as configurações necessárias para cada aplicação 
-é impraticável, daí a mecessidade de um Config Server
+é impraticável, daí a mecessidade de um Config Server. Um servidor de configuração é o lugar central para definir as configurações dos serviços
 
+Todas as configurações dos microsserviços devem ficar externalizadas e centralizadas, além de serem versionadas
+
+Foi criado um repositório específico para configurações dos microsserviços do projeto:
++ https://github.com/edabruzzo/tqi_evolution_backend_2021_microservices_configuration_repo
+
+#### Microserviços integrados num sistema de cadastro de clientes e pedido de empréstimos
+
+#### GITHUB:
++ https://github.com/edabruzzo/tqi_evolution_backend_2021
+#### LINKEDIN:
++ https://www.linkedin.com/in/emmanuel-abruzzo-8ba80a36/
+#### DISCORD - DIO
++ Discord: https://discord.gg/AWxMaerJ
+#### DIGITAL INNOVATION ONE
++ https://digitalinnovation.one/
++ #### Video deploy
++ https://youtu.be/6Vd3WYr5r3E
++ https://youtu.be/MM0CQyWEQ7s
+
+
+## Endpoints das APIs expostos pelos microsserviços - testes executados com POSTMAN
+  Os testes da API foram realizados utilizando o Postman e abaixo estão as chamadas via CURL para testes
+
+  Criamos arquivos de testes bash scripts com chamadas CURL para as APIs
+
+
+
+
+
+#### Chamadas REST para o Config Server
+```shell
+
+#!/bin/bash
+
+DATA_HORA=$(date +"%d_%m_%Y_%H_hs_%M_min")
+
+diretorio_log_testes=/home/$USER/IdeaProjects/tqi_evolution_backend_2021/logs_testes
+
+logConfigServerRequests=$diretorio_log_testes/TESTES_CONFIG_SERVER_$DATA_HORA.log
+
+touch $logConfigServerRequests
+
+
+function testaConfigServerRequest {
+
+
+
+echo 'Testando Configurações do Serviço de Clientes no Config Server'
+echo '\n'
+curl --location --request GET 'http://localhost:8888/servico_cliente/default'
+echo '\n'
+
+
+
+echo 'Testando Configurações do Serviço de Empréstimo no Config Server'
+echo '\n'
+curl --location --request GET 'http://localhost:8888/servico_emprestimo/default'
+echo '\n'
+
+}
+
+echo $(testaConfigServerRequest) | tee logConfigServerRequests >/dev/null
+
+#testaAPIClientes
+#testaAPIEmprestimos
+call testaConfigServerRequest >> $logConfigServerRequests
+
+```
 
 
 
@@ -164,41 +229,17 @@ echo '\n'
 
 }
 
-echo $(testaSolicitacaoEmprestimo) | tee $logSolicitacaoEmprestimosRequest >/dev/null
+echo $(testaServiceDiscoveryEurekaRequest) | tee $logServiceDiscoveryEurekaRequest >/dev/null
 
 #testaAPIClientes
 #testaAPIEmprestimos
 call testaServiceDiscoveryEurekaRequest >> $logServiceDiscoveryEurekaRequest
-
-
-
-
 
 ```
 
 
 
 
-
-#### Microserviços integrados num sistema de cadastro de clientes e pedido de empréstimos
-
-#### GITHUB:
-+ https://github.com/edabruzzo/tqi_evolution_backend_2021
-#### LINKEDIN:
-+ https://www.linkedin.com/in/emmanuel-abruzzo-8ba80a36/
-#### DISCORD - DIO
-+ Discord: https://discord.gg/AWxMaerJ
-#### DIGITAL INNOVATION ONE
-+ https://digitalinnovation.one/
-+ #### Video deploy
-+ https://youtu.be/6Vd3WYr5r3E
-+ https://youtu.be/MM0CQyWEQ7s
-
-
-## Endpoints das APIs expostos pelos microsserviços - testes executados com POSTMAN
-  Os testes da API foram realizados utilizando o Postman e abaixo estão as chamadas via CURL para testes
-
-  Criamos arquivos de testes bash scripts com chamadas CURL para as APIs
 
 ### Microservice Cliente
   
