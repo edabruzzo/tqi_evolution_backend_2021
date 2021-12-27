@@ -22,7 +22,7 @@ echo '\n'
 
 }
 
-echo $(testaSolicitacaoEmprestimo) | tee $logSolicitacaoEmprestimosRequest >/dev/null
+echo $(testaServiceDiscoveryEurekaRequest) | tee $logServiceDiscoveryEurekaRequest >/dev/null
 
 #testaAPIClientes
 #testaAPIEmprestimos

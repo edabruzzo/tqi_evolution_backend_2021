@@ -1,0 +1,14 @@
+usuario@computador ~/IdeaProjects/tqi_evolution_backend_2021 $ sh testes_config_server_servicos.sh 
+testes_config_server_servicos.sh: 12: testes_config_server_servicos.sh: function: not found
+Testando Configurações do Serviço de Clientes no Config Server
+
+
+{"name":"servico_cliente","profiles":["default"],"label":null,"version":null,"state":null,"propertySources":[{"name":"class path resource [application.properties","source":{"server.port":"8888","spring.profiles.active":"native","spring.cloud.config.server.git.uri":"https://github.com/edabruzzo/tqi_evolution_backend_2021_microservices_configuration_repo.git"}}]}
+
+Testando Configurações do Serviço de Empréstimo no Config Server
+
+
+{"name":"servico_emprestimo","profiles":["default"],"label":null,"version":null,"state":null,"propertySources":[{"name":"class path resource [application.properties","source":{"server.port":"8888","spring.profiles.active":"native","spring.cloud.config.server.git.uri":"https://github.com/edabruzzo/tqi_evolution_backend_2021_microservices_configuration_repo.git"}}]}
+
+testes_config_server_servicos.sh: 28: testes_config_server_servicos.sh: Syntax error: "}" unexpected
+
