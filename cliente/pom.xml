@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<artifactId>cliente</artifactId>
-	<description> Project made using WebFlux, Reactor, among others technologies intending to learn Reactive applications </description>
+	<description> Microservice Cliente part of TQI_EVOLUTION_BACKEND_2021 </description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>

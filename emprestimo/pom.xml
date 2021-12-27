@@ -40,18 +40,11 @@
 		<!-- SPRING CLOUD CONFIGURAÇÕES PARA SERVICE DISCOVERY UTILIZANDO EUREKA SERVER  -->
 
 
-		<!-- DEPENDÊNCIA PARA PERMITIR QUE O MICROSERVICE BUSQUE NO CONFIG SERVER AS CONFIGURAÇÕES
-		https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-config-client -->
+		<!-- DEPENDÊNCIA PARA PERMITIR QUE O MICROSERVICE BUSQUE NO CONFIG SERVER AS CONFIGURAÇÕES -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-config-client</artifactId>
-			<version>3.1.0</version>
+			<artifactId>spring-cloud-starter-config</artifactId>
 		</dependency>
-
-
-
-
-
 
 
 		<!-- The Java EE 7 API, which is the main and only API which this project is
