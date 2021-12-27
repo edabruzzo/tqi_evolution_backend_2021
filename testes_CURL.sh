@@ -136,7 +136,7 @@ echo 'Testando solicitação de empréstimo pelo cliente'
 
 echo '\n'
 
- curl --location --request GET 'http://localhost:8080/emprestimo/solicitar?idCliente=1&valor=50000&parcelas=60&dataPrimeiraParcela=2022-02-01'
+ curl --location --request GET 'http://localhost:8080/emprestimo/solicitar?idCliente=2&valor=50000&parcelas=60&dataPrimeiraParcela=2022-02-01'
 
 echo '\n'
 
