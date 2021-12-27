@@ -45,11 +45,10 @@ public class OperacoesEmprestimoController {
                     idCliente, valor, parcelas, dataPrimeiraParcela);
         logger.info("GET recebido no seguinte endpoint: {}", ParametrosConfig.ENDPOINT_BASE.getValue());
 
-        ResponseEntity resposta =  ResponseEntity.unprocessableEntity().build();
+        ResponseEntity resposta =  ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
         try{
             ResponseEntity<String> resultado = operacoesEmprestimoService.solicitarEmprestimo(idCliente,valor,parcelas,dataPrimeiraParcela);
-            logger.info("Solicitatão de empréstimo realizada com sucesso para o cliente com id: {}", idCliente);
             return resultado;
         }catch(Exception erro){
 

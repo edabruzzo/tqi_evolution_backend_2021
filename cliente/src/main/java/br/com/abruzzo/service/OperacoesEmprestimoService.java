@@ -50,7 +50,7 @@ public class OperacoesEmprestimoService {
         emprestimoDTO.setNumeroMaximoParcelas(parcelas);
         emprestimoDTO.setData_primeira_parcela(dataPrimeiraParcela);
 
-        ResponseEntity<String> resultado = ResponseEntity.unprocessableEntity().build();
+        ResponseEntity resultado =  ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
         boolean clientePodePedirEmprestimo = validarSeClientePodePedirEmprestimo(idCliente, valor, parcelas);
         boolean condicoesEmprestimoRegulares = validarCondicoesEmprestimo(parcelas, dataPrimeiraParcela);
