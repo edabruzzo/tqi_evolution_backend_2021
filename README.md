@@ -20,50 +20,50 @@
 
 ### Conceitos trabalhados 
 
-  + Um microsserviço é a implementação de um contexto menor do domínio da aplicação, 
+Um microsserviço é a implementação de um contexto menor do domínio da aplicação, 
 
-  + Teremos os seguintes microsserviços: Cliente, Empréstimo, Service Discovery, Segurança e Frontend
+Teremos os seguintes microsserviços: Cliente, Empréstimo, Service Discovery, Segurança e Frontend
 
-  + Quebraremos o domínio em contextos menores (bounded context)
+Quebraremos o domínio em contextos menores (bounded context)
   
-  + Optamos inicialmente pelo uso de Webflux para que nossos serviços, que expõem recursos, fossem reativos e elásticos
+Optamos inicialmente pelo uso de Webflux para que nossos serviços, que expõem recursos, fossem reativos e elásticos
 
-  + Optamos inicialmente pelo uso do DynamoDB da AWS como banco de dados NoSQL (não-relacional), para garantir boa escalabilidade
+Optamos inicialmente pelo uso do DynamoDB da AWS como banco de dados NoSQL (não-relacional), para garantir boa escalabilidade
 
-  + Tivemos alguns problemas com o DynamoDB e, por fim, optamos pelo uso de bancos relacionais
+Tivemos alguns problemas com o DynamoDB e, por fim, optamos pelo uso de bancos relacionais
 
-  + Criamos branches específicas para uso de banco não relacional e também o conceito de API reativa  
+Criamos branches específicas para uso de banco não relacional e também o conceito de API reativa  
 
-  + Diante do deadline para entrega do projeto optamos por trabalhar na branch master com banco relacional (PostgreSQL) e API não reativa
+Diante do deadline para entrega do projeto optamos por trabalhar na branch master com banco relacional (PostgreSQL) e API não reativa
   
-  + Porém, deixamos a branch 'reativa com Dynamo' preparada para evolução e posterior troca de paradigma após entrega do MVP (Minimum Viable Product)
+Porém, deixamos a branch 'reativa com Dynamo' preparada para evolução e posterior troca de paradigma após entrega do MVP (Minimum Viable Product)
 
-  + Vide notas abaixo em relação ao DynamoDB
+* Vide notas abaixo em relação ao DynamoDB
 
 
 ### Opção por uma branch específica para testar banco não-relacional  DynamoDB e outra branch para Postgres (relacional)
   
-  + Durante o processo de desenvolvimento houve problemas na execução de operações de banco no DynamoDB local pela aplicação
-  + Optamos por separar o projeto do Microserviço de clientes em duas branchs específicas para cada banco
+Durante o processo de desenvolvimento houve problemas na execução de operações de banco no DynamoDB local pela aplicação 
 
+Optamos por separar o projeto do Microserviço de clientes em duas branchs específicas para cada banco
 
-#### Conclusão
+Trabalhar com banco de dados não relacional (ainda mais banco de alta perfomance como o DynamoDB da AWS é ótimo. Mas percebemos claramente o quanto a escolha do tipo de banco (relacional / não-relacional) tem impacto na estrutura do projeto
 
-    Trabalhar com banco de dados não relacional (ainda mais banco de alta perfomance como o DynamoDB da AWS é ótimo. 
-    Mas percebemos claramente o quanto a escolha do tipo de banco (relacional / não-relacional) tem impacto na estrutura do projeto
+### Benefícios de bancos NoSQL (não-relacionais) em aplicações de microserviços
     
-#### Benefícios de bancos NoSQL (não-relacionais) em aplicações de microserviços
-    
-      * Estamos trabalhando inicialmente com banco relacional PostgreSQL para ter um produto minimamente viável
-      * A ideia, porém, é trabalhar com ElasticSearch ou DynamoDB como bancos não relacionais para melhorar a performance 
-        e preparar a aplicação para escalar de forma fácil e performática
+Estamos trabalhando inicialmente com banco relacional PostgreSQL para ter um produto minimamente viável
 
-      * Percebemos claremente que bancos relacionais têm a tendência de criar alto acoplamento entre serviços
+A ideia, porém, é trabalhar com ElasticSearch ou DynamoDB como bancos não relacionais para melhorar a performance e preparar a aplicação para escalar de forma fácil e performática
+
+Percebemos claremente que bancos relacionais têm a tendência de criar alto acoplamento entre serviços
     
-      * Optamos por utilizar um DTO no serviço Cliente para fazer uma espécie de Mock da entidade empréstimo e mandá-lo na requisição
-      * Com isso, não precisamos criar dependência entre serviços com mapeamento objeto relacional e chaves estrangeiras
-      * Basta que o Cliente saiba como invocar o serviço Rest exposto pelo serviço Empréstimo ao solicitar um empréstimo
-      * Em nenhum momento é criada uma dependência relacional entre as Entidades JPA Cliente e Emprestimo
+Optamos por utilizar um DTO no serviço Cliente para fazer uma espécie de Mock da entidade empréstimo e mandá-lo na requisição
+
+Com isso, não precisamos criar dependência entre serviços com mapeamento objeto relacional e chaves estrangeiras
+
+Basta que o Cliente saiba como invocar o serviço Rest exposto pelo serviço Empréstimo ao solicitar um empréstimo
+
+Em nenhum momento é criada uma dependência relacional entre as Entidades JPA Cliente e Emprestimo
     
 
 
@@ -82,14 +82,49 @@
 
 
 ### Service Discovery
-    Quando trabalhamos com arquiteturas orientadas a eventos que possuam microsserviços distribuídos entre diferentes hosts,
-    precisamos de uma estratégia para mapeamento dos endereços onde os serviços estão hospedados, porta para acesso 
-    e um mecanismo para traduzir a URL do serviço em um nome mapeado
 
-    Desta forma os demais serviços não precisam conhecer o endereço exato dos serviços dos quais dependem, bastando para tanto
-    se registrarem em um servidor que fará este mapeamento e será responsável por traduzir as diversas URLs para nomes mapeados.
+Quando trabalhamos com arquiteturas orientadas a eventos que possuam microsserviços distribuídos entre diferentes hosts,
+precisamos de uma estratégia para mapeamento dos endereços onde os serviços estão hospedados, porta para acesso 
+e um mecanismo para traduzir a URL do serviço em um nome mapeado
 
-    Para tanto, utilizamos o Eureka Server e dizemos a cada microsserviço que ele deve se registrar no Eureka Server
+Desta forma os demais serviços não precisam conhecer o endereço exato dos serviços dos quais dependem, bastando para tanto
+se registrarem em um servidor que fará este mapeamento e será responsável por traduzir as diversas URLs para nomes mapeados.
+
+* #### Service registry 
+Servidor central, onde todos os microsserviços ficam cadastrados (nome e IP/porta)
+A resolução do IP/porta através do nome do microsserviço nas requisições
+
+* #### Service discovery 
+Mecanismo de descoberta do IP do microsserviço pelo nome
+Dessa forma, nenhum microsserviço fica acoplado ao outro pelo IP/porta
+A implementação do service registry através do Eureka Server
+
+
+Para tanto, utilizamos o Eureka Server e dizemos a cada microsserviço que ele deve se registrar no Eureka Server.
+
+  * #### Integração entre microsserviços com RestTemplate 
+  O RestTemplate do Spring permite chamadas HTTP de alto nível
+
+
+
+### Config Server
+
+Os microsserviços são preparados para ambiente Cloud, cuja precificação é diretamente proporcional à quantidade 
+de máquinas e ao uso de seus recursos de infraestrutura. 
+
+A fim de reduzir esse custo, aplicações de microsserviços podem ser escaladas automaticamente
+de acordo com a demanda e, em questão de segundos, são disponibilizadas funcionalidades 
+do que antes estava dentro de um servidor de aplicação numa única aplicação clássica monolítica. 
+
+Nesse cenário, configurar manualmente os servidores com as configurações necessárias para cada aplicação 
+é impraticável, daí a mecessidade de um Config Server
+
+
+
+
+
+
+
 
 #### Chamadas REST para o Eureka Server
 ```shell
