@@ -15,6 +15,7 @@ import java.util.Objects;
  * @link https://docs.oracle.com/javaee/7/tutorial/bean-validation001.htm
  * @link https://github.com/javaee-samples/javaee7-samples/blob/master/pom.xml
  * @link https://guilhermesteves.dev/tutoriais/regex-uteis-para-o-seu-dia-a-dia/
+ * @link https://regex101.com/
  *
  * @author Emmanuel Abruzzo
  * @date 25/12/2021

@@ -4,13 +4,9 @@ DATA_HORA=$(date +"%d_%m_%Y_%H_hs_%M_min")
 
 diretorio_log_testes=/home/$USER/IdeaProjects/tqi_evolution_backend_2021/logs_testes
 
-#logAPIClientes=$diretorio_log_testes/TESTES_API_CLIENTES_$DATA_HORA.log
-#logAPIEmprestimos=$diretorio_log_testes/TESTES_API_EMPRESTIMOS_$DATA_HORA.log
-#logSolicitacaoEmprestimosRequest=$diretorio_log_testes/TESTES_API_SOLICITACAO_EMPRESTIMO_$DATA_HORA.log
+logAPIClientes=$diretorio_log_testes/TESTES_API_CLIENTES_$DATA_HORA.log
 
-#touch $logAPIClientes
-#touch $logAPIEmprestimos
-#touch $logSolicitacaoEmprestimosRequest
+touch $logAPIClientes
 
 
 function testaAPIClientes {
@@ -104,48 +100,6 @@ curl --location --request GET 'http://localhost:8080/cliente/'
 echo '\n'
 }
 
+echo $(testaAPIClientes) | tee $logAPIClientes >/dev/null
 
-
-
-function testaAPIEmprestimos {
-
-
-echo 'Criando empréstimo na base'
-
-echo '\n'
-
-curl --location --request POST 'http://localhost:8081/emprestimo' \
- --header 'Content-Type: application/json' \
- --data-raw '{
-     "valor" : 10000,
-     "data_primeira_parcela" : "2022-01-02",
-     "numeroMaximoParcelas" : 60,
-     "idCliente" : 1
- }'
-
-
-echo '\n'
-}
-
-
-
-function testaSolicitacaoEmprestimo {
-
-
-echo 'Testando solicitação de empréstimo pelo cliente'
-
-echo '\n'
-
- curl --location --request GET 'http://localhost:8080/emprestimo/solicitar?idCliente=2&valor=50000&parcelas=60&dataPrimeiraParcela=2022-02-01'
-
-echo '\n'
-
-}
-
-#testaAPIClientes) | tee logs_testes/$logAPIClientes >/dev/null
-#testaAPIEmprestimos) | tee logs_testes/$logAPIEmprestimos >/dev/null
-#testaSolicitacaoEmprestimo) | tee logs_testes/$logSolicitacaoEmprestimosRequest >/dev/null
-
-testaAPIClientes
-testaAPIEmprestimos
-testaSolicitacaoEmprestimo
+call testaAPIClientes >> $logAPIClientes
