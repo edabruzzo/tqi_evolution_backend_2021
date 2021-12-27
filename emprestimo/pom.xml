@@ -28,6 +28,22 @@
 
 
 
+		<!-- SPRING CLOUD CONFIGURAÇÕES PARA SERVICE DISCOVERY UTILIZANDO EUREKA SERVER  -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
+
+
+		<!-- SPRING CLOUD CONFIGURAÇÕES PARA SERVICE DISCOVERY UTILIZANDO EUREKA SERVER  -->
+
+
+
+
+
+
+
+
 		<!-- The Java EE 7 API, which is the main and only API which this project is
            providing samples for.
 

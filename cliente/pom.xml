@@ -54,6 +54,14 @@
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 
+		<!-- SPRING CLOUD CONFIGURAÇÕES PARA SERVICE DISCOVERY UTILIZANDO EUREKA SERVER  -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
+
+
+		<!-- SPRING CLOUD CONFIGURAÇÕES PARA SERVICE DISCOVERY UTILIZANDO EUREKA SERVER  -->
 
 
 
