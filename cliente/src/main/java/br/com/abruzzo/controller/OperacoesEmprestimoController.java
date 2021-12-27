@@ -33,7 +33,7 @@ public class OperacoesEmprestimoController {
 
     @GetMapping(value="/solicitar_emprestimo",consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<String> solicitacaoEmprestimo(@RequestParam(name = "idCliente") int idCliente,
+    public ResponseEntity<String> solicitacaoEmprestimo(@RequestParam(name = "idCliente") Long idCliente,
                                       @RequestParam(name = "valor") double valor,
                                       @RequestParam(name = "parcelas") int parcelas,
                                       @RequestParam(name = "dataPrimeiraParcela") Date dataPrimeiraParcela)  {
@@ -61,9 +61,5 @@ public class OperacoesEmprestimoController {
         }
 
     }
-
-
-
-
 
 }

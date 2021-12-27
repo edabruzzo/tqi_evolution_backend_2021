@@ -17,12 +17,12 @@ public class EmprestimoDTO {
     private Double valor;
     private Date data_primeira_parcela;
     private Integer numeroMaximoParcelas;
-    private Integer idCliente;
+    private Long idCliente;
 
     public EmprestimoDTO() {
     }
 
-    public EmprestimoDTO(Long id, Double valor, Date data_primeira_parcela, Integer numeroMaximoParcelas, Integer idCliente) {
+    public EmprestimoDTO(Long id, Double valor, Date data_primeira_parcela, Integer numeroMaximoParcelas, Long idCliente) {
         this.id = id;
         this.valor = valor;
         this.data_primeira_parcela = data_primeira_parcela;
@@ -62,11 +62,11 @@ public class EmprestimoDTO {
         this.numeroMaximoParcelas = numeroMaximoParcelas;
     }
 
-    public Integer getIdCliente() {
+    public Long getIdCliente() {
         return idCliente;
     }
 
-    public void setIdCliente(Integer idCliente) {
+    public void setIdCliente(Long idCliente) {
         this.idCliente = idCliente;
     }
 }
