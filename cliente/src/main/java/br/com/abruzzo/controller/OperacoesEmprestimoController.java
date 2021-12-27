@@ -20,7 +20,7 @@ import java.sql.Date;
  */
 
 @RestController
-@RequestMapping("/operacoes-emprestimo")
+@RequestMapping("/emprestimo")
 public class OperacoesEmprestimoController {
 
     private static final Logger logger = LoggerFactory.getLogger(ClienteController.class);
@@ -31,7 +31,9 @@ public class OperacoesEmprestimoController {
         this.operacoesEmprestimoService = operacoesEmprestimoService;
     }
 
-    @GetMapping(value="/solicitar_emprestimo",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value="/solicitar",
+            consumes = MediaType.ALL_VALUE,
+            produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> solicitacaoEmprestimo(@RequestParam(name = "idCliente") Long idCliente,
                                       @RequestParam(name = "valor") double valor,
