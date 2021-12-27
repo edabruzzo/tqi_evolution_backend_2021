@@ -8,6 +8,17 @@
 
 
 
+### Localização de todos os projetos desenvolvidos no Bootcamp TQI junto à Digital Innvation One
+
+* @edabruzzo_BOOTCAMP_TQI_DIGITAL_INNOVATION_ONE
++ https://github.com/users/edabruzzo/projects/3
+
+
+
+
+
+
+
 ### Arquitetura escolhida
   Optamos por modelar nossa aplicação em microserviços para garantir independência de cada funcionalidade do resto da aplicação induz ao baixo acoplamento. Com isso, temos mais facilidade de lidar com questões técnicas, que são fortemente influenciadas pelos requisitos funcionais e não funcionais do negócio que estamos informatizando.
   
