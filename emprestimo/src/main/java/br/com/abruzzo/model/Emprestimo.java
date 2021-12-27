@@ -6,10 +6,21 @@ package br.com.abruzzo.model;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Max;
 import java.io.Serializable;
 import java.sql.Date;
 
 /**
+ * Classe de entidade JPA que representa um POJO - Empréstimo
+ *
+ * Validações dos fields usando Bean validation do JAVAEE7
+ *
+ *
+ * @link https://docs.oracle.com/javaee/7/tutorial/bean-validation001.htm
+ * @link https://github.com/javaee-samples/javaee7-samples/blob/master/pom.xml
+ * @link https://guilhermesteves.dev/tutoriais/regex-uteis-para-o-seu-dia-a-dia/
+ *
  * @author Emmanuel Abruzzo
  * @date 25/12/2021
  */
@@ -31,9 +42,11 @@ public class Emprestimo implements Serializable {
     private Double valor;
 
     @Column(name = "data_primeira_parcela")
+    @Future
     private Date data_primeira_parcela;
 
     @Column(name = "numeroMaximoParcelas")
+    @Max(60)
     private Integer numeroMaximoParcelas;
 
     @Column(name="idCliente")

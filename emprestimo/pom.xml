@@ -26,6 +26,23 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+
+
+		<!-- The Java EE 7 API, which is the main and only API which this project is
+           providing samples for.
+
+           https://github.com/javaee-samples/javaee7-samples/blob/master/pom.xml
+
+           https://docs.oracle.com/javaee/7/tutorial/webapp003.htm
+       -->
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>7.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
