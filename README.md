@@ -147,9 +147,15 @@ Vide documentação do Ribbon:
 ### Agregação de logs com ElasticSearch
 
 ![Diagrama Elastic Search Stack](imagens/diagram-elastic-stack.png)
-+ https://cassiomolin.com/2019/06/30/log-aggregation-with-spring-boot-elastic-stack-and-docker/
+Fonte: https://cassiomolin.com/2019/06/30/log-aggregation-with-spring-boot-elastic-stack-and-docker/
+
+
+
 
 ### Tracing operações de negócio com Spring Cloud Sleuth
+
+![Diagrama Tracing_Sleuth](imagens/trace-id.jpg)
+Fonte: https://docs.spring.io/spring-cloud-sleuth/docs/current-SNAPSHOT/reference/html/getting-started.html#getting-started
 
 Em arquiteturas de microsserviço, uma simples operação de negócio pode ativar uma 
 longa cadeia downstream de chamadas entre serviços.
@@ -163,7 +169,7 @@ aplicações Spring Cloud, adicionando um forma de rastrear logs, por meio de tr
 
 Referência:
 + https://cloud.spring.io/spring-cloud-sleuth/
-
++ https://docs.spring.io/spring-cloud-sleuth/docs/current-SNAPSHOT/reference/html/using.html#using
 
 
 
