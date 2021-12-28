@@ -193,8 +193,8 @@ Referência:
 
 ### RODANDO NOSSA APLICAÇÃO EM CONTAINER
 ![img.png](imagens/docker_containers.png)
-
-
+Fonte e referência: https://cassiomolin.com/2019/06/30/log-aggregation-with-spring-boot-elastic-stack-and-docker/
++ https://github.com/cassiomolin/log-aggregation-spring-boot-elastic-stack/blob/master/docker-compose.yml
 
 
 #### Microserviços integrados num sistema de cadastro de clientes e pedido de empréstimos
