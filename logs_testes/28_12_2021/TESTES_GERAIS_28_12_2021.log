@@ -1,0 +1,158 @@
+usuario@computador ~/IdeaProjects/tqi_evolution_backend_2021 $ sh testarChamadasApisMicrosservicos.sh 
+mkdir: cannot create directory ‘/home/usuario/IdeaProjects/tqi_evolution_backend_2021/logs_testes/28_12_2021’: File exists
+./testes_config_server_servicos.sh: 17: ./testes_config_server_servicos.sh: function: not found
+Iniciando testes da API do Microsserviço config-server: 28_12_2021_20_hs_26_min
+Testando Configurações do Serviço de Clientes no config-server
+
+
+{"name":"servico_cliente","profiles":["default"],"label":null,"version":null,"state":null,"propertySources":[{"name":"class path resource [application.properties","source":{"spring.application.name":"config-server","server.port":"8888","spring.profiles.active":"native","spring.cloud.config.server.git.uri":"https://github.com/edabruzzo/tqi_evolution_backend_2021_microservices_configuration_repo.git"}}]}
+
+Testando Configurações do Serviço de Empréstimo no config-server
+
+
+{"name":"servico_emprestimo","profiles":["default"],"label":null,"version":null,"state":null,"propertySources":[{"name":"class path resource [application.properties","source":{"spring.application.name":"config-server","server.port":"8888","spring.profiles.active":"native","spring.cloud.config.server.git.uri":"https://github.com/edabruzzo/tqi_evolution_backend_2021_microservices_configuration_repo.git"}}]}
+
+Testes da API do microsserviço config-server finalizados às 28_12_2021_20_hs_26_min
+./testes_config_server_servicos.sh: 33: ./testes_config_server_servicos.sh: Syntax error: "}" unexpected
+mkdir: cannot create directory ‘/home/usuario/IdeaProjects/tqi_evolution_backend_2021/logs_testes/28_12_2021’: File exists
+./testes_Service_Discovery_Eureka.sh: 14: ./testes_Service_Discovery_Eureka.sh: function: not found
+Iniciando testes da API do Microsserviço Eureka Server Discovery: 28_12_2021_20_hs_26_min
+Testando aplicações registradas no Eureka Server
+
+
+<applications>
+  <versions__delta>1</versions__delta>
+  <apps__hashcode>UP_2_</apps__hashcode>
+  <application>
+    <name>SERVICO_EMPRESTIMO</name>
+    <instance>
+      <instanceId>192.168.0.102:servico_emprestimo:8081</instanceId>
+      <hostName>localhost</hostName>
+      <app>SERVICO_EMPRESTIMO</app>
+      <ipAddr>192.168.0.102</ipAddr>
+      <status>UP</status>
+      <overriddenstatus>UNKNOWN</overriddenstatus>
+      <port enabled="true">8081</port>
+      <securePort enabled="false">443</securePort>
+      <countryId>1</countryId>
+      <dataCenterInfo class="com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo">
+        <name>MyOwn</name>
+      </dataCenterInfo>
+      <leaseInfo>
+        <renewalIntervalInSecs>30</renewalIntervalInSecs>
+        <durationInSecs>90</durationInSecs>
+        <registrationTimestamp>1640732139943</registrationTimestamp>
+        <lastRenewalTimestamp>1640734060694</lastRenewalTimestamp>
+        <evictionTimestamp>0</evictionTimestamp>
+        <serviceUpTimestamp>1640732139943</serviceUpTimestamp>
+      </leaseInfo>
+      <metadata>
+        <management.port>8081</management.port>
+      </metadata>
+      <homePageUrl>http://localhost:8081/</homePageUrl>
+      <statusPageUrl>http://localhost:8081/actuator/info</statusPageUrl>
+      <healthCheckUrl>http://localhost:8081/actuator/health</healthCheckUrl>
+      <vipAddress>servico_emprestimo</vipAddress>
+      <secureVipAddress>servico_emprestimo</secureVipAddress>
+      <isCoordinatingDiscoveryServer>false</isCoordinatingDiscoveryServer>
+      <lastUpdatedTimestamp>1640732139943</lastUpdatedTimestamp>
+      <lastDirtyTimestamp>1640732139040</lastDirtyTimestamp>
+      <actionType>ADDED</actionType>
+    </instance>
+  </application>
+  <application>
+    <name>SERVICO_CLIENTE</name>
+    <instance>
+      <instanceId>192.168.0.102:servico_cliente:8080</instanceId>
+      <hostName>localhost</hostName>
+      <app>SERVICO_CLIENTE</app>
+      <ipAddr>192.168.0.102</ipAddr>
+      <status>UP</status>
+      <overriddenstatus>UNKNOWN</overriddenstatus>
+      <port enabled="true">8080</port>
+      <securePort enabled="false">443</securePort>
+      <countryId>1</countryId>
+      <dataCenterInfo class="com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo">
+        <name>MyOwn</name>
+      </dataCenterInfo>
+      <leaseInfo>
+        <renewalIntervalInSecs>30</renewalIntervalInSecs>
+        <durationInSecs>90</durationInSecs>
+        <registrationTimestamp>1640731503041</registrationTimestamp>
+        <lastRenewalTimestamp>1640734055620</lastRenewalTimestamp>
+        <evictionTimestamp>0</evictionTimestamp>
+        <serviceUpTimestamp>1640731503106</serviceUpTimestamp>
+      </leaseInfo>
+      <metadata>
+        <management.port>8080</management.port>
+      </metadata>
+      <homePageUrl>http://localhost:8080/</homePageUrl>
+      <statusPageUrl>http://localhost:8080/actuator/info</statusPageUrl>
+      <healthCheckUrl>http://localhost:8080/actuator/health</healthCheckUrl>
+      <vipAddress>servico_cliente</vipAddress>
+      <secureVipAddress>servico_cliente</secureVipAddress>
+      <isCoordinatingDiscoveryServer>false</isCoordinatingDiscoveryServer>
+      <lastUpdatedTimestamp>1640731503116</lastUpdatedTimestamp>
+      <lastDirtyTimestamp>1640731498388</lastDirtyTimestamp>
+      <actionType>ADDED</actionType>
+    </instance>
+  </application>
+</applications>
+
+Testes da API do microsserviço de Eureka Server Discovery finalizados às 28_12_2021_20_hs_26_min
+./testes_Service_Discovery_Eureka.sh: 30: ./testes_Service_Discovery_Eureka.sh: Syntax error: "}" unexpected
+mkdir: cannot create directory ‘/home/usuario/IdeaProjects/tqi_evolution_backend_2021/logs_testes/28_12_2021’: File exists
+./testesAPICliente.sh: 14: ./testesAPICliente.sh: function: not found
+Iniciando testes da API do Microsserviço Serviço de gerenciamento de clientes: 28_12_2021_20_hs_26_min
+Cadastrando cliente Andrea
+
+
+{"id":12,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"}
+
+
+
+Cadastrando cliente José
+
+
+{"id":13,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"}
+
+[{"id":2,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":3,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":4,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":5,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":6,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":7,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":8,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":9,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":10,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":11,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":12,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":13,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"}]
+
+Atualizando Cliente de id 1
+
+
+
+
+
+
+[{"id":2,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":3,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":4,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":5,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":6,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":7,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":8,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":9,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":10,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":11,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":12,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":13,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":14,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"}]
+
+Deletando cliente de id 1
+
+
+{"timestamp":1640733993107,"status":500,"error":"Internal Server Error","path":"/cliente/1"}
+
+[{"id":2,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":3,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":4,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":5,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":6,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":7,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":8,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":9,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":10,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":11,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":12,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":13,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":14,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"}]
+
+Testes da API do microsserviço de Serviço de gerenciamento de clientes finalizados às 28_12_2021_20_hs_26_min
+./testesAPICliente.sh: 110: ./testesAPICliente.sh: Syntax error: "}" unexpected
+mkdir: cannot create directory ‘/home/usuario/IdeaProjects/tqi_evolution_backend_2021/logs_testes/28_12_2021’: File exists
+./testesAPI_Emprestimo.sh: 15: ./testesAPI_Emprestimo.sh: function: not found
+Iniciando testes da API do Microsserviço Serviço de Gerenciamento de Empréstimo: 28_12_2021_20_hs_26_min
+Criando empréstimo na base
+
+
+{"id":3,"valor":10000.0,"data_primeira_parcela":"2022-01-01","numeroMaximoParcelas":60,"idCliente":1}
+
+Testes da API do microsserviço de Serviço de Gerenciamento de Empréstimo finalizados às 28_12_2021_20_hs_26_min
+./testesAPI_Emprestimo.sh: 38: ./testesAPI_Emprestimo.sh: Syntax error: "}" unexpected
+mkdir: cannot create directory ‘/home/usuario/IdeaProjects/tqi_evolution_backend_2021/logs_testes/28_12_2021’: File exists
+./testes_Solicitacao_Emprestimo.sh: 14: ./testes_Solicitacao_Emprestimo.sh: function: not found
+Iniciando testes da API do Microsserviço Serviço de Solicitação de Empréstimo: 28_12_2021_20_hs_26_min
+
+
+
+
+Testes da API do microsserviço de Serviço de Solicitação de Empréstimo finalizados às 28_12_2021_20_hs_26_min
+./testes_Solicitacao_Emprestimo.sh: 27: ./testes_Solicitacao_Emprestimo.sh: Syntax error: "}" unexpected
+
