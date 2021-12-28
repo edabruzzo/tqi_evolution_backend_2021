@@ -158,7 +158,7 @@ Fonte: https://cassiomolin.com/2019/06/30/log-aggregation-with-spring-boot-elast
 
 
 
-### Tracing operações de negócio com Spring Cloud Sleuth
+### Tracing operações de negócio com Spring Cloud Sleuth e Logback
 
 ![Diagrama Tracing_Sleuth](imagens/trace-id.jpg)
 Fonte: https://docs.spring.io/spring-cloud-sleuth/docs/current-SNAPSHOT/reference/html/getting-started.html#getting-started
@@ -170,12 +170,29 @@ O rastreamento de logs e debug de aplicações em arquiteturas como esta é um g
 uma vez que, diferentemente de aplicações monolíticas hospedadas em servidor de aplicação, 
 os logs não ficam centralizados, mas ao invés estão distribuídos por muitos servidores e instâncias desses servidores.
 
+Isso dificulta o acompanhamento e rastreabilidade das requisições
+Para unificar os logs, precisamos de agregadores de log
+Como implementação de um agregador, temos o Papertrail, o ElasticSearch com o Kibana como UI
+, dentre outras opções aí no mercado
+
+Usamos a biblioteca Logback para gerar e enviar os logs ao agregador
+O Logback possui um appender, que possibilita o envio dos logs
+Para acompanhar uma transação nos logs, usamos uma correlation-id
+A correltation-id é um identificador da transação, que é passada de requisição pra requisição
+Dessa forma, podemos entender quais requisições fazem parte da mesma transação
+
+A biblioteca Spring Sleuth, que é usada para gerar a correlation-id
 O Spring Cloud Sleuth é uma solução de tracing distribuído para 
 aplicações Spring Cloud, adicionando um forma de rastrear logs, por meio de trace e spans. 
+
 
 Referência:
 + https://cloud.spring.io/spring-cloud-sleuth/
 + https://docs.spring.io/spring-cloud-sleuth/docs/current-SNAPSHOT/reference/html/using.html#using
+
+
+### RODANDO NOSSA APLICAÇÃO EM CONTAINER
+![img.png](imagens/docker_containers.png)
 
 
 
