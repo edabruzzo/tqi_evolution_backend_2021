@@ -132,6 +132,17 @@ Todas as configurações dos microsserviços devem ficar externalizadas e centra
 Foi criado um repositório específico para configurações dos microsserviços do projeto:
 + https://github.com/edabruzzo/tqi_evolution_backend_2021_microservices_configuration_repo
 
+
+### Ribbon - Client Side Load Balancing
+
+Com a anotação do Ribbon LoadBalance no RestTemplate responsável por invocar o microservice Emprestimo, 
+a cada requisição, o Ribbon rotaciona do lado do cliente para uma instância diferente do microservice de Emprestimo, através 
+de um algoritmo de load balancing.
+
+Vide documentação do Ribbon:
++https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.2.0.M3/reference/html/#customizing-the-default-for-all-ribbon-clients
+
+
 #### Microserviços integrados num sistema de cadastro de clientes e pedido de empréstimos
 
 #### GITHUB:
