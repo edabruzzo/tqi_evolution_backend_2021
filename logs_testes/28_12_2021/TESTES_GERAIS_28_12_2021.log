@@ -1,7 +1,14 @@
 usuario@computador ~/IdeaProjects/tqi_evolution_backend_2021 $ sh testarChamadasApisMicrosservicos.sh 
 mkdir: cannot create directory ‘/home/usuario/IdeaProjects/tqi_evolution_backend_2021/logs_testes/28_12_2021’: File exists
 ./testes_config_server_servicos.sh: 17: ./testes_config_server_servicos.sh: function: not found
-Iniciando testes da API do Microsserviço config-server: 28_12_2021_20_hs_26_min
+
+
+
+
+---------------------------------------------------------------------------------------------
+Iniciando testes da API do Microsserviço config-server: 28_12_2021_20_hs_40_min
+
+
 Testando Configurações do Serviço de Clientes no config-server
 
 
@@ -12,12 +19,28 @@ Testando Configurações do Serviço de Empréstimo no config-server
 
 {"name":"servico_emprestimo","profiles":["default"],"label":null,"version":null,"state":null,"propertySources":[{"name":"class path resource [application.properties","source":{"spring.application.name":"config-server","server.port":"8888","spring.profiles.active":"native","spring.cloud.config.server.git.uri":"https://github.com/edabruzzo/tqi_evolution_backend_2021_microservices_configuration_repo.git"}}]}
 
-Testes da API do microsserviço config-server finalizados às 28_12_2021_20_hs_26_min
-./testes_config_server_servicos.sh: 33: ./testes_config_server_servicos.sh: Syntax error: "}" unexpected
+Testes da API do microsserviço config-server finalizados às 28_12_2021_20_hs_40_min
+
+
+
+
+---------------------------------------------------------------------------------------------
+
+
+
+
+./testes_config_server_servicos.sh: 40: ./testes_config_server_servicos.sh: Syntax error: "}" unexpected
 mkdir: cannot create directory ‘/home/usuario/IdeaProjects/tqi_evolution_backend_2021/logs_testes/28_12_2021’: File exists
 ./testes_Service_Discovery_Eureka.sh: 14: ./testes_Service_Discovery_Eureka.sh: function: not found
-Iniciando testes da API do Microsserviço Eureka Server Discovery: 28_12_2021_20_hs_26_min
-Testando aplicações registradas no Eureka Server
+
+
+
+
+---------------------------------------------------------------------------------------------
+Iniciando testes da API do Microsserviço Eureka Server Discovery: 28_12_2021_20_hs_40_min
+
+
+Testando aplicações registradas no 
 
 
 <applications>
@@ -42,7 +65,7 @@ Testando aplicações registradas no Eureka Server
         <renewalIntervalInSecs>30</renewalIntervalInSecs>
         <durationInSecs>90</durationInSecs>
         <registrationTimestamp>1640732139943</registrationTimestamp>
-        <lastRenewalTimestamp>1640734060694</lastRenewalTimestamp>
+        <lastRenewalTimestamp>1640734872136</lastRenewalTimestamp>
         <evictionTimestamp>0</evictionTimestamp>
         <serviceUpTimestamp>1640732139943</serviceUpTimestamp>
       </leaseInfo>
@@ -79,7 +102,7 @@ Testando aplicações registradas no Eureka Server
         <renewalIntervalInSecs>30</renewalIntervalInSecs>
         <durationInSecs>90</durationInSecs>
         <registrationTimestamp>1640731503041</registrationTimestamp>
-        <lastRenewalTimestamp>1640734055620</lastRenewalTimestamp>
+        <lastRenewalTimestamp>1640734867060</lastRenewalTimestamp>
         <evictionTimestamp>0</evictionTimestamp>
         <serviceUpTimestamp>1640731503106</serviceUpTimestamp>
       </leaseInfo>
@@ -99,24 +122,40 @@ Testando aplicações registradas no Eureka Server
   </application>
 </applications>
 
-Testes da API do microsserviço de Eureka Server Discovery finalizados às 28_12_2021_20_hs_26_min
-./testes_Service_Discovery_Eureka.sh: 30: ./testes_Service_Discovery_Eureka.sh: Syntax error: "}" unexpected
+Testes da API do microsserviço Eureka Server Discovery finalizados às 28_12_2021_20_hs_40_min
+
+
+
+
+---------------------------------------------------------------------------------------------
+
+
+
+
+./testes_Service_Discovery_Eureka.sh: 36: ./testes_Service_Discovery_Eureka.sh: Syntax error: "}" unexpected
 mkdir: cannot create directory ‘/home/usuario/IdeaProjects/tqi_evolution_backend_2021/logs_testes/28_12_2021’: File exists
 ./testesAPICliente.sh: 14: ./testesAPICliente.sh: function: not found
-Iniciando testes da API do Microsserviço Serviço de gerenciamento de clientes: 28_12_2021_20_hs_26_min
+
+
+
+
+---------------------------------------------------------------------------------------------
+Iniciando testes da API do Microsserviço Serviço de gerenciamento de clientes: 28_12_2021_20_hs_40_min
+
+
 Cadastrando cliente Andrea
 
 
-{"id":12,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"}
+{"id":15,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"}
 
 
 
 Cadastrando cliente José
 
 
-{"id":13,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"}
+{"id":16,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"}
 
-[{"id":2,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":3,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":4,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":5,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":6,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":7,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":8,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":9,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":10,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":11,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":12,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":13,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"}]
+[{"id":2,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":3,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":4,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":5,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":6,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":7,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":8,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":9,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":10,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":11,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":12,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":13,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":14,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":15,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":16,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"}]
 
 Atualizando Cliente de id 1
 
@@ -125,34 +164,74 @@ Atualizando Cliente de id 1
 
 
 
-[{"id":2,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":3,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":4,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":5,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":6,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":7,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":8,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":9,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":10,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":11,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":12,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":13,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":14,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"}]
+[{"id":2,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":3,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":4,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":5,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":6,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":7,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":8,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":9,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":10,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":11,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":12,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":13,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":14,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":15,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":16,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":17,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"}]
 
 Deletando cliente de id 1
 
 
-{"timestamp":1640733993107,"status":500,"error":"Internal Server Error","path":"/cliente/1"}
+{"timestamp":1640734829876,"status":500,"error":"Internal Server Error","path":"/cliente/1"}
 
-[{"id":2,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":3,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":4,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":5,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":6,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":7,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":8,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":9,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":10,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":11,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":12,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":13,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":14,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"}]
+[{"id":2,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":3,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":4,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":5,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":6,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":7,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":8,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":9,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":10,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":11,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":12,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":13,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":14,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"},{"id":15,"nome":"Andrea","email":"andrea@gmail.com","cpf":"11111111111","rg":"11111111-1","enderecoCompleto":"Rua 1","renda":10000.0,"senha":"123"},{"id":16,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"},{"id":17,"nome":"Andrea","email":"andrea@gmail.com","cpf":"9999999","rg":"9999990-1","enderecoCompleto":null,"renda":30000.0,"senha":"123"}]
 
-Testes da API do microsserviço de Serviço de gerenciamento de clientes finalizados às 28_12_2021_20_hs_26_min
-./testesAPICliente.sh: 110: ./testesAPICliente.sh: Syntax error: "}" unexpected
+
+
+{"id":18,"nome":"José","email":"jose@gmail.com","cpf":"222222222222","rg":"222222222-2","enderecoCompleto":"Rua 2","renda":8000.0,"senha":"456"}
+
+Testes da API do microsserviço Serviço de gerenciamento de clientes finalizados às 28_12_2021_20_hs_40_min
+
+
+
+
+---------------------------------------------------------------------------------------------
+
+
+
+
+./testesAPICliente.sh: 137: ./testesAPICliente.sh: Syntax error: "}" unexpected
 mkdir: cannot create directory ‘/home/usuario/IdeaProjects/tqi_evolution_backend_2021/logs_testes/28_12_2021’: File exists
 ./testesAPI_Emprestimo.sh: 15: ./testesAPI_Emprestimo.sh: function: not found
-Iniciando testes da API do Microsserviço Serviço de Gerenciamento de Empréstimo: 28_12_2021_20_hs_26_min
+
+
+
+
+---------------------------------------------------------------------------------------------
+Iniciando testes da API do Microsserviço Serviço de Gerenciamento de Empréstimo: 28_12_2021_20_hs_40_min
+
+
 Criando empréstimo na base
 
 
-{"id":3,"valor":10000.0,"data_primeira_parcela":"2022-01-01","numeroMaximoParcelas":60,"idCliente":1}
+{"id":4,"valor":10000.0,"data_primeira_parcela":"2022-01-01","numeroMaximoParcelas":60,"idCliente":1}
 
-Testes da API do microsserviço de Serviço de Gerenciamento de Empréstimo finalizados às 28_12_2021_20_hs_26_min
-./testesAPI_Emprestimo.sh: 38: ./testesAPI_Emprestimo.sh: Syntax error: "}" unexpected
+Testes da API do microsserviço Serviço de Gerenciamento de Empréstimo finalizados às 28_12_2021_20_hs_40_min
+
+
+
+
+---------------------------------------------------------------------------------------------
+
+
+
+
+./testesAPI_Emprestimo.sh: 46: ./testesAPI_Emprestimo.sh: Syntax error: "}" unexpected
 mkdir: cannot create directory ‘/home/usuario/IdeaProjects/tqi_evolution_backend_2021/logs_testes/28_12_2021’: File exists
 ./testes_Solicitacao_Emprestimo.sh: 14: ./testes_Solicitacao_Emprestimo.sh: function: not found
-Iniciando testes da API do Microsserviço Serviço de Solicitação de Empréstimo: 28_12_2021_20_hs_26_min
 
 
 
 
-Testes da API do microsserviço de Serviço de Solicitação de Empréstimo finalizados às 28_12_2021_20_hs_26_min
-./testes_Solicitacao_Emprestimo.sh: 27: ./testes_Solicitacao_Emprestimo.sh: Syntax error: "}" unexpected
+---------------------------------------------------------------------------------------------
+Iniciando testes da API do Microsserviço Serviço de Solicitação de Empréstimo: 28_12_2021_20_hs_40_min
+
+
+
+
+
+
+Testes da API do microsserviço Serviço de Solicitação de Empréstimo finalizados às 28_12_2021_20_hs_40_min
+
+
+
+
+---------------------------------------------------------------------------------------------
 

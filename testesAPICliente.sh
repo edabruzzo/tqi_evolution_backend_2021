@@ -12,8 +12,11 @@ mkdir $diretorio_logs_testes_do_dia
 touch $logRequests
 
 function testarRequests {
-
+echo '\n'
+echo '\n'
+echo '---------------------------------------------------------------------------------------------'
 echo "Iniciando testes da API do Microsserviço $NOME_MICROSERVICO: ${DATA_HORA}"
+echo '\n'
 
 
 echo 'Cadastrando cliente Andrea'
@@ -105,9 +108,34 @@ curl --location --request GET 'http://localhost:8080/cliente/'
 echo '\n'
 
 
-echo "Testes da API do microsserviço de $NOME_MICROSERVICO finalizados às $(date +"%d_%m_%Y_%H_hs_%M_min")"
+
+echo '\n'
+
+curl --location --request POST 'http://localhost:8080/cliente' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "nome" : "José",
+    "email": "jose@gmail.com",
+    "cpf": "222222222222",
+    "rg":  "222222222-2",
+    "enderecoCompleto": "Rua 2",
+    "renda":8000,
+    "senha":"456"
+ }'
+
+echo '\n'
+
+
+
+echo "Testes da API do microsserviço $NOME_MICROSERVICO finalizados às $(date +"%d_%m_%Y_%H_hs_%M_min")"
+echo '\n'
+echo '\n'
+echo '---------------------------------------------------------------------------------------------'
+echo '\n'
+echo '\n'
 
 }
+
 
 call testarRequests >> $logRequests
 
