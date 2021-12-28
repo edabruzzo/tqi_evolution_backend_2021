@@ -50,7 +50,14 @@ services:
       - logstash
 
   servico_cliente:
+    build:
+      context: servico_cliente
+      dockerfile: Dockerfile
+    networks:
+      - tqi_evolution_backend_2021_spring-cloud-network
+
     image: edabruzzo/tqi_evolution_backend_2021/servico_cliente:latest
+    container_name: servico_cliente
     ports:
       - "8080:8080"
     labels:
@@ -64,6 +71,11 @@ services:
 
 
   servico_emprestimo:
+    build:
+      context: servico_emprestimo
+      dockerfile: Dockerfile
+    networks:
+      - tqi_evolution_backend_2021_spring-cloud-network
     image: edabruzzo/tqi_evolution_backend_2021/servico_emprestimo:latest
     ports:
       - "8081:8081"
@@ -78,6 +90,11 @@ services:
 
 
   config-server:
+    build:
+      context: config-server
+      dockerfile: Dockerfile
+    networks:
+      - tqi_evolution_backend_2021_spring-cloud-network
     image: edabruzzo/tqi_evolution_backend_2021/config-server
     restart: always
     ports:
@@ -85,9 +102,18 @@ services:
 
 
   eureka_server:
+    build:
+      context: eureka_server
+      dockerfile: Dockerfile
+    networks:
+      - tqi_evolution_backend_2021_spring-cloud-network
     image: edabruzzo/tqi_evolution_backend_2021/eureka_server
     restart: always
     ports:
       - 8761:8761
     depends_on:
       - config-server
+
+networks:
+  tqi_evolution_backend_2021_spring-cloud-network:
+    driver: bridge
