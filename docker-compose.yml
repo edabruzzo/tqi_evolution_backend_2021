@@ -88,6 +88,23 @@ services:
       - config-server
       - eureka_server
 
+  gateway:
+    build:
+      context: gateway
+      dockerfile: Dockerfile
+    networks:
+      - tqi_evolution_backend_2021_spring-cloud-network
+    image: edabruzzo/tqi_evolution_backend_2021/gateway:latest
+    ports:
+      - "xxxxx:xxxxxx"
+    labels:
+      collect_logs_with_filebeat: "true"
+      decode_log_event_to_json_object: "true"
+
+    restart: on-failure
+    depends_on:
+      - config-server
+      - eureka_server
 
   config-server:
     build:
