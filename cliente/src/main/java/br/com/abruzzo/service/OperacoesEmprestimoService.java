@@ -7,12 +7,14 @@ import br.com.abruzzo.model.Cliente;
 import br.com.abruzzo.validacoes.ValidacoesCliente;
 import br.com.abruzzo.validacoes.ValidacoesEmprestimo;
 import com.netflix.appinfo.InstanceInfo;
-import com.netflix.discovery.DiscoveryClient;
+import com.netflix.discovery.EurekaClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.http.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -33,13 +35,15 @@ import java.util.Optional;
  *  ao invés da seguinte dependência: com.netflix.discovery.DiscoveryClient
  *
  * @link https://stackoverflow.com/questions/42845084/cannot-find-discoveryclient-bean-error-in-spring-boot
- *
+ * @link https://spring.io/guides/gs/service-registration-and-discovery/
  * @link https://www.baeldung.com/spring-resttemplate-post-json
+ * @link https://www.baeldung.com/spring-cloud-bootstrapping
+ * @link https://cloud.spring.io/spring-cloud-netflix/multi/multi__service_discovery_eureka_clients.html
+ *
  * @author Emmanuel Abruzzo
  * @date 26/12/2021
  */
 @Service
-@EnableDiscoveryClient
 public class OperacoesEmprestimoService {
 
     private static final Logger logger = LoggerFactory.getLogger(OperacoesEmprestimoService.class);
@@ -52,7 +56,7 @@ public class OperacoesEmprestimoService {
     private RestTemplate restTemplate;
 
     @Autowired
-    private DiscoveryClient eurekaDiscoveryClient;
+    private EurekaClient eurekaDiscoveryClient;
 
     public OperacoesEmprestimoService(ClienteService clienteService) {
         this.clienteService = clienteService;

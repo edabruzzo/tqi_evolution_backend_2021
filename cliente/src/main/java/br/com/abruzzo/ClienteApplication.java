@@ -8,7 +8,12 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
-
+/**
+ * @link https://github.com/spring-cloud/spring-cloud-netflix/blob/main/spring-cloud-netflix-eureka-client/src/main/java/org/springframework/cloud/netflix/eureka/reactive/EurekaReactiveDiscoveryClientConfiguration.java
+ *
+ * @author Emmanuel Abruzzo
+ * @date 25/12/2021
+ */
 @SpringBootApplication
 @EnableEurekaClient
 @EnableAutoConfiguration
@@ -31,5 +36,9 @@ public class ClienteApplication {
 
 
     public static void main(String[] args) {SpringApplication.run(ClienteApplication.class, args);}
+
+
+
+
 
 }

@@ -61,6 +61,17 @@
 			<version>3.1.0</version>
 		</dependency>
 
+		<!-- Declarative REST Client. OpenFeign creates a dynamic implementation of an interface decorated with JAX-RS or Spring MVC annotations -->
+		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+		-->
+
+
+
 
 		<!-- SPRING CLOUD CONFIGURAÇÕES PARA SERVICE DISCOVERY UTILIZANDO EUREKA SERVER  -->
 
