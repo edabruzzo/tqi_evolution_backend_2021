@@ -8,6 +8,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
+
 @SpringBootApplication
 @EnableEurekaClient
 @EnableAutoConfiguration
@@ -30,4 +31,5 @@ public class ClienteApplication {
 
 
     public static void main(String[] args) {SpringApplication.run(ClienteApplication.class, args);}
+
 }

@@ -11,6 +11,7 @@ import com.netflix.discovery.DiscoveryClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -20,13 +21,25 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
+
+
 /**
+ *  Classe da camada de serviço responsável por fazer a chamada REST para o microserviço de empréstimos
+ *  e por validar a solitação que chegou via chamada Rest no microsserviço responsável por gerenciar clientes.
+ *
+ *
+ *  Necessário importar o @EnableDiscoveryClient da seguinte dependẽncia:
+ *  @link org.springframework.cloud.client.discovery.DiscoveryClient
+ *  ao invés da seguinte dependência: com.netflix.discovery.DiscoveryClient
+ *
+ * @link https://stackoverflow.com/questions/42845084/cannot-find-discoveryclient-bean-error-in-spring-boot
  *
  * @link https://www.baeldung.com/spring-resttemplate-post-json
  * @author Emmanuel Abruzzo
  * @date 26/12/2021
  */
 @Service
+@EnableDiscoveryClient
 public class OperacoesEmprestimoService {
 
     private static final Logger logger = LoggerFactory.getLogger(OperacoesEmprestimoService.class);
