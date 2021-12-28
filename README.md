@@ -1,4 +1,4 @@
-![tqi_evolution_backend_2021](tqi_banner.jpg)
+![tqi_evolution_backend_2021](imagens/tqi_banner.jpg)
 
 # Projeto Final TQI backend em parceria com a Digital Innovation One
 ## Projeto entregue como requisito final para avançar no processo seletivo da TQI - JAVA DEVELOPER
@@ -141,6 +141,31 @@ de um algoritmo de load balancing.
 
 Vide documentação do Ribbon:
 +https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.2.0.M3/reference/html/#customizing-the-default-for-all-ribbon-clients
+
+
+
+### Agregação de logs com ElasticSearch
+
+![Diagrama Elastic Search Stack](imagens/diagram-elastic-stack.png)
++ https://cassiomolin.com/2019/06/30/log-aggregation-with-spring-boot-elastic-stack-and-docker/
+
+### Tracing operações de negócio com Spring Cloud Sleuth
+
+Em arquiteturas de microsserviço, uma simples operação de negócio pode ativar uma 
+longa cadeia downstream de chamadas entre serviços.
+
+O rastreamento de logs e debug de aplicações em arquiteturas como esta é um grande desafio, 
+uma vez que, diferentemente de aplicações monolíticas hospedadas em servidor de aplicação, 
+os logs não ficam centralizados, mas ao invés estão distribuídos por muitos servidores e instâncias desses servidores.
+
+O Spring Cloud Sleuth é uma solução de tracing distribuído para 
+aplicações Spring Cloud, adicionando um forma de rastrear logs, por meio de trace e spans. 
+
+Referência:
++ https://cloud.spring.io/spring-cloud-sleuth/
+
+
+
 
 
 #### Microserviços integrados num sistema de cadastro de clientes e pedido de empréstimos

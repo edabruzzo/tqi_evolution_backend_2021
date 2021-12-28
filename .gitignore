@@ -43,5 +43,5 @@ src/main/resources/META-INF/persistence.xml
 /cliente/src/main/resources/application-dynamodb.properties
 /cliente/src/main/resources/application.properties
 /emprestimo/src/main/resources/application.properties
-/tqi_banner.jpg
+/imagens/tqi_banner.jpg
 /cliente/pom.xml_ANTERIOR
