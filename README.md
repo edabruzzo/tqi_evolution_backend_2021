@@ -26,6 +26,12 @@
   * papeis 
 
 
+### Spring boot x Spring Cloud compatibility
+
+![img.png](imagens/compatibilidade_spring_cloud.png)
+
+
+
 ### Conceitos trabalhados 
 
 Um microsserviço é a implementação de um contexto menor do domínio da aplicação, 

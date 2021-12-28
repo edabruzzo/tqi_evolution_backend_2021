@@ -55,6 +55,10 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
+                <!--Compatibilidade Table 1. Release train Spring Boot compatibility
+
+                https://spring.io/projects/spring-cloud#overview
+                -->
                 <version>2020.0.1</version>
                 <type>pom</type>
                 <scope>import</scope>
