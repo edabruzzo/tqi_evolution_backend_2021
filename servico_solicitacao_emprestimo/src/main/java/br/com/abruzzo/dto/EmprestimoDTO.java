@@ -4,16 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import java.sql.Date;
 
 /**
- *
- * Classe Data Transfer Object criada apenas para ter uma representação do Empréstimo
- * Sem criar acoplamento / dependência do microserviço de empréstimo
- *
  * @author Emmanuel Abruzzo
- * @date 26/12/2021
+ * @date 29/12/2021
  */
 @Data
 @AllArgsConstructor
@@ -26,8 +21,4 @@ public class EmprestimoDTO {
     private Integer numeroMaximoParcelas;
     private Long idCliente;
     private String status;
-
-
-
-
 }

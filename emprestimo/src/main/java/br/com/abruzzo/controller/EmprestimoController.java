@@ -84,7 +84,7 @@ public class EmprestimoController {
      * @param emprestimo Objeto JSON emprestimo que chega como payload no request body
      * @return    retorna uma Mono stream com o emprestimo salvo no formato JSON
      */
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public Emprestimo createEmprestimo(@RequestBody Emprestimo emprestimo) throws ErroOperacaoTransacionalBancoException {
 

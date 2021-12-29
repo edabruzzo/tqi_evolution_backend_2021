@@ -87,12 +87,12 @@ public class OperacoesEmprestimoService {
                 logger.info(String.format("{}:{}",instancia.getHostName(),instancia.getPort()));
             });
 
-            if(eurekaDiscoveryClient.getInstancesByVipAddressAndAppName(null,ParametrosConfig.SERVICO_EMPRESTIMO.getValue(),false)
+            if(eurekaDiscoveryClient.getInstancesByVipAddressAndAppName(null,ParametrosConfig.SERVICO_SOLICITACAO_EMPRESTIMO.getValue(),false)
                     .get(0).getStatus().equals(InstanceInfo.InstanceStatus.UP))
                 return restTemplate.postForEntity(this.urlSolicitacaoEmprestimo, emprestimoDTO, String.class);
             else{
                 try {
-                    throw new InfraStructrutureException("Serviço de empréstimo neste momento está forma",logger);
+                    throw new InfraStructrutureException("Serviço de solicitação de empréstimo neste momento está forma",logger);
                 } catch (InfraStructrutureException e) {
                     e.printStackTrace();
                 }
@@ -101,7 +101,7 @@ public class OperacoesEmprestimoService {
 
         }else{
             try {
-                throw new AutorizacaoException(String.format("Empréstimo naõ autorizado: {}",emprestimoDTO.toString()),logger);
+                throw new AutorizacaoException(String.format("Empréstimo não autorizado: {}",emprestimoDTO.toString()),logger);
             } catch (AutorizacaoException e) {
                 e.printStackTrace();
             }

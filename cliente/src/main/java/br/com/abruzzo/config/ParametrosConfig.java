@@ -5,8 +5,8 @@ public enum ParametrosConfig {
     ENDPOINT_BASE("http://servico_cliente"),
     CLIENTE_ENDPOINT("/cliente"),
     TABLENAME("tb_cliente"),
-    OPERACAO_EMPRESTIMO_ENDPOINT("http://servico_emprestimo/emprestimo"),
-    SERVICO_EMPRESTIMO("servico_emprestimo");
+    OPERACAO_EMPRESTIMO_ENDPOINT("http://servico_solicitacao_emprestimo/solicitar_emprestimo"),
+    SERVICO_SOLICITACAO_EMPRESTIMO("servico_solicitacao_emprestimo");
 
     private final String value;
 
