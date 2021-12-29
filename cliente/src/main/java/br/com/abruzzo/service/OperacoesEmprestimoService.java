@@ -8,6 +8,7 @@ import br.com.abruzzo.validacoes.ValidacoesCliente;
 import br.com.abruzzo.validacoes.ValidacoesEmprestimo;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,8 @@ public class OperacoesEmprestimoService {
         this.clienteService = clienteService;
     }
 
+
+    @HystrixCommand
     public ResponseEntity<String> solicitarEmprestimo(Long idCliente, double valor, int parcelas, Date dataPrimeiraParcela) {
 
         HttpHeaders headers = new HttpHeaders();

@@ -66,7 +66,7 @@ services:
     build:
       dockerfile: ./docker/config-server.dockerfile
       context: .
-    image: edabruzzo/tqi_evolution_backend_2021/config-server
+    image: edabruzzo/tqi_evolution_backend_2021/config-server:0.0.1-SNAPSHOT
     restart: always
     ports:
       - 8888:8888
@@ -80,7 +80,7 @@ services:
     build:
       dockerfile: ./docker/eureka_server.dockerfile
       context: .
-    image: edabruzzo/tqi_evolution_backend_2021/eureka_server
+    image: edabruzzo/tqi_evolution_backend_2021/eureka_server:0.0.1-SNAPSHOT
     restart: always
     ports:
       - 8761:8761
@@ -91,7 +91,7 @@ services:
 
   servico_emprestimo:
     build:
-      dockerfile: ./docker/emprestimo.dockerfile
+      dockerfile: ./docker/emprestimo.dockerfile:0.0.1-SNAPSHOT
       context: .
     image: edabruzzo/tqi_evolution_backend_2021/servico_emprestimo:latest
     ports:
@@ -112,7 +112,7 @@ services:
     build:
       dockerfile: ./docker/cliente.dockerfile
       context: .
-    image: edabruzzo/tqi_evolution_backend_2021/servico_cliente:latest
+    image: edabruzzo/tqi_evolution_backend_2021/servico_cliente:0.0.1-SNAPSHOT
     container_name: servico_cliente
     ports:
       - "8080:8080"
@@ -131,7 +131,7 @@ services:
     build:
       dockerfile: ./docker/frontend_cliente_emprestimo.dockerfile
       context: .
-    image: edabruzzo/tqi_evolution_backend_2021/frontend_cliente_emprestimo:latest
+    image: edabruzzo/tqi_evolution_backend_2021/frontend_cliente_emprestimo:0.0.1-SNAPSHOT
     container_name: servico_cliente
     ports:
       - "5000:5000"

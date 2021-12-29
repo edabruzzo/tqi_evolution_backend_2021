@@ -8,7 +8,11 @@
 		<version>2.6.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
+	<groupId>br.com.abruzzo</groupId>
 	<artifactId>cliente</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>cliente</name>
 	<description> Microservice Cliente part of TQI_EVOLUTION_BACKEND_2021 </description>
 	<properties>
 		<java.version>1.8</java.version>
@@ -87,6 +91,14 @@
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 			<version>3.1.0</version>
 		</dependency>
+
+			<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-hystrix -->
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-hystrix</artifactId>
+				<version>1.4.7.RELEASE</version>
+			</dependency>
+
 
 		<!-- Declarative REST Client. OpenFeign creates a dynamic implementation of an interface decorated with JAX-RS or Spring MVC annotations -->
 		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign
