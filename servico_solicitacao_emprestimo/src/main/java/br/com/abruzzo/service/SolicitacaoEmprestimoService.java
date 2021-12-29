@@ -6,6 +6,7 @@ import br.com.abruzzo.model.SolicitacaoEmprestimo;
 import br.com.abruzzo.repository.ServicoSolicitacaoEmprestimoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,13 @@ public class SolicitacaoEmprestimoService {
         this.solicitacaoEmprestimoRepository = solicitacaoEmprestimoRepository;
     }
 
+    @Autowired
+    IntercomunicacaoServicoGerenciamentoProcesso intercomunicacaoServicoGerenciamentoProcesso;
+
+    @Autowired
+    IntercomunicacaoServicoEnvioEmailClientes intercomunicacaoServicoEnvioEmailClientes;
+
+
 
     public List<SolicitacaoEmprestimo> findAll() {return (List<SolicitacaoEmprestimo>) solicitacaoEmprestimoRepository.findAll();}
 
@@ -32,9 +40,9 @@ public class SolicitacaoEmprestimoService {
 
     public SolicitacaoEmprestimo save(SolicitacaoEmprestimo solicitacaoEmprestimo){
 
-        SolicitacaoEmprestimo solicitacaoEmprestimoSalva = null;
+        SolicitacaoEmprestimo solicitacaoEmprestimoSalva = new SolicitacaoEmprestimo();
 
-        solicitacaoEmprestimoSalva.setStatus("Em processamento");
+        solicitacaoEmprestimo.setStatus("Em processamento");
         try{
 
             solicitacaoEmprestimoSalva = solicitacaoEmprestimoRepository.save(solicitacaoEmprestimo);
@@ -53,11 +61,13 @@ public class SolicitacaoEmprestimoService {
         boolean emprestimoAprovado = Avaliacao.enviarParaProcessamento(solicitacaoEmprestimoSalva);
 
         if(emprestimoAprovado){
-            solicitacaoEmprestimoSalva.setStatus("Aprovado");
+
+            this.intercomunicacaoServicoEnvioEmailClientes.enviarEmailAoCliente(solicitacaoEmprestimoSalva);
+            solicitacaoEmprestimo.setStatus("Aprovado");
             logger.info(String.format("Empréstimo aprovado -> {}",solicitacaoEmprestimoSalva));
             logger.info("Encaminhando solicitação de empréstimo aprovada para o serviço de gerenciamento de empréstimos");
 
-             IntercomunicacaoServicoGerenciamentoProcesso.criarEmprestimoGerenciado(solicitacaoEmprestimoSalva);
+             this.intercomunicacaoServicoGerenciamentoProcesso.cadastrarEmprestimoAprovadoServicoGerenciamentoEmprestimo(solicitacaoEmprestimoSalva);
 
         }else{
             solicitacaoEmprestimoSalva.setStatus("Reprovado");

@@ -28,6 +28,7 @@ public class SolicitacaoEmprestimo {
     private Long idCliente;
     private String status;
     private String cpfCliente;
+    private String emailCliente;
 
     @Override
     public String toString() {
@@ -38,6 +39,8 @@ public class SolicitacaoEmprestimo {
                 ", numeroMaximoParcelas=" + numeroMaximoParcelas +
                 ", idCliente=" + idCliente +
                 ", status='" + status + '\'' +
+                ", cpfCliente='" + cpfCliente + '\'' +
+                ", emailCliente='" + emailCliente + '\'' +
                 '}';
     }
 }

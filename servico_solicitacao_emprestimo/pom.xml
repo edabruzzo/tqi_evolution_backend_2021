@@ -46,6 +46,17 @@
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 			<version>3.1.0</version>
 		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-hystrix -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-hystrix</artifactId>
+			<version>1.4.7.RELEASE</version>
+		</dependency>
+
+
+
 		<!--
 		DEPENDÊNCIA PARA PERMITIR QUE O MICROSERVICE BUSQUE NO CONFIG SERVER AS CONFIGURAÇÕES
 		https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-config-client -->

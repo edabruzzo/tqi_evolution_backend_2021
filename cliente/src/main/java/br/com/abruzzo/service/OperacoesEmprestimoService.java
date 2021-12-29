@@ -63,6 +63,32 @@ public class OperacoesEmprestimoService {
         this.clienteService = clienteService;
     }
 
+
+    /**
+     *
+     *
+     *   Neste método o serviço de solicitação de empréstimos é chamado para persistir
+     *    a solicitação de empréstimo em memória, enquanto a solicitação de empréstimo
+     *    é avaliada por um sistema de gerenciamento de risco de crédito interno
+     *    e são realizadas consultas aos sistemas de proteção ao crédito via chamadas
+     *    aos seus respectivos WebServices utilizando o CPF do cliente
+     *    um DTO Emprestimo é passado via chamada REST com o método POST utilizando a API de
+     *    solicitação de empréstimos já registrada no Eureka Discovery Server,
+     *    que irá persistir a solicitação no Redis, enquanto ela está sendo avaliada
+     *
+     *    Caso a solicitação seja aprovada, o serviço de avaliação da solicitação irá pedir ao
+     *    serviço de gerenciamento de empréstimos aprovados que ele persista em sua base de dados
+     *    o empréstimo aprovado e, em caso de reprovação, a solicitação tem seu status alterado
+     *    para reprovado e apenas permanece em memória durante a existência da aplicação no servidor
+     *    que hospeda a aplicação de solicitação de empréstimo
+     *
+     *
+     * @param idCliente
+     * @param valor
+     * @param parcelas
+     * @param dataPrimeiraParcela
+     * @return
+     */
     @HystrixCommand(fallbackMethod = "solicitaEmprestimoFallback")
     public ResponseEntity<String> solicitarEmprestimo(Long idCliente, double valor, int parcelas, Date dataPrimeiraParcela) {
 
@@ -82,10 +108,11 @@ public class OperacoesEmprestimoService {
         boolean condicoesEmprestimoRegulares = validarCondicoesEmprestimo(parcelas, dataPrimeiraParcela);
 
         if(clientePodePedirEmprestimo && condicoesEmprestimoRegulares){
-            List<InstanceInfo> listaInstancias = eurekaDiscoveryClient.getInstancesByVipAddressAndAppName(null,"servico_emprestimo",false);
-            listaInstancias.stream().forEach(instancia -> {
-                logger.info(String.format("{}:{}",instancia.getHostName(),instancia.getPort()));
-            });
+            List<InstanceInfo> listaInstancias = eurekaDiscoveryClient
+                    .getInstancesByVipAddressAndAppName(null,ParametrosConfig.SERVICO_SOLICITACAO_EMPRESTIMO.getValue(),false);
+
+            listaInstancias.stream().forEach(instancia -> logger.info(instancia.toString()));
+
 
             if(eurekaDiscoveryClient.getInstancesByVipAddressAndAppName(null,ParametrosConfig.SERVICO_SOLICITACAO_EMPRESTIMO.getValue(),false)
                     .get(0).getStatus().equals(InstanceInfo.InstanceStatus.UP))
@@ -93,7 +120,7 @@ public class OperacoesEmprestimoService {
 
             else{
                 try {
-                    throw new InfraStructrutureException("Serviço de solicitação de empréstimo neste momento está forma",logger);
+                    throw new InfraStructrutureException("Serviço de solicitação de empréstimo neste momento está fora do ar",logger);
                 } catch (InfraStructrutureException e) {
                     e.printStackTrace();
                 }
