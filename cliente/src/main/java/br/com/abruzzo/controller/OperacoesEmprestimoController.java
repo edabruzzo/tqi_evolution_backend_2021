@@ -14,6 +14,7 @@ import java.sql.Date;
 /**
  * @link https://howtodoinjava.com/spring-boot2/resttemplate/resttemplate-post-json-example/
  * @link https://www.baeldung.com/spring-resttemplate-post-json
+ *
  * @author Emmanuel Abruzzo
  * @date 26/12/2021
  */

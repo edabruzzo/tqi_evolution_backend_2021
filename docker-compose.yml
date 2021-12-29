@@ -24,7 +24,7 @@ services:
       - "25826:25826"
       - "5044:5044"
     volumes:
-      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro                # Pipeline configuration
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro   # Pipeline configuration
     restart: on-failure
     depends_on:
       - elasticsearch
@@ -51,8 +51,8 @@ services:
 
   servico_cliente:
     build:
-      context: servico_cliente
-      dockerfile: Dockerfile
+      dockerfile: ./docker/cliente.dockerfile
+      context: .
     networks:
       - tqi_evolution_backend_2021_spring-cloud-network
 
@@ -72,8 +72,8 @@ services:
 
   servico_emprestimo:
     build:
-      context: servico_emprestimo
-      dockerfile: Dockerfile
+      dockerfile: ./docker/emprestimo.dockerfile
+      context: .
     networks:
       - tqi_evolution_backend_2021_spring-cloud-network
     image: edabruzzo/tqi_evolution_backend_2021/servico_emprestimo:latest
@@ -90,8 +90,8 @@ services:
 
   gateway:
     build:
-      context: gateway
-      dockerfile: Dockerfile
+      dockerfile: ./docker/gateway.dockerfile
+      context: .
     networks:
       - tqi_evolution_backend_2021_spring-cloud-network
     image: edabruzzo/tqi_evolution_backend_2021/gateway:latest
@@ -108,8 +108,8 @@ services:
 
   config-server:
     build:
-      context: config-server
-      dockerfile: Dockerfile
+      dockerfile: ./docker/config-server.dockerfile
+      context: .
     networks:
       - tqi_evolution_backend_2021_spring-cloud-network
     image: edabruzzo/tqi_evolution_backend_2021/config-server
@@ -120,8 +120,8 @@ services:
 
   eureka_server:
     build:
-      context: eureka_server
-      dockerfile: Dockerfile
+      dockerfile: ./docker/eureka_server.dockerfile
+      context: .
     networks:
       - tqi_evolution_backend_2021_spring-cloud-network
     image: edabruzzo/tqi_evolution_backend_2021/eureka_server

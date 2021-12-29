@@ -81,7 +81,7 @@ public class OperacoesEmprestimoService {
         if(clientePodePedirEmprestimo && condicoesEmprestimoRegulares){
             List<InstanceInfo> listaInstancias = eurekaDiscoveryClient.getInstancesByVipAddressAndAppName(null,"servico_emprestimo",false);
             listaInstancias.stream().forEach(instancia -> {
-                System.out.println(String.format("{}:{}",instancia.getHostName(),instancia.getPort()));
+                logger.info(String.format("{}:{}",instancia.getHostName(),instancia.getPort()));
             });
 
             if(eurekaDiscoveryClient.getInstancesByVipAddressAndAppName(null,ParametrosConfig.SERVICO_EMPRESTIMO.getValue(),false)
