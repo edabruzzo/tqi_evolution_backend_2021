@@ -1,6 +1,5 @@
 package br.com.abruzzo.avaliacao_emprestimos;
 
-import br.com.abruzzo.controller.SolicitacaoEmprestimoController;
 import br.com.abruzzo.exceptions.SituacaoIrregularCPFCliente;
 import br.com.abruzzo.model.SolicitacaoEmprestimo;
 import org.slf4j.Logger;
@@ -13,14 +12,19 @@ import org.slf4j.LoggerFactory;
 public class Avaliacao {
 
 
-    static ConsultaWebServicesExternos consultaWebServicesExternos;
-    private static final Logger logger = LoggerFactory.getLogger(SolicitacaoEmprestimoController.class);
 
-
-
-    public Avaliacao(ConsultaWebServicesExternos consultaWebServicesExternos) {
-        this.consultaWebServicesExternos = consultaWebServicesExternos;
+    private Avaliacao() {
+        throw new IllegalStateException("Utility class - não instanciar !!! ");
     }
+
+    static ConsultaWebServicesExternos consultaWebServicesExternos;
+    private static final Logger logger = LoggerFactory.getLogger(Avaliacao.class);
+
+
+
+  
+  
+  
 
     public static boolean enviarParaProcessamento(SolicitacaoEmprestimo solicitacaoEmprestimoSalva) {
 
@@ -31,7 +35,7 @@ public class Avaliacao {
         boolean avaliacaoPositivaCreditoCliente = false;
 
         if(situacaoRegularSERASA && situacaoRegularSPC)
-            avaliacaoPositivaCreditoCliente = enviarGerenciaFinanceiraAvaliarCreditoCliente(solicitacaoEmprestimoSalva.getCpfCliente(), solicitacaoEmprestimoSalva.getValor());
+            avaliacaoPositivaCreditoCliente = consultaWebServicesExternos.consultarSistemaFinanceiroInterno(solicitacaoEmprestimoSalva.getCpfCliente(), solicitacaoEmprestimoSalva.getValor());
         else{
             if (! situacaoRegularSPC){
                 mensagemErro += String.format("Situação irregular no SCPC -> CPF {}",solicitacaoEmprestimoSalva.getCpfCliente());
@@ -45,9 +49,9 @@ public class Avaliacao {
 
             } catch (SituacaoIrregularCPFCliente e) {
                 e.printStackTrace();
-            }finally{
                 return emprestimoAprovado;
-            }
+
+           }
 
         }
 
@@ -58,10 +62,10 @@ public class Avaliacao {
 
     }
 
-    private static boolean enviarGerenciaFinanceiraAvaliarCreditoCliente(String cpfCliente, Double valorEmprestimoSolicitado) {
 
-        boolean avaliacaoPositivaCreditoCliente = consultaWebServicesExternos.consultarSistemaFinanceiroInterno(cpfCliente, valorEmprestimoSolicitado);
-        return avaliacaoPositivaCreditoCliente;
-    }
+
+
+
+
 
 }
