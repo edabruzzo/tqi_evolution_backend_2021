@@ -15,6 +15,7 @@
         <module>frontend_cliente_emprestimo</module>
         <module>serviceDiscoveryEurekaServer</module>
         <module>gateway</module>
+        <module>servico_solicitacao_emprestimo</module>
     </modules>
 
     <properties>

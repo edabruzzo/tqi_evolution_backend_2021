@@ -38,9 +38,17 @@
 
 ### Arquitetura escolhida -  Arquitetura de microserviços orientada a eventos usando Spring Cloud
 
+
   Optamos por modelar nossa aplicação em microserviços para garantir independência de cada funcionalidade do resto da aplicação induz ao baixo acoplamento. Com isso, temos mais facilidade de lidar com questões técnicas, que são fortemente influenciadas pelos requisitos funcionais e não funcionais do negócio que estamos informatizando.
   
   Pretendemos, com isso baixo acoplamento entre os módulos, que solicitam serviços através de chamadas Rest, sendo que cada serviço expõe recursos 
+
+  Precisamos implementar um microsserviço tolerante a falhas, resiliente a integrações defeituosas e capaz de não indisponibilizar toda a aplicação por causa de uma única funcionalidade.
+
+  A opção pela arquitetura de microsserviços se deu também para permitir que nossa aplicação possa 
+  escalar horizontalmente de forma fácil e responsiva, permitindo o processamento de várias Threads
+  e requisições a diferentes funcionalidades de forma paralela e resiliente a degradações de perfomance 
+  pontuais em outros serviços.
   
   Para controle de acesso aos recursos e segurança da aplicação optamos pela implementação de um módulo de segurança para garantir acesso a recursos por:
   * autenticação 
@@ -114,6 +122,15 @@ Em nenhum momento é criada uma dependência relacional entre as Entidades JPA C
 ```  
 
 + https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.Java.01.html
+
+
+### Criação de um Microservice para Solicitações de Empréstimo usando Redis in-memory Database
+
+
+
+
+
+
 
 
 ### Service Discovery
@@ -221,6 +238,52 @@ Nossa aplicação está rodando de forma totalmente dockerizada em uma rede brid
 + https://github.com/cassiomolin/log-aggregation-spring-boot-elastic-stack/blob/master/docker-compose.yml
 +https://www.baeldung.com/dockerizing-spring-boot-application
 +https://developer.okta.com/blog/2019/02/28/spring-microservices-docker
+
+
+
+### Circuit Breaker com Hystrix
+
+![img.png](imagens/circuitBreaker_Hystrix.png)
+
+Estamos usando o Hystrix como Circuit Breaker para fechamento de circuito de modo a evitar 
+que uma requisição de empréstimo feita pelo usuário no momento em que o serviço de empréstimo, 
+ou banco de dados, ou outro serviço(s) estiver(em) fora ou com problema de performance seja executada 
+
+O Hystrix direciona a requisição para um método fallback, que devolve um EmprestimoDTO vazio para o cliente.
+
+O Hystrix fica tentando a requisição para o verdadeiro serviço a cada 5 segundos, aguardando o 
+serviço voltar à normalidade.
+
+O Circuit Breaker executa o processamento da requisição numa thread separada quando o tempo limite
+(default de 1s) é excedido na requisição principal para o serviço, repassando a execução para 
+o método Fallback que retorna um DTO vazio.
+
+
+#### Importante !
+
+Em cenários com um volume muito grande de requisições de usuários, essa alocação de Threads de fallback para 
+tratar problemas de performance pode gerar um gargalo no sistema, na alocação de Threaads apenas para um serviço.
+
+Esse gargalo precisa ser tratado !!!
+
+Uma forma de tratar esse cenário é com uma técnica chamada Bulkhead.
+
+
+### Bulkhead
+
+Essa técnica é inspirada na prevenção de danos em cascos de navio, que são compartimentados e,
+em caso de dano, apenas compartimentos pequenos são inundados, evitando o afundamento do navio.
+
+A ideia é alocar grupos de Threads para cada serviço, a fim de evitar que apenas um serviço 
+tenha muitas Threads alocadas a ponto de faltarem Threads para outros serviços.
+
+Poder agrupar e alocar grupos de threads para processamentos diferentes.
+Dessa forma, uma das chamadas de um microsserviço, que sofre degradação de performance, 
+não indisponibiliza todas as outras chamadas do mesmo microsserviço
+
+
+
+
 
 
 
