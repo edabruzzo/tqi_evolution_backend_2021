@@ -13,6 +13,18 @@ services:
     networks:
       - tqi_evolution_backend_2021_spring-cloud-network
 
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - $PWD/redis-data:/var/lib/redis
+    environment:
+      - "ALLOW_EMPTY_PASSWORD=yes"
+    networks:
+      - tqi_evolution_backend_2021_spring-cloud-network
+
+
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
     ports:
