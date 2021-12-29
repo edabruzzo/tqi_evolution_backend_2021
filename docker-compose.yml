@@ -7,6 +7,8 @@ services:
     ports:
       - "5432:5432"
     environment:
+      POSTGRES_USER: postgres
+      POSTGRES_NAME: tqi_evolution_backend_2021
       POSTGRES_PASSWORD: postgres
     networks:
       - tqi_evolution_backend_2021_spring-cloud-network

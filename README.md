@@ -6,6 +6,27 @@
 ## Emmanuel de Oliveira Abruzzo - Dezembro/2021 - Janeiro/2022
 + Projeto Final TQI - DIGITAL INNOVATION ONE - BOOTCAMP - TQI-JAVA-DEVELOPER - Dez/2021
 
+#### Microserviços integrados num sistema de cadastro de clientes e pedido de empréstimos
+
+#### GITHUB:
++ https://github.com/edabruzzo/tqi_evolution_backend_2021
+
+#### DOCKER HUB
++ https://hub.docker.com/repository/docker/edabruzzo/tqi_evolution_backend_2021
+
+#### LINKEDIN:
++ https://www.linkedin.com/in/emmanuel-abruzzo-8ba80a36/
+
+#### DISCORD - DIO
++ Discord: https://discord.gg/AWxMaerJ
+
+#### DIGITAL INNOVATION ONE
++ https://digitalinnovation.one/
+
++ #### Video deploy
++ https://youtu.be/6Vd3WYr5r3E
++ https://youtu.be/MM0CQyWEQ7s
+
 
 
 ### Localização de todos os projetos desenvolvidos no Bootcamp TQI junto à Digital Innvation One
@@ -194,29 +215,13 @@ Referência:
 ### RODANDO NOSSA APLICAÇÃO EM CONTAINER
 ![img.png](imagens/docker_containers.png)
 Fonte e referência: https://cassiomolin.com/2019/06/30/log-aggregation-with-spring-boot-elastic-stack-and-docker/
+
+Nossa aplicação está rodando de forma totalmente dockerizada em uma rede bridge 
+ 
 + https://github.com/cassiomolin/log-aggregation-spring-boot-elastic-stack/blob/master/docker-compose.yml
++https://www.baeldung.com/dockerizing-spring-boot-application
++https://developer.okta.com/blog/2019/02/28/spring-microservices-docker
 
-
-#### Microserviços integrados num sistema de cadastro de clientes e pedido de empréstimos
-
-#### GITHUB:
-+ https://github.com/edabruzzo/tqi_evolution_backend_2021
-
-#### DOCKER HUB
-+ https://hub.docker.com/repository/docker/edabruzzo/tqi_evolution_backend_2021
-
-#### LINKEDIN:
-+ https://www.linkedin.com/in/emmanuel-abruzzo-8ba80a36/
-
-#### DISCORD - DIO
-+ Discord: https://discord.gg/AWxMaerJ
-
-#### DIGITAL INNOVATION ONE
-+ https://digitalinnovation.one/
-
-+ #### Video deploy
-+ https://youtu.be/6Vd3WYr5r3E
-+ https://youtu.be/MM0CQyWEQ7s
 
 
 ## Endpoints das APIs expostos pelos microsserviços - testes executados com POSTMAN
@@ -611,7 +616,7 @@ call testarRequests >> $logRequests
 * [Postgres Docker Hub](https://hub.docker.com/_/postgres)
 
 ```
-docker run --name tqi_evolution_backend_2021 -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=super_password -e POSTGRES_DB=tqi_evolution_backend_2021 postgres
+docker run --name tqi_evolution_backend_2021 -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=tqi_evolution_backend_2021 postgres
 
 ```
 
@@ -649,7 +654,7 @@ psql -h localhost -U postgres -p 5432 -d tqi_evolution_backend_2021
 ```
 docker exec -it tqi_evolution_backend_2021 /bin/bash
 
-psql -U postgres tqi_evolution_backend_2021
+psql -U postgres -d tqi_evolution_backend_2021 
 ```
 
 
