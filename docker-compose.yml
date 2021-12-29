@@ -121,7 +121,27 @@ services:
       decode_log_event_to_json_object: "true"
     restart: on-failure
     depends_on:
+      - servico_solicitacao_emprestimo
       - servico_emprestimo
+    networks:
+      - tqi_evolution_backend_2021_spring-cloud-network
+
+  servico_solicitacao_emprestimo:
+    build:
+      dockerfile: ./docker/servico_solicitacao_emprestimo.dockerfile
+      context: .
+    image: edabruzzo/tqi_evolution_backend_2021/servico_solicitacao_emprestimo:0.0.1-SNAPSHOT
+    container_name: servico_cliente
+    ports:
+      - "8082:8082"
+    labels:
+      collect_logs_with_filebeat: "true"
+      decode_log_event_to_json_object: "true"
+    restart: on-failure
+    depends_on:
+      - config-server
+      - eureka_server
+      -
     networks:
       - tqi_evolution_backend_2021_spring-cloud-network
 
