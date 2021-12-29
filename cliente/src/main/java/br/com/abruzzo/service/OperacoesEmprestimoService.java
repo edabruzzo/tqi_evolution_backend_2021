@@ -64,7 +64,7 @@ public class OperacoesEmprestimoService {
     }
 
 
-    @HystrixCommand
+    @HystrixCommand(fallbackMethod = "solicitaEmprestimoFallback")
     public ResponseEntity<String> solicitarEmprestimo(Long idCliente, double valor, int parcelas, Date dataPrimeiraParcela) {
 
         HttpHeaders headers = new HttpHeaders();
@@ -111,7 +111,14 @@ public class OperacoesEmprestimoService {
         }
 
 
-    private boolean validarCondicoesEmprestimo(int parcelas, Date dataPrimeiraParcela) {
+    public ResponseEntity<String> solicitarEmprestimoFallback() {
+        EmprestimoDTO emprestimoDTOFallback = new EmprestimoDTO();
+        return ResponseEntity.ok().body(emprestimoDTOFallback.toString());
+
+    }
+
+
+        private boolean validarCondicoesEmprestimo(int parcelas, Date dataPrimeiraParcela) {
 
         boolean condicoesRegulares = false;
         boolean validacao1 = ValidacoesEmprestimo.validarDataPrimeiraParcela(dataPrimeiraParcela);
