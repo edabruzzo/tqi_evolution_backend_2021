@@ -1,13 +1,15 @@
 version: "3.8"
 services:
 
-  db:
+  basedados:
     image: postgres
     restart: always
     ports:
       - "5432:5432"
     environment:
       POSTGRES_PASSWORD: postgres
+    networks:
+      - tqi_evolution_backend_2021_spring-cloud-network
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
@@ -17,6 +19,8 @@ services:
       - "discovery.type=single-node"
     volumes:
       - ./elasticsearch/data:/usr/share/elasticsearch/data:rw              # Persistence data
+    networks:
+      - tqi_evolution_backend_2021_spring-cloud-network
 
   logstash:
     image: docker.elastic.co/logstash/logstash:7.2.0
@@ -28,6 +32,8 @@ services:
     restart: on-failure
     depends_on:
       - elasticsearch
+    networks:
+      - tqi_evolution_backend_2021_spring-cloud-network
 
   kibana:
     image: docker.elastic.co/kibana/kibana:7.2.0
@@ -36,7 +42,9 @@ services:
     restart: on-failure
     depends_on:
       - elasticsearch
-
+    networks:
+      - tqi_evolution_backend_2021_spring-cloud-network
+      -
   filebeat:
     image: docker.elastic.co/beats/filebeat:7.2.0
     volumes:
@@ -48,34 +56,41 @@ services:
     restart: on-failure
     depends_on:
       - logstash
-
-  servico_cliente:
-    build:
-      dockerfile: ./docker/cliente.dockerfile
-      context: .
     networks:
       - tqi_evolution_backend_2021_spring-cloud-network
 
-    image: edabruzzo/tqi_evolution_backend_2021/servico_cliente:latest
-    container_name: servico_cliente
+
+  config-server:
+    build:
+      dockerfile: ./docker/config-server.dockerfile
+      context: .
+    image: edabruzzo/tqi_evolution_backend_2021/config-server
+    restart: always
     ports:
-      - "8080:8080"
-    labels:
-      collect_logs_with_filebeat: "true"
-      decode_log_event_to_json_object: "true"
-    restart: on-failure
+      - 8888:8888
+    networks:
+      - tqi_evolution_backend_2021_spring-cloud-network
+    depends_on:
+      - basedados
+
+
+  eureka_server:
+    build:
+      dockerfile: ./docker/eureka_server.dockerfile
+      context: .
+    image: edabruzzo/tqi_evolution_backend_2021/eureka_server
+    restart: always
+    ports:
+      - 8761:8761
     depends_on:
       - config-server
-      - eureka_server
-      - servico_emprestimo
-
+    networks:
+      - tqi_evolution_backend_2021_spring-cloud-network
 
   servico_emprestimo:
     build:
       dockerfile: ./docker/emprestimo.dockerfile
       context: .
-    networks:
-      - tqi_evolution_backend_2021_spring-cloud-network
     image: edabruzzo/tqi_evolution_backend_2021/servico_emprestimo:latest
     ports:
       - "8081:8081"
@@ -85,51 +100,48 @@ services:
 
     restart: on-failure
     depends_on:
-      - config-server
       - eureka_server
-
-  gateway:
-    build:
-      dockerfile: ./docker/gateway.dockerfile
-      context: .
     networks:
       - tqi_evolution_backend_2021_spring-cloud-network
-    image: edabruzzo/tqi_evolution_backend_2021/gateway:latest
+
+
+
+  servico_cliente:
+    build:
+      dockerfile: ./docker/cliente.dockerfile
+      context: .
+    image: edabruzzo/tqi_evolution_backend_2021/servico_cliente:latest
+    container_name: servico_cliente
     ports:
-      - "xxxxx:xxxxxx"
+      - "8080:8080"
     labels:
       collect_logs_with_filebeat: "true"
       decode_log_event_to_json_object: "true"
-
     restart: on-failure
     depends_on:
-      - config-server
-      - eureka_server
-
-  config-server:
-    build:
-      dockerfile: ./docker/config-server.dockerfile
-      context: .
+      - servico_emprestimo
     networks:
       - tqi_evolution_backend_2021_spring-cloud-network
-    image: edabruzzo/tqi_evolution_backend_2021/config-server
-    restart: always
-    ports:
-      - 8888:8888
 
 
-  eureka_server:
+
+  frontend_cliente_emprestimo:
     build:
-      dockerfile: ./docker/eureka_server.dockerfile
+      dockerfile: ./docker/frontend_cliente_emprestimo.dockerfile
       context: .
-    networks:
-      - tqi_evolution_backend_2021_spring-cloud-network
-    image: edabruzzo/tqi_evolution_backend_2021/eureka_server
-    restart: always
+    image: edabruzzo/tqi_evolution_backend_2021/frontend_cliente_emprestimo:latest
+    container_name: servico_cliente
     ports:
-      - 8761:8761
+      - "5000:5000"
+    labels:
+      collect_logs_with_filebeat: "true"
+      decode_log_event_to_json_object: "true"
+    restart: on-failure
     depends_on:
-      - config-server
+      - servico_cliente
+    networks:
+      - tqi_evolution_backend_2021_spring-cloud-network
+
 
 networks:
   tqi_evolution_backend_2021_spring-cloud-network:

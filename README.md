@@ -201,12 +201,19 @@ Fonte e referência: https://cassiomolin.com/2019/06/30/log-aggregation-with-spr
 
 #### GITHUB:
 + https://github.com/edabruzzo/tqi_evolution_backend_2021
+
+#### DOCKER HUB
++ https://hub.docker.com/repository/docker/edabruzzo/tqi_evolution_backend_2021
+
 #### LINKEDIN:
 + https://www.linkedin.com/in/emmanuel-abruzzo-8ba80a36/
+
 #### DISCORD - DIO
 + Discord: https://discord.gg/AWxMaerJ
+
 #### DIGITAL INNOVATION ONE
 + https://digitalinnovation.one/
+
 + #### Video deploy
 + https://youtu.be/6Vd3WYr5r3E
 + https://youtu.be/MM0CQyWEQ7s
@@ -215,10 +222,12 @@ Fonte e referência: https://cassiomolin.com/2019/06/30/log-aggregation-with-spr
 ## Endpoints das APIs expostos pelos microsserviços - testes executados com POSTMAN
   Os testes da API foram realizados utilizando o Postman e abaixo estão as chamadas via CURL para testes
 
-  Criamos arquivos de testes bash scripts com chamadas CURL para as APIs
+  Criamos arquivos de testes bash scripts com chamadas CURL para as APIs. Na raiz do projeto, executar:
 
+```shell
+sh testarChamadasApisMicrosservicos.sh
 
-
+```
 
 
 #### Chamadas REST para o Config Server
@@ -227,42 +236,49 @@ Fonte e referência: https://cassiomolin.com/2019/06/30/log-aggregation-with-spr
 #!/bin/bash
 
 DATA_HORA=$(date +"%d_%m_%Y_%H_hs_%M_min")
-
+DATA_DIA_MES=$(date +"%d_%m_%Y")
+NOME_MICROSERVICO="config-server"
 diretorio_log_testes=/home/$USER/IdeaProjects/tqi_evolution_backend_2021/logs_testes
+diretorio_logs_testes_do_dia=$diretorio_log_testes/$DATA_DIA_MES
+logRequests=$diretorio_logs_testes_do_dia/TESTES_$NOME_MICROSERVICO_$DATA_HORA.log
 
-logConfigServerRequests=$diretorio_log_testes/TESTES_CONFIG_SERVER_$DATA_HORA.log
+mkdir $diretorio_logs_testes_do_dia
 
-touch $logConfigServerRequests
-
-
-function testaConfigServerRequest {
-
+touch $logRequests
 
 
-echo 'Testando Configurações do Serviço de Clientes no Config Server'
+function testarRequests {
+echo '\n'
+echo '\n'
+echo '---------------------------------------------------------------------------------------------'
+echo "Iniciando testes da API do Microsserviço $NOME_MICROSERVICO: ${DATA_HORA}"
+echo '\n'
+echo "Testando Configurações do Serviço de Clientes no $NOME_MICROSERVICO"
 echo '\n'
 curl --location --request GET 'http://localhost:8888/servico_cliente/default'
 echo '\n'
 
-
-
-echo 'Testando Configurações do Serviço de Empréstimo no Config Server'
+echo "Testando Configurações do Serviço de Empréstimo no $NOME_MICROSERVICO"
 echo '\n'
 curl --location --request GET 'http://localhost:8888/servico_emprestimo/default'
 echo '\n'
 
+echo "Testes da API do microsserviço $NOME_MICROSERVICO finalizados às $(date +"%d_%m_%Y_%H_hs_%M_min")"
+echo '\n'
+echo '\n'
+echo '---------------------------------------------------------------------------------------------'
+echo '\n'
+echo '\n'
+
 }
 
-echo $(testaConfigServerRequest) | tee logConfigServerRequests >/dev/null
+#echo $(testarRequests) | tee $logRequests >/dev/null
 
 #testaAPIClientes
 #testaAPIEmprestimos
-call testaConfigServerRequest >> $logConfigServerRequests
+call testarRequests >> $logRequests
 
 ```
-
-
-
 
 
 
@@ -273,18 +289,24 @@ call testaConfigServerRequest >> $logConfigServerRequests
 #!/bin/bash
 
 DATA_HORA=$(date +"%d_%m_%Y_%H_hs_%M_min")
-
+DATA_DIA_MES=$(date +"%d_%m_%Y")
+NOME_MICROSERVICO="Eureka Server Discovery"
 diretorio_log_testes=/home/$USER/IdeaProjects/tqi_evolution_backend_2021/logs_testes
+diretorio_logs_testes_do_dia=$diretorio_log_testes/$DATA_DIA_MES
+logRequests=$diretorio_logs_testes_do_dia/TESTES_$NOME_MICROSERVICO_$DATA_HORA.log
 
-logServiceDiscoveryEurekaRequest=$diretorio_log_testes/TESTES_SERVICE_DISCOVERY_EUREKA_SERVER_$DATA_HORA.log
+mkdir $diretorio_logs_testes_do_dia
 
-touch $logServiceDiscoveryEurekaRequest
+touch $logRequests
 
+function testarRequests {
+echo '\n'
+echo '\n'
+echo '---------------------------------------------------------------------------------------------'
+echo "Iniciando testes da API do Microsserviço $NOME_MICROSERVICO: ${DATA_HORA}"
+echo '\n'
 
-function testaServiceDiscoveryEurekaRequest {
-
-
-echo 'Testando aplicações registradas no Eureka Server'
+echo "Testando aplicações registradas no $NOME_NOME_MICROSERVICO"
 
 echo '\n'
 
@@ -292,13 +314,18 @@ curl --location --request GET 'http://localhost:8761/eureka/apps'
 
 echo '\n'
 
+echo "Testes da API do microsserviço $NOME_MICROSERVICO finalizados às $(date +"%d_%m_%Y_%H_hs_%M_min")"
+echo '\n'
+echo '\n'
+echo '---------------------------------------------------------------------------------------------'
+echo '\n'
+echo '\n'
+
 }
 
-echo $(testaServiceDiscoveryEurekaRequest) | tee $logServiceDiscoveryEurekaRequest >/dev/null
 
-#testaAPIClientes
-#testaAPIEmprestimos
-call testaServiceDiscoveryEurekaRequest >> $logServiceDiscoveryEurekaRequest
+call testarRequests >> $logRequests
+
 
 ```
 
@@ -313,15 +340,23 @@ call testaServiceDiscoveryEurekaRequest >> $logServiceDiscoveryEurekaRequest
 #!/bin/bash
 
 DATA_HORA=$(date +"%d_%m_%Y_%H_hs_%M_min")
-
+DATA_DIA_MES=$(date +"%d_%m_%Y")
+NOME_MICROSERVICO="Serviço de gerenciamento de clientes"
 diretorio_log_testes=/home/$USER/IdeaProjects/tqi_evolution_backend_2021/logs_testes
+diretorio_logs_testes_do_dia=$diretorio_log_testes/$DATA_DIA_MES
+logRequests=$diretorio_logs_testes_do_dia/TESTES_$NOME_MICROSERVICO_$DATA_HORA.log
 
-logAPIClientes=$diretorio_log_testes/TESTES_API_CLIENTES_$DATA_HORA.log
+mkdir $diretorio_logs_testes_do_dia
 
-touch $logAPIClientes
+touch $logRequests
 
+function testarRequests {
+echo '\n'
+echo '\n'
+echo '---------------------------------------------------------------------------------------------'
+echo "Iniciando testes da API do Microsserviço $NOME_MICROSERVICO: ${DATA_HORA}"
+echo '\n'
 
-function testaAPIClientes {
 
 echo 'Cadastrando cliente Andrea'
 
@@ -410,11 +445,41 @@ echo '\n'
 curl --location --request GET 'http://localhost:8080/cliente/'
 
 echo '\n'
+
+
+
+echo '\n'
+
+curl --location --request POST 'http://localhost:8080/cliente' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "nome" : "José",
+    "email": "jose@gmail.com",
+    "cpf": "222222222222",
+    "rg":  "222222222-2",
+    "enderecoCompleto": "Rua 2",
+    "renda":8000,
+    "senha":"456"
+ }'
+
+echo '\n'
+
+
+
+echo "Testes da API do microsserviço $NOME_MICROSERVICO finalizados às $(date +"%d_%m_%Y_%H_hs_%M_min")"
+echo '\n'
+echo '\n'
+echo '---------------------------------------------------------------------------------------------'
+echo '\n'
+echo '\n'
+
 }
 
-echo $(testaAPIClientes) | tee $logAPIClientes >/dev/null
 
-call testaAPIClientes >> $logAPIClientes
+call testarRequests >> $logRequests
+
+
+
 ```
 
 
@@ -423,16 +488,24 @@ call testaAPIClientes >> $logAPIClientes
 ```shell
 #!/bin/bash
 
+
 DATA_HORA=$(date +"%d_%m_%Y_%H_hs_%M_min")
-
+DATA_DIA_MES=$(date +"%d_%m_%Y")
+NOME_MICROSERVICO="Serviço de Gerenciamento de Empréstimo"
 diretorio_log_testes=/home/$USER/IdeaProjects/tqi_evolution_backend_2021/logs_testes
+diretorio_logs_testes_do_dia=$diretorio_log_testes/$DATA_DIA_MES
+logRequests=$diretorio_logs_testes_do_dia/TESTES_$NOME_MICROSERVICO_$DATA_HORA.log
 
-logAPIEmprestimos=$diretorio_log_testes/TESTES_API_EMPRESTIMOS_$DATA_HORA.log
+mkdir $diretorio_logs_testes_do_dia
 
-touch $logAPIEmprestimos
+touch $logRequests
 
-
-function testaAPIEmprestimos {
+function testarRequests {
+echo '\n'
+echo '\n'
+echo '---------------------------------------------------------------------------------------------'
+echo "Iniciando testes da API do Microsserviço $NOME_MICROSERVICO: ${DATA_HORA}"
+echo '\n'
 
 
 echo 'Criando empréstimo na base'
@@ -448,50 +521,66 @@ curl --location --request POST 'http://localhost:8081/emprestimo' \
      "idCliente" : 1
  }'
 
-echo '\n'
-
-echo 'PUT - atualização de empréstimo existente'
 
 echo '\n'
 
-curl --location --request PUT 'http://localhost:8081/emprestimo/1' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "valor" : 1555555555,
-    "data_primeira_parcela" : "2030-10-30",
-    "numeroMaximoParcelas" : 60,
-    "idCliente" : 1
-}'
-
+echo "Testes da API do microsserviço $NOME_MICROSERVICO finalizados às $(date +"%d_%m_%Y_%H_hs_%M_min")"
 echo '\n'
-
-echo 'GET - listar empréstimo por id'
 echo '\n'
-curl --location --request GET 'http://localhost:8081/emprestimo/1'
+echo '---------------------------------------------------------------------------------------------'
 echo '\n'
-
-
-
-echo 'GET - listar empréstimos'
 echo '\n'
-curl --location --request GET 'http://localhost:8081/emprestimo/'
-echo '\n'
-
-echo 'GET - listar empréstimos'
-echo '\n'
-curl --location --request GET 'http://localhost:8081/emprestimo/'
-echo '\n'
-
 
 }
 
 
+call testarRequests >> $logRequests
 
-echo $(testaAPIEmprestimos) | tee $logAPIEmprestimos >/dev/null
 
-call testaAPIEmprestimos >> $logAPIEmprestimos
 ```
 
+### Testando solicitação de empréstimo
+
+```shell
+#!/bin/bash
+
+DATA_HORA=$(date +"%d_%m_%Y_%H_hs_%M_min")
+DATA_DIA_MES=$(date +"%d_%m_%Y")
+NOME_MICROSERVICO="Serviço de Solicitação de Empréstimo"
+diretorio_log_testes=/home/$USER/IdeaProjects/tqi_evolution_backend_2021/logs_testes
+diretorio_logs_testes_do_dia=$diretorio_log_testes/$DATA_DIA_MES
+logRequests=$diretorio_logs_testes_do_dia/TESTES_$NOME_MICROSERVICO_$DATA_HORA.log
+
+mkdir $diretorio_logs_testes_do_dia
+
+touch $logRequests
+
+function testarRequests {
+echo '\n'
+echo '\n'
+echo '---------------------------------------------------------------------------------------------'
+echo "Iniciando testes da API do Microsserviço $NOME_MICROSERVICO: ${DATA_HORA}"
+echo '\n'
+
+echo '\n'
+
+curl --location --request GET 'http://localhost:8080/emprestimo/solicitar?idCliente=2&valor=50000&parcelas=60&dataPrimeiraParcela=2022-02-01'
+
+echo '\n'
+
+echo "Testes da API do microsserviço $NOME_MICROSERVICO finalizados às $(date +"%d_%m_%Y_%H_hs_%M_min")"
+echo '\n'
+echo '\n'
+echo '---------------------------------------------------------------------------------------------'
+echo '\n'
+echo '\n'
+
+}
+
+
+call testarRequests >> $logRequests
+
+```
 
 
 
