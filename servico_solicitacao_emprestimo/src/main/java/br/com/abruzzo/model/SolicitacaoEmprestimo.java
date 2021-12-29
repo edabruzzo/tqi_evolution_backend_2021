@@ -20,7 +20,7 @@ import java.sql.Date;
 public class SolicitacaoEmprestimo {
 
     @Id
-    private Long id;
+    private Integer id;
 
     private Double valor;
     private Date data_primeira_parcela;

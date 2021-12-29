@@ -1,8 +1,6 @@
 package br.com.abruzzo.controller;
 
-import br.com.abruzzo.avaliacao_emprestimos.Avaliacao;
 import br.com.abruzzo.config.ParametrosConfig;
-import br.com.abruzzo.dto.EmprestimoDTO;
 import br.com.abruzzo.exceptions.ErroOperacaoTransacionalBancoException;
 import br.com.abruzzo.model.SolicitacaoEmprestimo;
 import br.com.abruzzo.service.SolicitacaoEmprestimoService;
@@ -10,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -39,27 +38,17 @@ public class SolicitacaoEmprestimoController {
      */
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public SolicitacaoEmprestimo criaSolicitacaoEmprestimo(@RequestBody SolicitacaoEmprestimo solicitacaoEmprestimo) throws ErroOperacaoTransacionalBancoException {
+    public ResponseEntity<SolicitacaoEmprestimo> criaSolicitacaoEmprestimo(@RequestBody SolicitacaoEmprestimo solicitacaoEmprestimo) throws ErroOperacaoTransacionalBancoException {
 
         logger.info("Requisição para solicitar um emprestimo");
         logger.info("POST recebido no seguinte endpoint: {}", ParametrosConfig.ENDPOINT_BASE.getValue());
-
-        SolicitacaoEmprestimo solicitacaoEmprestimoSalva = null;
-        try{
-            solicitacaoEmprestimoSalva.setStatus("Em processamento");
-            solicitacaoEmprestimoSalva = solicitacaoEmprestimoService.save(solicitacaoEmprestimo);
-            boolean emprestimoAprovado = Avaliacao.enviarParaProcessamento(solicitacaoEmprestimoSalva);
+        try {
+            SolicitacaoEmprestimo solicitacaoSalva = solicitacaoEmprestimoService.save(solicitacaoEmprestimo);
+            return ResponseEntity.ok().body(solicitacaoSalva);
         }catch(Exception erro){
-            String mensagem = "Erro ao salvar a solicitação de empréstimno em banco";
-            throw new ErroOperacaoTransacionalBancoException(mensagem, logger);
-
+            return ResponseEntity.status(500).build();
         }
-        logger.info("Solicitação de empréstimo salva");
-        logger.info("{}", solicitacaoEmprestimoSalva);
-        return solicitacaoEmprestimoSalva;
     }
-
-
 
 
 }

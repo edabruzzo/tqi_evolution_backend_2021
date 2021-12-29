@@ -63,7 +63,6 @@ public class OperacoesEmprestimoService {
         this.clienteService = clienteService;
     }
 
-
     @HystrixCommand(fallbackMethod = "solicitaEmprestimoFallback")
     public ResponseEntity<String> solicitarEmprestimo(Long idCliente, double valor, int parcelas, Date dataPrimeiraParcela) {
 
@@ -75,6 +74,7 @@ public class OperacoesEmprestimoService {
         emprestimoDTO.setValor(valor);
         emprestimoDTO.setNumeroMaximoParcelas(parcelas);
         emprestimoDTO.setData_primeira_parcela(dataPrimeiraParcela);
+        emprestimoDTO.setCpf(this.clienteService.findById(idCliente).get().getCpf());
 
         ResponseEntity resultado =  ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
@@ -90,6 +90,7 @@ public class OperacoesEmprestimoService {
             if(eurekaDiscoveryClient.getInstancesByVipAddressAndAppName(null,ParametrosConfig.SERVICO_SOLICITACAO_EMPRESTIMO.getValue(),false)
                     .get(0).getStatus().equals(InstanceInfo.InstanceStatus.UP))
                 return restTemplate.postForEntity(this.urlSolicitacaoEmprestimo, emprestimoDTO, String.class);
+
             else{
                 try {
                     throw new InfraStructrutureException("Serviço de solicitação de empréstimo neste momento está forma",logger);

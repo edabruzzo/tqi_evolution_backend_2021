@@ -12,19 +12,13 @@ import org.slf4j.LoggerFactory;
 public class Avaliacao {
 
 
-
-    private Avaliacao() {
+   private Avaliacao() {
         throw new IllegalStateException("Utility class - não instanciar !!! ");
     }
 
     static ConsultaWebServicesExternos consultaWebServicesExternos;
     private static final Logger logger = LoggerFactory.getLogger(Avaliacao.class);
 
-
-
-  
-  
-  
 
     public static boolean enviarParaProcessamento(SolicitacaoEmprestimo solicitacaoEmprestimoSalva) {
 
@@ -61,11 +55,5 @@ public class Avaliacao {
         return emprestimoAprovado;
 
     }
-
-
-
-
-
-
 
 }

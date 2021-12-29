@@ -12,6 +12,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ServicoSolicitacaoEmprestimoRepository extends CrudRepository<SolicitacaoEmprestimo, Integer> {
 
-    SolicitacaoEmprestimo findBySolicitacaoEmprestimoById(Integer customerId);
 
 }
