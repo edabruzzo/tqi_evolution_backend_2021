@@ -27,10 +27,10 @@ import java.util.List;
  * @date 29/12/2021
  */
 @Service
-public class IntercomunicacaoServicoGerenciamentoProcesso {
+public class IntercomunicacaoServicoGerenciamentoEmprestimosAprovados {
 
 
-    private static final Logger logger = LoggerFactory.getLogger(IntercomunicacaoServicoGerenciamentoProcesso.class);
+    private static final Logger logger = LoggerFactory.getLogger(IntercomunicacaoServicoGerenciamentoEmprestimosAprovados.class);
 
     private final URI urlSolicitacaoEmprestimo = URI.create(ParametrosConfig.OPERACAO_EMPRESTIMO_ENDPOINT.getValue());
 
@@ -52,7 +52,8 @@ public class IntercomunicacaoServicoGerenciamentoProcesso {
      * @param solicitacaoEmprestimoSalva
      * @return
      */
-    @HystrixCommand(fallbackMethod = "solicitaEmprestimoFallback")
+    @HystrixCommand(fallbackMethod = "solicitaEmprestimoFallback",
+    threadPoolKey = "cadastrarEmprestimoAprovadoServicoGerenciamentoEmprestimo_ThreadPool")
     public ResponseEntity<String> cadastrarEmprestimoAprovadoServicoGerenciamentoEmprestimo(SolicitacaoEmprestimo solicitacaoEmprestimoSalva) {
 
         HttpHeaders headers = new HttpHeaders();

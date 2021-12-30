@@ -89,7 +89,8 @@ public class OperacoesEmprestimoService {
      * @param dataPrimeiraParcela
      * @return
      */
-    @HystrixCommand(fallbackMethod = "solicitaEmprestimoFallback")
+    @HystrixCommand(fallbackMethod = "solicitaEmprestimoFallback",
+                    threadPoolKey = "solicitarEmprestimoThreadPool")
     public ResponseEntity<String> solicitarEmprestimo(Long idCliente, double valor, int parcelas, Date dataPrimeiraParcela) {
 
         HttpHeaders headers = new HttpHeaders();

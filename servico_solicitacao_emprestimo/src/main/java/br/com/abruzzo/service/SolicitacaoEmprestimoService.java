@@ -26,7 +26,7 @@ public class SolicitacaoEmprestimoService {
     }
 
     @Autowired
-    IntercomunicacaoServicoGerenciamentoProcesso intercomunicacaoServicoGerenciamentoProcesso;
+    IntercomunicacaoServicoGerenciamentoEmprestimosAprovados intercomunicacaoServicoGerenciamentoProcesso;
 
     @Autowired
     IntercomunicacaoServicoEnvioEmailClientes intercomunicacaoServicoEnvioEmailClientes;

@@ -83,10 +83,10 @@ public class SolicitacaoEmprestimoController {
 
 
     /**
-     *  Método que retorna todos os solicitacaoEmprestimos cadastrados na base
+     *  Método que retorna todas as solicitacao de Emprestimos cadastrados na base
      *  após um GET request via chamada Rest
      *
-     * @return    retorna um Flux stream de solicitacaoEmprestimos no formato JSON
+     * @return    retorna uma Lista de solicitacaoEmprestimos no formato JSON
      */
     @GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
