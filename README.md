@@ -207,6 +207,67 @@ Vide documentação do Ribbon:
 
 
 
+### Integração entre Eureka Server | Ribbon | Declarative REST Clients usando: Feign
+
+Referência
++https://cloud.spring.io/spring-cloud-netflix/multi/multi_spring-cloud-feign.html
+
+#### Declarative REST Client: Feign
+Optamos inicialmente por fazer nossas chamadas para o serviço de solicitação e avaliação de empréstimos 
+injetando no serviço que faz a chamada o RestTemplate (@Bean gerenciado anotado com @LoadBalanced), 
+que já possuía o benefício do balanceamento de carga do lado do cliente pelo Ribbon 
+
+No serviço cliente que invoca o outro microsserviço, fazendo um POST com o DTO Solicitação de empréstimo, 
+usamos o próprio EurekaDiscoveryClient para perguntar a ele se as instâncias do outro microsserviço estavam 
+com status UP. Em caso de falha no serviço invocado, nós lançamos uma exceção customizada indicando um problema
+de Infraestrutura e utilizamos o Hystrix para invocar um método de Fallback.
+
+
+Decidimos, porém utilizar o Feign como web server client para fazer a chamada de forma declarativa e aí não 
+precisamos mais fazer o POST para o outro microsserviço de forma programática com RestTemplate 
+
+O Feign trabalha com anotações próprias e com anotações da implementação JAX-RS do JAVAEE.
+
+Ele se integra de forma muito fácil com o Ribbon e com o Eureka para fazer chamadas para outros microsserviços
+e com provimento de balanceamento de carga.
+
+
+
+
+
+7.1 How to Include Feign
+To include Feign in your project use the starter with group org.springframework.cloud and artifact id spring-cloud-starter-openfeign. See the Spring Cloud Project page for details on setting up your build system with the current Spring Cloud Release Train.
+
+Example spring boot app
+
+@SpringBootApplication
+@EnableFeignClients
+public class Application {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+
+}
+StoreClient.java.
+
+@FeignClient("stores")
+public interface StoreClient {
+@RequestMapping(method = RequestMethod.GET, value = "/stores")
+List<Store> getStores();
+
+    @RequestMapping(method = RequestMethod.POST, value = "/stores/{storeId}", consumes = "application/json")
+    Store update(@PathVariable("storeId") Long storeId, Store store);
+}
+In the @FeignClient annotation the String value ("stores" above) is an arbitrary client name, which is used to create a Ribbon load balancer (see below for details of Ribbon support). You can also specify a URL using the url attribute (absolute value or just a hostname). The name of the bean in the application context is the fully qualified name of the interface. To specify your own alias value you can use the qualifier value of the @FeignClient annotation.
+
+The Ribbon client above will want to discover the physical addresses for the "stores" service. If your application is a Eureka client then it will resolve the service in the Eureka service registry. If you don’t want to use Eureka, you can simply configure a list of servers in your external configuration (see above for example).
+
+
+
+
+
+
 ### Agregação de logs com ElasticSearch
 
 ![Diagrama Elastic Search Stack](imagens/diagram-elastic-stack.png)

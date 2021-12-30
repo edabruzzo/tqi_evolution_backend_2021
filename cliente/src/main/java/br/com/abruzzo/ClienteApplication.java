@@ -21,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 @EnableCircuitBreaker
 public class ClienteApplication {
 
+    public static void main(String[] args) {SpringApplication.run(ClienteApplication.class, args);}
 
     /**
      * Método para criar um Bean injetável do RestTemplate
@@ -37,7 +38,6 @@ public class ClienteApplication {
     }
 
 
-    public static void main(String[] args) {SpringApplication.run(ClienteApplication.class, args);}
 
 
 
