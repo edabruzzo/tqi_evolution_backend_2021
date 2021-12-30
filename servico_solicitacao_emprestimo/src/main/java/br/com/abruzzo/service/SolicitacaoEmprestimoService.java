@@ -35,7 +35,7 @@ public class SolicitacaoEmprestimoService {
 
     public List<SolicitacaoEmprestimo> findAll() {return (List<SolicitacaoEmprestimo>) solicitacaoEmprestimoRepository.findAll();}
 
-    public Optional<SolicitacaoEmprestimo> findById(Integer id) {return solicitacaoEmprestimoRepository.findById(id);}
+    public Optional<SolicitacaoEmprestimo> findById(Long id) {return solicitacaoEmprestimoRepository.findById(id);}
 
 
     public SolicitacaoEmprestimo save(SolicitacaoEmprestimo solicitacaoEmprestimo){
@@ -79,5 +79,16 @@ public class SolicitacaoEmprestimoService {
 
     }
 
+
+    public Optional<SolicitacaoEmprestimo> verificarSolicitacaoEmprestimo(Long idSolicitacaoEmprestimo, Long idCliente, String cpfCliente) {
+
+        if(idSolicitacaoEmprestimo != null)
+            return this.findById(idSolicitacaoEmprestimo);
+        else if(idCliente != null)
+            return this.solicitacaoEmprestimoRepository.findByIdCliente(idCliente);
+        else 
+            return this.solicitacaoEmprestimoRepository.findByCpfCliente(cpfCliente);
+
+    }
 
 }

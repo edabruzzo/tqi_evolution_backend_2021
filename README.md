@@ -125,7 +125,26 @@ Em nenhum momento é criada uma dependência relacional entre as Entidades JPA C
 
 
 ### Criação de um Microservice para Solicitações de Empréstimo usando Redis in-memory Database
+Nós utilizamos o serviço de gerenciamento de clientes como ponto de entrada da solicitação de empréstimos.
+A partir dele, após avaliações de regras de negóio básicas, o serviço de solicitação e avaliação de empréstimos
+é chamado para persistir em memória a solicitação, e disparar outros serviços externos de avaliações sobre 
+a solicitação. A solicitação permanece persistida em memória, num banco REDIS enquant é processada por outros serviços
+e, caso aprovada, o serviço de solicitaçaõ e avaliação chama o serviço de gerenciamento de empréstimo para persistir 
+o empréstimo somente no caso de aprovação, pois ele passa a ser gerenciado pelo serviço de empréstimo,
+que faz uso de um banco relacional. A solicitação de empréstimo fica em memória, enquanto é avaliada por um sistema de gerenciamento de risco de crédito interno
+e são realizadas consultas aos sistemas de proteção ao crédito via chamadas  aos seus respectivos WebServices utilizando o CPF do cliente
+   
+Um DTO Emprestimo é passado via chamada REST com o método POST utilizando a API de solicitação de empréstimos já registrada no Eureka Discovery Server, 
+que irá persistir a solicitação no Redis, enquanto ela está sendo avaliada
 
+
+##### O importante aqui é perceber o caráter potencialmente transitório de uma solicitação de empréstimo
+
+
+#### Referência do Redis Spring 
+
+#### Importante que os campos da entidade SolicitacaoEmprestimo sejam indexados para que possam ser objeto de queries na camada Repository
++ https://docs.spring.io/spring-data/data-redis/docs/current/reference/html/#tx
 
 
 
