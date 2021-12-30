@@ -53,7 +53,7 @@ public class IntercomunicacaoServicoGerenciamentoEmprestimosAprovados {
      * @return
      */
     @HystrixCommand(fallbackMethod = "solicitaEmprestimoFallback",
-    threadPoolKey = "cadastrarEmprestimoAprovadoServicoGerenciamentoEmprestimo_ThreadPool")
+    threadPoolKey = "cadastrarEmprestimoAprovadoServicoGerenciamentoEmprestimo_ThreadPoolemman")
     public ResponseEntity<String> cadastrarEmprestimoAprovadoServicoGerenciamentoEmprestimo(SolicitacaoEmprestimo solicitacaoEmprestimoSalva) {
 
         HttpHeaders headers = new HttpHeaders();
