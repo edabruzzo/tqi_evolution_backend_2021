@@ -36,7 +36,7 @@ public class OperacoesEmprestimoController {
             consumes = MediaType.ALL_VALUE,
             produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<SolicitacaoEmprestimoDTO> solicitacaoEmprestimo(@RequestParam(name = "idCliente") Long idCliente,
+    public SolicitacaoEmprestimoDTO solicitacaoEmprestimo(@RequestParam(name = "idCliente") Long idCliente,
                                                                           @RequestParam(name = "valor") double valor,
                                                                           @RequestParam(name = "parcelas") int parcelas,
                                                                           @RequestParam(name = "dataPrimeiraParcela") Date dataPrimeiraParcela)  {
@@ -46,16 +46,18 @@ public class OperacoesEmprestimoController {
                     idCliente, valor, parcelas, dataPrimeiraParcela);
         logger.info("GET recebido no seguinte endpoint: {}", ParametrosConfig.ENDPOINT_BASE.getValue());
 
-        ResponseEntity resposta =  ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        SolicitacaoEmprestimoDTO solicitacaoEmprestimoDTO = new SolicitacaoEmprestimoDTO();
 
         try{
-            ResponseEntity<SolicitacaoEmprestimoDTO> resultado = operacoesEmprestimoService.solicitarEmprestimo(idCliente,valor,parcelas,dataPrimeiraParcela);
-            return resultado;
+            solicitacaoEmprestimoDTO = operacoesEmprestimoService.solicitarEmprestimo(idCliente,valor,parcelas,dataPrimeiraParcela);
+
         }catch(Exception erro){
             erro.printStackTrace();
             logger.error(erro.getMessage());
-            return resposta;
+
         }
+
+        return solicitacaoEmprestimoDTO;
 
     }
 

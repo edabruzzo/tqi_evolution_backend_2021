@@ -3,6 +3,7 @@ package br.com.abruzzo.service;
 import br.com.abruzzo.avaliacao_emprestimos.Avaliacao;
 import br.com.abruzzo.exceptions.ErroOperacaoTransacionalBancoException;
 import br.com.abruzzo.model.SolicitacaoEmprestimo;
+import br.com.abruzzo.model.SolicitacaoEmprestimoStatus;
 import br.com.abruzzo.repository.ServicoSolicitacaoEmprestimoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,16 +41,17 @@ public class SolicitacaoEmprestimoService {
 
     public SolicitacaoEmprestimo save(SolicitacaoEmprestimo solicitacaoEmprestimo){
 
-        SolicitacaoEmprestimo solicitacaoEmprestimoSalva = new SolicitacaoEmprestimo();
-
-        solicitacaoEmprestimo.setStatus("Em processamento");
+        solicitacaoEmprestimo.setStatus(String.valueOf(SolicitacaoEmprestimoStatus.EM_PROCESSAMENTO));
         try{
 
-            solicitacaoEmprestimoSalva = solicitacaoEmprestimoRepository.save(solicitacaoEmprestimo);
+            solicitacaoEmprestimo = solicitacaoEmprestimoRepository.save(solicitacaoEmprestimo);
             logger.info("Solicitação de empréstimo salva");
-            logger.info("{}", solicitacaoEmprestimoSalva);
+            logger.info("{}", solicitacaoEmprestimo);
 
         }catch(Exception erro){
+
+            solicitacaoEmprestimo.setStatus(String.valueOf(SolicitacaoEmprestimoStatus.PROBLEMA_AO_SALVAR));
+
             String mensagem = "Erro ao salvar a solicitação de empréstimno em banco";
             try {
                 throw new ErroOperacaoTransacionalBancoException(mensagem, logger);
@@ -57,18 +59,23 @@ public class SolicitacaoEmprestimoService {
                 e.printStackTrace();
             }
         }
+        solicitacaoEmprestimo.setStatus(String.valueOf(SolicitacaoEmprestimoStatus.EM_AVALIACAO));
 
-        boolean emprestimoAprovado = Avaliacao.enviarParaProcessamento(solicitacaoEmprestimoSalva);
+        boolean solicitacaoEmprestimoAprovada = Avaliacao.enviarParaProcessamento(solicitacaoEmprestimo);
 
-        if(emprestimoAprovado){
+        if(solicitacaoEmprestimoAprovada){
 
-            this.intercomunicacaoServicoEnvioEmailClientes.enviarEmailAoCliente(solicitacaoEmprestimoSalva);
-            solicitacaoEmprestimo.setStatus("Aprovado");
-            logger.info(String.format("Empréstimo aprovado -> {}",solicitacaoEmprestimoSalva));
+            solicitacaoEmprestimo.setStatus(String.valueOf(SolicitacaoEmprestimoStatus.APROVADA));
+
+            this.intercomunicacaoServicoEnvioEmailClientes.enviarEmailAoCliente(solicitacaoEmprestimo);
+
+            logger.info(String.format("Empréstimo aprovado -> {}",solicitacaoEmprestimo));
+
             logger.info("Encaminhando solicitação de empréstimo aprovada para o serviço de gerenciamento de empréstimos");
 
-             this.intercomunicacaoServicoGerenciamentoProcesso.cadastrarEmprestimoAprovadoServicoGerenciamentoEmprestimo(solicitacaoEmprestimoSalva);
-
+             this.intercomunicacaoServicoGerenciamentoProcesso.cadastrarEmprestimoAprovadoServicoGerenciamentoEmprestimo(solicitacaoEmprestimo);
+             solicitacaoEmprestimo.setStatus(SolicitacaoEmprestimoStatus.CONSOLIDADA);
+             solicitacaoEmprestimoSalva
         }else{
             solicitacaoEmprestimoSalva.setStatus("Reprovado");
             logger.info(String.format("Empréstimo reprovado -> {}",solicitacaoEmprestimoSalva));

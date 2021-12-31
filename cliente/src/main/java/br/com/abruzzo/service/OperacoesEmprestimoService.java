@@ -96,10 +96,7 @@ public class OperacoesEmprestimoService {
      */
     @HystrixCommand(fallbackMethod = "solicitaEmprestimoFallback",
                     threadPoolKey = "solicitarEmprestimoThreadPool")
-    public ResponseEntity<SolicitacaoEmprestimoDTO> solicitarEmprestimo(Long idCliente, double valor, int parcelas, Date dataPrimeiraParcela) {
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+    public SolicitacaoEmprestimoDTO solicitarEmprestimo(Long idCliente, double valor, int parcelas, Date dataPrimeiraParcela){
 
         SolicitacaoEmprestimoDTO solicitacaoEmprestimoDTO = new SolicitacaoEmprestimoDTO();
         solicitacaoEmprestimoDTO.setIdCliente(idCliente);
@@ -108,47 +105,77 @@ public class OperacoesEmprestimoService {
         solicitacaoEmprestimoDTO.setData_primeira_parcela(dataPrimeiraParcela);
         solicitacaoEmprestimoDTO.setCpfCliente(this.clienteService.findById(idCliente).get().getCpf());
         solicitacaoEmprestimoDTO.setEmailCliente(this.clienteService.findById(idCliente).get().getEmail());
+
         solicitacaoEmprestimoDTO.setStatus(String.valueOf(SolicitacaoEmprestimoStatusDTO.ABERTA));
 
-        ResponseEntity resultado =  ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
         boolean clientePodePedirEmprestimo = validarSeClientePodePedirEmprestimo(idCliente, valor, parcelas);
         boolean condicoesEmprestimoRegulares = validarCondicoesEmprestimo(parcelas, dataPrimeiraParcela);
-
-        if(clientePodePedirEmprestimo && condicoesEmprestimoRegulares){
-
-            List<InstanceInfo> listaInstancias = eurekaDiscoveryClient
-                    .getInstancesByVipAddressAndAppName(null,ParametrosConfig.SERVICO_SOLICITACAO_EMPRESTIMO.getValue(),false);
-
-            listaInstancias.stream().forEach(instancia -> logger.info(instancia.toString()));
+        boolean servicoSolicitacaoEmprestimoEstaUP = verificarSeServicoSolicitacaoEmprestimoUP();
 
 
-            if(eurekaDiscoveryClient.getInstancesByVipAddressAndAppName(null,ParametrosConfig.SERVICO_SOLICITACAO_EMPRESTIMO.getValue(),false)
-                    .get(0).getStatus().equals(InstanceInfo.InstanceStatus.UP))
+        if( !clientePodePedirEmprestimo || ! condicoesEmprestimoRegulares){
 
-
-                return this.solicitacaoEmprestimoFeignClient.criaSolicitacaoEmprestimo(solicitacaoEmprestimoDTO);
-
-
-            else{
-                try {
-                    throw new InfraStructrutureException("Serviço de solicitação de empréstimo neste momento está fora do ar",logger);
-                } catch (InfraStructrutureException e) {
-                    e.printStackTrace();
-                }
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
-
-        }else{
             try {
+                solicitacaoEmprestimoDTO.setStatus(String.valueOf(SolicitacaoEmprestimoStatusDTO.NAO_AUTORIZADA));
                 throw new AutorizacaoException(String.format("Solicitação de Empréstimo não autorizada: %s",solicitacaoEmprestimoDTO),logger);
             } catch (AutorizacaoException e) {
                 e.printStackTrace();
+            }finally{
+                return solicitacaoEmprestimoDTO;
             }
         }
-        return resultado;
+
+
+        if(!servicoSolicitacaoEmprestimoEstaUP){
+
+            solicitacaoEmprestimoDTO.setStatus(String.valueOf(SolicitacaoEmprestimoStatusDTO.PROBLEMA_AO_SALVAR));
+
+            try {
+                throw new InfraStructrutureException("Serviço de solicitação de empréstimo neste momento está fora do ar",logger);
+            } catch (InfraStructrutureException e) {
+                e.printStackTrace();
+            }finally{
+                return solicitacaoEmprestimoDTO;
+            }
+
 
         }
+
+
+
+        if(clientePodePedirEmprestimo && condicoesEmprestimoRegulares && servicoSolicitacaoEmprestimoEstaUP){
+
+                try {
+                    solicitacaoEmprestimoDTO = this.solicitacaoEmprestimoFeignClient.criaSolicitacaoEmprestimo(solicitacaoEmprestimoDTO);
+                }catch(Exception erro){
+                    erro.printStackTrace();
+                }finally{
+                    return solicitacaoEmprestimoDTO;
+                }
+            }
+
+
+        return solicitacaoEmprestimoDTO;
+
+
+        }
+
+
+
+
+    private boolean verificarSeServicoSolicitacaoEmprestimoUP() {
+
+        List<InstanceInfo> listaInstancias = eurekaDiscoveryClient.getInstancesByVipAddressAndAppName(null,ParametrosConfig.SERVICO_SOLICITACAO_EMPRESTIMO.getValue(),false);
+
+        listaInstancias.stream().forEach(instancia -> logger.info(instancia.toString()));
+        boolean servicoUP = false;
+
+        if(eurekaDiscoveryClient.getInstancesByVipAddressAndAppName(null,ParametrosConfig.SERVICO_SOLICITACAO_EMPRESTIMO.getValue(),false).get(0).getStatus().equals(InstanceInfo.InstanceStatus.UP))
+            servicoUP =  true;
+
+        return servicoUP;
+    }
 
 
     public ResponseEntity<SolicitacaoEmprestimoDTO> solicitarEmprestimoFallback() {

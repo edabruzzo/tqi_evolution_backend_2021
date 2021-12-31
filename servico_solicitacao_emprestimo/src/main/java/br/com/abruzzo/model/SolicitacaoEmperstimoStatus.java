@@ -1,11 +1,10 @@
-package br.com.abruzzo.dto;
+package br.com.abruzzo.model;
 
 /**
  * @author Emmanuel Abruzzo
  * @date 31/12/2021
  */
-public enum SolicitacaoEmprestimoStatusDTO {
-
+public enum SolicitacaoEmprestimoStatus {
     ABERTA,
     EM_PROCESSAMENTO,
     EM_AVALIACAO,
@@ -14,4 +13,3 @@ public enum SolicitacaoEmprestimoStatusDTO {
     PROBLEMA_AO_SALVAR,
     CONSOLIDADA;
 }
-

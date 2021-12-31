@@ -77,6 +77,7 @@ public class IntercomunicacaoServicoGerenciamentoEmprestimosAprovados {
             try {
 
                 resultado = this.servicoEmprestimoFeignClient.criarEmprestimoConsolidado(emprestimoDTO);
+
                 return resultado;
 
             }catch (Exception exception){

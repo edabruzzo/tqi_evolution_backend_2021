@@ -16,7 +16,7 @@ public interface SolicitacaoEmprestimoFeignClient {
 
 
     @RequestMapping(path= "solicitacao_emprestimo",method= RequestMethod.POST)
-    public ResponseEntity<SolicitacaoEmprestimoDTO> criaSolicitacaoEmprestimo(SolicitacaoEmprestimoDTO solicitacaoEmprestimoDTO);
+    public SolicitacaoEmprestimoDTO criaSolicitacaoEmprestimo(SolicitacaoEmprestimoDTO solicitacaoEmprestimoDTO);
 
 
 }
