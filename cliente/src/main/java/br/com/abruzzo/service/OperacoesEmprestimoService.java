@@ -88,26 +88,20 @@ public class OperacoesEmprestimoService {
      *    que hospeda a aplicação de solicitação de empréstimo
      *
      *
-     * @param idCliente
-     * @param valor
-     * @param parcelas
-     * @param dataPrimeiraParcela
-     * @return
+     * @param solicitacaoEmprestimoDTO
+     * @return SolicitacaoEmprestimoDTO
      */
     @HystrixCommand(fallbackMethod = "solicitaEmprestimoFallback",
                     threadPoolKey = "solicitarEmprestimoThreadPool")
-    public SolicitacaoEmprestimoDTO solicitarEmprestimo(Long idCliente, double valor, int parcelas, Date dataPrimeiraParcela){
+    public SolicitacaoEmprestimoDTO solicitarEmprestimo(SolicitacaoEmprestimoDTO solicitacaoEmprestimoDTO){
 
-        SolicitacaoEmprestimoDTO solicitacaoEmprestimoDTO = new SolicitacaoEmprestimoDTO();
-        solicitacaoEmprestimoDTO.setIdCliente(idCliente);
-        solicitacaoEmprestimoDTO.setValor(valor);
-        solicitacaoEmprestimoDTO.setNumeroMaximoParcelas(parcelas);
-        solicitacaoEmprestimoDTO.setData_primeira_parcela(dataPrimeiraParcela);
+        Long idCliente = solicitacaoEmprestimoDTO.getIdCliente();
+        Double valor = solicitacaoEmprestimoDTO.getValor();
+        int parcelas = solicitacaoEmprestimoDTO.getNumeroMaximoParcelas();
+        Date dataPrimeiraParcela = solicitacaoEmprestimoDTO.getData_primeira_parcela();
+
         solicitacaoEmprestimoDTO.setCpfCliente(this.clienteService.findById(idCliente).get().getCpf());
         solicitacaoEmprestimoDTO.setEmailCliente(this.clienteService.findById(idCliente).get().getEmail());
-
-        solicitacaoEmprestimoDTO.setStatus(String.valueOf(SolicitacaoEmprestimoStatusDTO.ABERTA));
-
 
         boolean clientePodePedirEmprestimo = validarSeClientePodePedirEmprestimo(idCliente, valor, parcelas);
         boolean condicoesEmprestimoRegulares = validarCondicoesEmprestimo(parcelas, dataPrimeiraParcela);
@@ -185,12 +179,25 @@ public class OperacoesEmprestimoService {
 
         if(solicitacaoEmprestimoFallBack == null)
             return new SolicitacaoEmprestimoDTO();
-        else
-            return solicitacaoEmprestimoFallBack;
+        else{
+
+            if(solicitacaoEmprestimoFallBack.getStatus().equals(SolicitacaoEmprestimoStatusDTO.PROBLEMA_AO_SALVAR))
+                return reprocessarSolicitacaoEmprestimo(solicitacaoEmprestimoFallBack);
+
+            if(solicitacaoEmprestimoFallBack.getStatus().equals(SolicitacaoEmprestimoStatusDTO.EM_AVALIACAO))
+                return reprocessarSolicitacaoEmprestimo(solicitacaoEmprestimoFallBack);
+        }
+
+        return solicitacaoEmprestimoFallBack;
+
+    }
+
+    private SolicitacaoEmprestimoDTO reprocessarSolicitacaoEmprestimo(SolicitacaoEmprestimoDTO solicitacaoEmprestimoFallBack) {
+                return this.solicitarEmprestimo(solicitacaoEmprestimoFallBack);
     }
 
 
-        private boolean validarCondicoesEmprestimo(int parcelas, Date dataPrimeiraParcela) {
+    private boolean validarCondicoesEmprestimo(int parcelas, Date dataPrimeiraParcela) {
 
         boolean condicoesRegulares = false;
         boolean validacao1 = ValidacoesEmprestimo.validarDataPrimeiraParcela(dataPrimeiraParcela);

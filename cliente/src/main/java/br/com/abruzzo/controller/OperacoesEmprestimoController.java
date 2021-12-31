@@ -2,6 +2,7 @@ package br.com.abruzzo.controller;
 
 import br.com.abruzzo.config.ParametrosConfig;
 import br.com.abruzzo.dto.SolicitacaoEmprestimoDTO;
+import br.com.abruzzo.dto.SolicitacaoEmprestimoStatusDTO;
 import br.com.abruzzo.service.OperacoesEmprestimoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,9 +48,15 @@ public class OperacoesEmprestimoController {
         logger.info("GET recebido no seguinte endpoint: {}", ParametrosConfig.ENDPOINT_BASE.getValue());
 
         SolicitacaoEmprestimoDTO solicitacaoEmprestimoDTO = new SolicitacaoEmprestimoDTO();
+        solicitacaoEmprestimoDTO.setIdCliente(idCliente);
+        solicitacaoEmprestimoDTO.setValor(valor);
+        solicitacaoEmprestimoDTO.setNumeroMaximoParcelas(parcelas);
+        solicitacaoEmprestimoDTO.setData_primeira_parcela(dataPrimeiraParcela);
+
+        solicitacaoEmprestimoDTO.setStatus(String.valueOf(SolicitacaoEmprestimoStatusDTO.ABERTA));
 
         try{
-            solicitacaoEmprestimoDTO = operacoesEmprestimoService.solicitarEmprestimo(idCliente,valor,parcelas,dataPrimeiraParcela);
+            solicitacaoEmprestimoDTO = operacoesEmprestimoService.solicitarEmprestimo(solicitacaoEmprestimoDTO);
 
         }catch(Exception erro){
             erro.printStackTrace();
