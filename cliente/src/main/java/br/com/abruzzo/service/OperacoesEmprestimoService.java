@@ -181,10 +181,12 @@ public class OperacoesEmprestimoService {
     }
 
 
-    public ResponseEntity<SolicitacaoEmprestimoDTO> solicitarEmprestimoFallback() {
-        SolicitacaoEmprestimoDTO emprestimoDTOFallback = new SolicitacaoEmprestimoDTO();
-        return ResponseEntity.ok().body(emprestimoDTOFallback);
+    public SolicitacaoEmprestimoDTO solicitarEmprestimoFallback(SolicitacaoEmprestimoDTO solicitacaoEmprestimoFallBack) {
 
+        if(solicitacaoEmprestimoFallBack == null)
+            return new SolicitacaoEmprestimoDTO();
+        else
+            return solicitacaoEmprestimoFallBack;
     }
 
 

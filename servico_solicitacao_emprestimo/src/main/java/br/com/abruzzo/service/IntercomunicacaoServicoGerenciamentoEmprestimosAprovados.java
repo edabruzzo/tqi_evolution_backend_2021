@@ -105,9 +105,9 @@ public class IntercomunicacaoServicoGerenciamentoEmprestimosAprovados {
     }
 
 
-    public ResponseEntity<String> solicitarEmprestimoFallback() {
-        EmprestimoDTO emprestimoDTOFallback = new EmprestimoDTO();
-        return ResponseEntity.ok().body(emprestimoDTOFallback.toString());
+    public EmprestimoDTO solicitarEmprestimoFallback(EmprestimoDTO emprestimoDTOFallback) {
+        if(emprestimoDTOFallback == null) return new EmprestimoDTO();
+        else return emprestimoDTOFallback;
 
     }
 
