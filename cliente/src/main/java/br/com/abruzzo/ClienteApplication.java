@@ -1,5 +1,6 @@
 package br.com.abruzzo;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -37,6 +38,11 @@ public class ClienteApplication {
     RestTemplate getRestTemplate(){
         return new RestTemplate();
     }
+
+    @Bean
+    ModelMapper modelMapper () {return new ModelMapper();}
+
+
 
 
     public static void main(String[] args) {SpringApplication.run(ClienteApplication.class, args);}
