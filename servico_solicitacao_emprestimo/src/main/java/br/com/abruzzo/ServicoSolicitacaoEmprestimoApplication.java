@@ -1,5 +1,6 @@
 package br.com.abruzzo;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -33,6 +34,10 @@ public class ServicoSolicitacaoEmprestimoApplication {
 	RestTemplate getRestTemplate(){
 		return new RestTemplate();
 	}
+
+
+	@Bean
+	ModelMapper getModelMapper(){return new ModelMapper();}
 
 
 	@Bean

@@ -1,18 +1,22 @@
 package br.com.abruzzo.controller;
 
 import br.com.abruzzo.config.ParametrosConfig;
+import br.com.abruzzo.dto.SolicitacaoEmprestimoDTO;
 import br.com.abruzzo.exceptions.ErroOperacaoTransacionalBancoException;
 import br.com.abruzzo.model.SolicitacaoEmprestimo;
 import br.com.abruzzo.service.SolicitacaoEmprestimoService;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 /**
  * @author Emmanuel Abruzzo
@@ -27,6 +31,8 @@ public class SolicitacaoEmprestimoController {
 
     SolicitacaoEmprestimoService solicitacaoEmprestimoService;
 
+    @Autowired
+    ModelMapper modelMapper;
 
     public SolicitacaoEmprestimoController(SolicitacaoEmprestimoService solicitacaoEmprestimoService) {
         this.solicitacaoEmprestimoService = solicitacaoEmprestimoService;
@@ -36,63 +42,99 @@ public class SolicitacaoEmprestimoController {
      *  Método responsável por cadastrar uma solicitação de Emprestimo
      *  após uma request via chamada Rest utilizando o método HTTP POST
      *
-     * @param solicitacaoEmprestimo Objeto JSON solicitacaoEmprestimo que chega como payload no request body
-     * @return    retorna uma entidade SolicitacaoEmprestimo com a solicitação de solicitacaoEmprestimo em processamento no formato JSON
+     * @param solicitacaoEmprestimoDTO Objeto DTO JSON solicitacaoEmprestimo que chega como payload no request body
+     * @return    retorna uma entidade SolicitacaoEmprestimoDTO com a solicitação de Emprestimo em processamento no formato JSON
      */
     @PostMapping( consumes = MediaType.APPLICATION_JSON_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<SolicitacaoEmprestimo> criaSolicitacaoEmprestimo(@RequestBody SolicitacaoEmprestimo solicitacaoEmprestimo) throws ErroOperacaoTransacionalBancoException {
+    public ResponseEntity<SolicitacaoEmprestimoDTO> criaSolicitacaoEmprestimo(@RequestBody SolicitacaoEmprestimoDTO solicitacaoEmprestimoDTO) throws ErroOperacaoTransacionalBancoException {
 
-        logger.info("Requisição para solicitar um emprestimo");
+        logger.info("Requisição para solicitar um emprestimo %s",solicitacaoEmprestimoDTO);
         logger.info("POST recebido no seguinte endpoint: {}", ParametrosConfig.ENDPOINT_BASE.getValue());
+        ResponseEntity resposta = ResponseEntity.status(500).build();
         try {
+            SolicitacaoEmprestimo solicitacaoEmprestimo = this.modelMapper.map(solicitacaoEmprestimoDTO,SolicitacaoEmprestimo.class);
             SolicitacaoEmprestimo solicitacaoSalva = solicitacaoEmprestimoService.save(solicitacaoEmprestimo);
-            return ResponseEntity.ok().body(solicitacaoSalva);
+            solicitacaoEmprestimoDTO = this.modelMapper.map(solicitacaoSalva,SolicitacaoEmprestimoDTO.class);
+            logger.info("Solicitação de empréstimo salva %s",solicitacaoSalva);
+            return ResponseEntity.ok().body(solicitacaoEmprestimoDTO);
         }catch(Exception erro){
-            return ResponseEntity.status(500).build();
+            String mensagemErro = String.format("Erro ao salvar solicitação de empréstimo %s",solicitacaoEmprestimoDTO);
+            throw new ErroOperacaoTransacionalBancoException(mensagemErro,logger);
+        }finally{
+            return resposta;
         }
+
     }
 
 
 
     /**
      *
-     * Método que retorna uma solicitacao de emprestimo conforme idSolicitacaoEmprestimo,
+     * Método que retorna uma lista com os DTOs de solicitacao de emprestimo conforme,
      * idCliente ou cpfCliente especificado, após um GET request via chamada Rest
      *
      * @param idCliente
      * @param cpfCliente
-     * @param idSolicitacaoEmprestimo
-     * @return
+     * @return Lista de Solicitações de Emprestimo DTO
      */
-    @GetMapping(value="/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<SolicitacaoEmprestimo> getSolicitacaoEmprestimoById(
-            @PathVariable(name="id",required=true) Long idSolicitacaoEmprestimo,
+    public ResponseEntity<List<SolicitacaoEmprestimoDTO>> getSolicitacoesEmprestimoCliente(
             @RequestParam(name="idCliente", required=false) Long idCliente,
             @RequestParam(name="cpfCliente",required=false) String cpfCliente){
 
-        logger.info("Chegou GET request no Endpoint %s/%s",ParametrosConfig.ENDPOINT_BASE.getValue(), ParametrosConfig.ENDPOINT_BASE.getValue());
+        String mensagemLog = String.format("Requisição para listar solicitações de empréstimo do Cliente -> idCliente %s, cpfCliente %s",idCliente, cpfCliente);
+        logger.info("Chegou GET request no Endpoint %s:%s",ParametrosConfig.ENDPOINT_BASE.getValue(), ParametrosConfig.ENDPOINT_BASE.getValue());
+        logger.info(mensagemLog);
 
-        Optional<SolicitacaoEmprestimo> solicitacaoEmprestimo = solicitacaoEmprestimoService.verificarSolicitacaoEmprestimo(idSolicitacaoEmprestimo, idCliente,cpfCliente);
+        List<SolicitacaoEmprestimo> listaSolicitacoesEmprestimoCliente = solicitacaoEmprestimoService.verificarSolicitacoesEmprestimoCliente(idCliente,cpfCliente);
+        List<SolicitacaoEmprestimoDTO> listaSolicitacoesEmprestimoClienteDTO = new ArrayList<>();
 
-        if (solicitacaoEmprestimo.isPresent()) return ResponseEntity.ok().body(solicitacaoEmprestimo.get());
-        else return (ResponseEntity) ResponseEntity.notFound().build();
+        listaSolicitacoesEmprestimoCliente.stream().forEach(solicitacaoEmprestimo -> {
+
+            SolicitacaoEmprestimoDTO solicitacaoEmprestimoDTO = this.modelMapper.map(solicitacaoEmprestimo,SolicitacaoEmprestimoDTO.class);
+            listaSolicitacoesEmprestimoClienteDTO.add(solicitacaoEmprestimoDTO);
+        });
+
+        return ResponseEntity.ok().body(listaSolicitacoesEmprestimoClienteDTO);
 
     }
 
 
     /**
-     *  Método que retorna todas as solicitacao de Emprestimos cadastrados na base
+     *  Método que retorna todas as solicitações de Emprestimos DTO cadastrados na base
      *  após um GET request via chamada Rest
      *
-     * @return    retorna uma Lista de solicitacaoEmprestimos no formato JSON
+     * @return    retorna uma Lista de solicitacaoEmprestimos DTO no formato JSON
      */
     @GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<SolicitacaoEmprestimo> retornaTodasSolicitacaoEmprestimos(){
-        logger.info("Chegou GET request no Endpoint %s", ParametrosConfig.ENDPOINT_BASE.getValue());
-        return solicitacaoEmprestimoService.findAll();
+    public ResponseEntity<List<SolicitacaoEmprestimoDTO>> retornaTodasSolicitacaoEmprestimos(){
+
+        logger.info("Chegou GET request no Endpoint %s para listar todas as solicitações de empréstimos", ParametrosConfig.ENDPOINT_BASE.getValue());
+        List<SolicitacaoEmprestimoDTO> listaSolicitacaoEmprestimoDTO = new ArrayList<>();
+
+        ResponseEntity resposta = ResponseEntity.notFound().build();
+
+        try {
+            List<SolicitacaoEmprestimo> listaSolicitacaoEmprestimo = solicitacaoEmprestimoService.findAll();
+            listaSolicitacaoEmprestimo.stream().forEach(solicitacaoEmprestimo ->{
+
+                SolicitacaoEmprestimoDTO solicitacaoEmprestimoDTO = this.modelMapper.map(solicitacaoEmprestimo, SolicitacaoEmprestimoDTO.class);
+
+                listaSolicitacaoEmprestimoDTO.add(solicitacaoEmprestimoDTO);
+
+
+            });
+
+            resposta = ResponseEntity.ok().body(listaSolicitacaoEmprestimoDTO);
+
+        }catch(Exception erro){
+            logger.error("Erro ao listar todas as Solicitações de empréstimo");
+        }
+
+        return resposta;
     }
     
     

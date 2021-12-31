@@ -91,4 +91,13 @@ public class SolicitacaoEmprestimoService {
 
     }
 
+
+    public List<SolicitacaoEmprestimo> verificarSolicitacoesEmprestimoCliente(Long idCliente, String cpfCliente) {
+
+        if(idCliente != null)
+            return this.solicitacaoEmprestimoRepository.findAllByIdCliente(idCliente);
+        else
+            return this.solicitacaoEmprestimoRepository.findAllByCpfCliente(cpfCliente);
+    }
+
 }
