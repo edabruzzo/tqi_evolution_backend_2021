@@ -4,6 +4,7 @@ import br.com.abruzzo.config.ParametrosConfig;
 import br.com.abruzzo.dto.SolicitacaoEmprestimoDTO;
 import br.com.abruzzo.exceptions.ErroOperacaoTransacionalBancoException;
 import br.com.abruzzo.model.SolicitacaoEmprestimo;
+import br.com.abruzzo.model.SolicitacaoEmprestimoStatus;
 import br.com.abruzzo.service.SolicitacaoEmprestimoService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -47,22 +48,31 @@ public class SolicitacaoEmprestimoController {
      */
     @PostMapping( consumes = MediaType.APPLICATION_JSON_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<SolicitacaoEmprestimoDTO> criaSolicitacaoEmprestimo(@RequestBody SolicitacaoEmprestimoDTO solicitacaoEmprestimoDTO) throws ErroOperacaoTransacionalBancoException {
+    public SolicitacaoEmprestimoDTO criaSolicitacaoEmprestimo(@RequestBody SolicitacaoEmprestimoDTO solicitacaoEmprestimoDTO) throws ErroOperacaoTransacionalBancoException {
 
         logger.info("Requisição para solicitar um emprestimo %s",solicitacaoEmprestimoDTO);
+
         logger.info("POST recebido no seguinte endpoint: {}", ParametrosConfig.ENDPOINT_BASE.getValue());
-        ResponseEntity resposta = ResponseEntity.status(500).build();
+
         try {
             SolicitacaoEmprestimo solicitacaoEmprestimo = this.modelMapper.map(solicitacaoEmprestimoDTO,SolicitacaoEmprestimo.class);
-            SolicitacaoEmprestimo solicitacaoSalva = solicitacaoEmprestimoService.save(solicitacaoEmprestimo);
-            solicitacaoEmprestimoDTO = this.modelMapper.map(solicitacaoSalva,SolicitacaoEmprestimoDTO.class);
-            logger.info("Solicitação de empréstimo salva %s",solicitacaoSalva);
-            return ResponseEntity.ok().body(solicitacaoEmprestimoDTO);
+
+            solicitacaoEmprestimo = solicitacaoEmprestimoService.save(solicitacaoEmprestimo);
+
+            solicitacaoEmprestimoDTO = this.modelMapper.map(solicitacaoEmprestimo,SolicitacaoEmprestimoDTO.class);
+            logger.info("Solicitação de empréstimo salva %s",solicitacaoEmprestimo);
+
+
         }catch(Exception erro){
+
+            solicitacaoEmprestimoDTO.setStatus(String.valueOf(SolicitacaoEmprestimoStatus.PROBLEMA_AO_SALVAR));
+
             String mensagemErro = String.format("Erro ao salvar solicitação de empréstimo %s",solicitacaoEmprestimoDTO);
+
             throw new ErroOperacaoTransacionalBancoException(mensagemErro,logger);
+
         }finally{
-            return resposta;
+            return solicitacaoEmprestimoDTO;
         }
 
     }

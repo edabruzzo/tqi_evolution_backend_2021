@@ -116,9 +116,12 @@ public class OperacoesEmprestimoService {
 
         if( !clientePodePedirEmprestimo || ! condicoesEmprestimoRegulares){
 
+            solicitacaoEmprestimoDTO.setStatus(String.valueOf(SolicitacaoEmprestimoStatusDTO.NAO_AUTORIZADA));
+
             try {
-                solicitacaoEmprestimoDTO.setStatus(String.valueOf(SolicitacaoEmprestimoStatusDTO.NAO_AUTORIZADA));
+
                 throw new AutorizacaoException(String.format("Solicitação de Empréstimo não autorizada: %s",solicitacaoEmprestimoDTO),logger);
+
             } catch (AutorizacaoException e) {
                 e.printStackTrace();
             }finally{
@@ -147,7 +150,9 @@ public class OperacoesEmprestimoService {
         if(clientePodePedirEmprestimo && condicoesEmprestimoRegulares && servicoSolicitacaoEmprestimoEstaUP){
 
                 try {
+
                     solicitacaoEmprestimoDTO = this.solicitacaoEmprestimoFeignClient.criaSolicitacaoEmprestimo(solicitacaoEmprestimoDTO);
+
                 }catch(Exception erro){
                     erro.printStackTrace();
                 }finally{
@@ -155,9 +160,7 @@ public class OperacoesEmprestimoService {
                 }
             }
 
-
         return solicitacaoEmprestimoDTO;
-
 
         }
 

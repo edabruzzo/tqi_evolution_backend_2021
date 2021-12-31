@@ -59,6 +59,7 @@ public class SolicitacaoEmprestimoService {
                 e.printStackTrace();
             }
         }
+
         solicitacaoEmprestimo.setStatus(String.valueOf(SolicitacaoEmprestimoStatus.EM_AVALIACAO));
 
         boolean solicitacaoEmprestimoAprovada = Avaliacao.enviarParaProcessamento(solicitacaoEmprestimo);
@@ -74,16 +75,16 @@ public class SolicitacaoEmprestimoService {
             logger.info("Encaminhando solicitação de empréstimo aprovada para o serviço de gerenciamento de empréstimos");
 
              this.intercomunicacaoServicoGerenciamentoProcesso.cadastrarEmprestimoAprovadoServicoGerenciamentoEmprestimo(solicitacaoEmprestimo);
-             solicitacaoEmprestimo.setStatus(SolicitacaoEmprestimoStatus.CONSOLIDADA);
-             solicitacaoEmprestimoSalva
+
+             solicitacaoEmprestimo.setStatus(String.valueOf(SolicitacaoEmprestimoStatus.CONSOLIDADA));
+
         }else{
-            solicitacaoEmprestimoSalva.setStatus("Reprovado");
-            logger.info(String.format("Empréstimo reprovado -> {}",solicitacaoEmprestimoSalva));
+            solicitacaoEmprestimo.setStatus(String.valueOf(SolicitacaoEmprestimoStatus.NAO_AUTORIZADA));
+            logger.info(String.format("Empréstimo reprovado -> {}",solicitacaoEmprestimo));
         }
 
-        solicitacaoEmprestimoRepository.save(solicitacaoEmprestimoSalva);
-        return solicitacaoEmprestimoSalva;
-
+        solicitacaoEmprestimoRepository.save(solicitacaoEmprestimo);
+        return solicitacaoEmprestimo;
     }
 
 

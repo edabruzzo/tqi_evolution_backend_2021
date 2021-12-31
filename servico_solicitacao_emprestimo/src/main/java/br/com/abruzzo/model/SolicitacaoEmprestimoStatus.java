@@ -5,6 +5,7 @@ package br.com.abruzzo.model;
  * @date 31/12/2021
  */
 public enum SolicitacaoEmprestimoStatus {
+
     ABERTA,
     EM_PROCESSAMENTO,
     EM_AVALIACAO,
