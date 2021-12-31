@@ -116,7 +116,7 @@ public class EmprestimoController {
      */
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<EmprestimoDTO> createEmprestimo(@RequestBody EmprestimoDTO emprestimoDTO) throws ErroOperacaoTransacionalBancoException {
+    public ResponseEntity<EmprestimoDTO> criarEmprestimoConsolidado(@RequestBody EmprestimoDTO emprestimoDTO) throws ErroOperacaoTransacionalBancoException {
 
         logger.info("Requisição para salvar um emprestimo na base");
         logger.info("POST recebido no seguinte endpoint: {}", ParametrosConfig.ENDPOINT_BASE.getValue());
@@ -127,7 +127,7 @@ public class EmprestimoController {
             emprestimoSalvo = emprestimoService.save(emprestimo);
             emprestimoDTO = this.modelMapper.map(emprestimoSalvo,EmprestimoDTO.class);
             logger.info("Emprestimo %s foi salvo", emprestimo.toString());
-            logger.info("%s", emprestimo.toString());
+            logger.info("%s", emprestimo);
             return ResponseEntity.ok().body(emprestimoDTO);
 
         }catch(Exception erro){

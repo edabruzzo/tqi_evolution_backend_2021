@@ -1,5 +1,6 @@
 package br.com.abruzzo.service;
 
+import br.com.abruzzo.client.ServicoEmprestimoFeignClient;
 import br.com.abruzzo.config.ParametrosConfig;
 import br.com.abruzzo.dto.EmprestimoDTO;
 import br.com.abruzzo.exceptions.InfraStructrutureException;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -32,14 +34,11 @@ public class IntercomunicacaoServicoGerenciamentoEmprestimosAprovados {
 
     private static final Logger logger = LoggerFactory.getLogger(IntercomunicacaoServicoGerenciamentoEmprestimosAprovados.class);
 
-    private final URI urlSolicitacaoEmprestimo = URI.create(ParametrosConfig.OPERACAO_EMPRESTIMO_ENDPOINT.getValue());
-
-    @Autowired
-    private RestTemplate restTemplate;
-
     @Autowired
     private EurekaClient eurekaDiscoveryClient;
 
+    @Autowired
+    private ServicoEmprestimoFeignClient servicoEmprestimoFeignClient;
 
 
     /**
@@ -54,7 +53,7 @@ public class IntercomunicacaoServicoGerenciamentoEmprestimosAprovados {
      */
     @HystrixCommand(fallbackMethod = "solicitaEmprestimoFallback",
     threadPoolKey = "cadastrarEmprestimoAprovadoServicoGerenciamentoEmprestimo_ThreadPoolemman")
-    public ResponseEntity<String> cadastrarEmprestimoAprovadoServicoGerenciamentoEmprestimo(SolicitacaoEmprestimo solicitacaoEmprestimoSalva) {
+    public ResponseEntity<EmprestimoDTO> cadastrarEmprestimoAprovadoServicoGerenciamentoEmprestimo(SolicitacaoEmprestimo solicitacaoEmprestimoSalva) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -65,7 +64,7 @@ public class IntercomunicacaoServicoGerenciamentoEmprestimosAprovados {
         emprestimoDTO.setNumeroMaximoParcelas(solicitacaoEmprestimoSalva.getNumeroMaximoParcelas());
         emprestimoDTO.setData_primeira_parcela(solicitacaoEmprestimoSalva.getData_primeira_parcela());
 
-        ResponseEntity<String> resultado = ResponseEntity.status(500).build();
+        ResponseEntity resultado = ResponseEntity.status(500).build();
 
         List<InstanceInfo> listaInstancias = eurekaDiscoveryClient
                 .getInstancesByVipAddressAndAppName(null,
@@ -75,7 +74,19 @@ public class IntercomunicacaoServicoGerenciamentoEmprestimosAprovados {
 
         if (eurekaDiscoveryClient.getInstancesByVipAddressAndAppName(null, ParametrosConfig.SERVICO_EMPRESTIMO.getValue(),false).get(0).getStatus().equals(InstanceInfo.InstanceStatus.UP)) {
 
-            return restTemplate.postForEntity(this.urlSolicitacaoEmprestimo, emprestimoDTO, String.class);
+            try {
+
+                resultado = this.servicoEmprestimoFeignClient.criarEmprestimoConsolidado(emprestimoDTO);
+                return resultado;
+
+            }catch (Exception exception){
+                String mensagem = String.format("Problema na requisição de cadastro de empréstimo consolidado %s",emprestimoDTO);
+                try {
+                    throw new InfraStructrutureException(mensagem,logger);
+                } catch (InfraStructrutureException e) {
+                    e.printStackTrace();
+                }
+            }
 
         } else {
             try {
@@ -85,9 +96,10 @@ public class IntercomunicacaoServicoGerenciamentoEmprestimosAprovados {
                 e.printStackTrace();
             }
 
-            return resultado;
+
         }
 
+        return resultado;
 
     }
 
