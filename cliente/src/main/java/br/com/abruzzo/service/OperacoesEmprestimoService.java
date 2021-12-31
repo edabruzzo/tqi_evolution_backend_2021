@@ -1,7 +1,7 @@
 package br.com.abruzzo.service;
 
 import br.com.abruzzo.config.ParametrosConfig;
-import br.com.abruzzo.dto.EmprestimoDTO;
+import br.com.abruzzo.dto.SolicitacaoEmprestimoDTO;
 import br.com.abruzzo.exceptions.*;
 import br.com.abruzzo.model.Cliente;
 import br.com.abruzzo.validacoes.ValidacoesCliente;
@@ -12,11 +12,14 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -30,6 +33,9 @@ import java.util.Optional;
  *  Classe da camada de serviço responsável por fazer a chamada REST para o microserviço de empréstimos
  *  e por validar a solitação que chegou via chamada Rest no microsserviço responsável por gerenciar clientes.
  *
+ *
+ *  Optamos por utilizar o Feign como Web Client Declarative Rest para fazer chamadas ao serviço
+ *  de solicitação de empréstimos
  *
  *  Necessário importar o @EnableDiscoveryClient da seguinte dependẽncia:
  *  @link org.springframework.cloud.client.discovery.DiscoveryClient
@@ -45,6 +51,7 @@ import java.util.Optional;
  * @date 26/12/2021
  */
 @Service
+@FeignClient("servico_solicitacao_emprestimo")
 public class OperacoesEmprestimoService {
 
     private static final Logger logger = LoggerFactory.getLogger(OperacoesEmprestimoService.class);
@@ -91,17 +98,19 @@ public class OperacoesEmprestimoService {
      */
     @HystrixCommand(fallbackMethod = "solicitaEmprestimoFallback",
                     threadPoolKey = "solicitarEmprestimoThreadPool")
-    public ResponseEntity<String> solicitarEmprestimo(Long idCliente, double valor, int parcelas, Date dataPrimeiraParcela) {
+    @RequestMapping(method= RequestMethod.POST)
+    public ResponseEntity<String> criaSolicitacaoEmprestimo(Long idCliente, double valor, int parcelas, Date dataPrimeiraParcela) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        EmprestimoDTO emprestimoDTO = new EmprestimoDTO();
-        emprestimoDTO.setIdCliente(idCliente);
-        emprestimoDTO.setValor(valor);
-        emprestimoDTO.setNumeroMaximoParcelas(parcelas);
-        emprestimoDTO.setData_primeira_parcela(dataPrimeiraParcela);
-        emprestimoDTO.setCpf(this.clienteService.findById(idCliente).get().getCpf());
+        SolicitacaoEmprestimoDTO solicitacaoEmprestimoDTO = new SolicitacaoEmprestimoDTO();
+        solicitacaoEmprestimoDTO.setIdCliente(idCliente);
+        solicitacaoEmprestimoDTO.setValor(valor);
+        solicitacaoEmprestimoDTO.setNumeroMaximoParcelas(parcelas);
+        solicitacaoEmprestimoDTO.setData_primeira_parcela(dataPrimeiraParcela);
+        solicitacaoEmprestimoDTO.setCpfCliente(this.clienteService.findById(idCliente).get().getCpf());
+        solicitacaoEmprestimoDTO.setEmailCliente(this.clienteService.findById(idCliente).get().getEmail());
 
         ResponseEntity resultado =  ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
@@ -117,7 +126,7 @@ public class OperacoesEmprestimoService {
 
             if(eurekaDiscoveryClient.getInstancesByVipAddressAndAppName(null,ParametrosConfig.SERVICO_SOLICITACAO_EMPRESTIMO.getValue(),false)
                     .get(0).getStatus().equals(InstanceInfo.InstanceStatus.UP))
-                return restTemplate.postForEntity(this.urlSolicitacaoEmprestimo, emprestimoDTO, String.class);
+                return restTemplate.postForEntity(this.urlSolicitacaoEmprestimo, solicitacaoEmprestimoDTO, String.class);
 
             else{
                 try {
@@ -130,7 +139,7 @@ public class OperacoesEmprestimoService {
 
         }else{
             try {
-                throw new AutorizacaoException(String.format("Empréstimo não autorizado: {}",emprestimoDTO.toString()),logger);
+                throw new AutorizacaoException(String.format("Empréstimo não autorizado: {}",solicitacaoEmprestimoDTO.toString()),logger);
             } catch (AutorizacaoException e) {
                 e.printStackTrace();
             }
@@ -141,7 +150,7 @@ public class OperacoesEmprestimoService {
 
 
     public ResponseEntity<String> solicitarEmprestimoFallback() {
-        EmprestimoDTO emprestimoDTOFallback = new EmprestimoDTO();
+        SolicitacaoEmprestimoDTO emprestimoDTOFallback = new SolicitacaoEmprestimoDTO();
         return ResponseEntity.ok().body(emprestimoDTOFallback.toString());
 
     }
