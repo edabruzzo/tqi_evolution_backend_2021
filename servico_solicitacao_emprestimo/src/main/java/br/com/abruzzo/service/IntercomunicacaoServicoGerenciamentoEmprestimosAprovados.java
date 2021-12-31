@@ -53,18 +53,13 @@ public class IntercomunicacaoServicoGerenciamentoEmprestimosAprovados {
      */
     @HystrixCommand(fallbackMethod = "solicitaEmprestimoFallback",
     threadPoolKey = "cadastrarEmprestimoAprovadoServicoGerenciamentoEmprestimo_ThreadPoolemman")
-    public ResponseEntity<EmprestimoDTO> cadastrarEmprestimoAprovadoServicoGerenciamentoEmprestimo(SolicitacaoEmprestimo solicitacaoEmprestimoSalva) {
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+    public EmprestimoDTO cadastrarEmprestimoAprovadoServicoGerenciamentoEmprestimo(SolicitacaoEmprestimo solicitacaoEmprestimoSalva) {
 
         EmprestimoDTO emprestimoDTO = new EmprestimoDTO();
         emprestimoDTO.setIdCliente(solicitacaoEmprestimoSalva.getIdCliente());
         emprestimoDTO.setValor(solicitacaoEmprestimoSalva.getValor());
         emprestimoDTO.setNumeroMaximoParcelas(solicitacaoEmprestimoSalva.getNumeroMaximoParcelas());
         emprestimoDTO.setData_primeira_parcela(solicitacaoEmprestimoSalva.getData_primeira_parcela());
-
-        ResponseEntity resultado = ResponseEntity.status(500).build();
 
         List<InstanceInfo> listaInstancias = eurekaDiscoveryClient
                 .getInstancesByVipAddressAndAppName(null,
@@ -76,9 +71,9 @@ public class IntercomunicacaoServicoGerenciamentoEmprestimosAprovados {
 
             try {
 
-                resultado = this.servicoEmprestimoFeignClient.criarEmprestimoConsolidado(emprestimoDTO);
+                emprestimoDTO = this.servicoEmprestimoFeignClient.criarEmprestimoConsolidado(emprestimoDTO);
 
-                return resultado;
+                return emprestimoDTO;
 
             }catch (Exception exception){
                 String mensagem = String.format("Problema na requisição de cadastro de empréstimo consolidado %s",emprestimoDTO);
@@ -100,7 +95,7 @@ public class IntercomunicacaoServicoGerenciamentoEmprestimosAprovados {
 
         }
 
-        return resultado;
+        return emprestimoDTO;
 
     }
 

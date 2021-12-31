@@ -53,7 +53,7 @@ public class EmprestimoController {
      */
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<EmprestimoDTO> getEmprestimoById(@PathVariable Long id) {
+    public EmprestimoDTO getEmprestimoById(@PathVariable Long id) {
 
         logger.info("Chegou GET request no Endpoint {}/{}/{}",
                 ParametrosConfig.ENDPOINT_BASE.getValue()
@@ -64,10 +64,9 @@ public class EmprestimoController {
 
         if (emprestimo.isPresent()) {
             EmprestimoDTO emprestimoDTO = this.modelMapper.map(emprestimo.get(),EmprestimoDTO.class);
-            return ResponseEntity.ok().body(emprestimoDTO);
+            return emprestimoDTO;
         }
-        else return (ResponseEntity) ResponseEntity.notFound().build();
-
+        else return new EmprestimoDTO();
     }
 
 

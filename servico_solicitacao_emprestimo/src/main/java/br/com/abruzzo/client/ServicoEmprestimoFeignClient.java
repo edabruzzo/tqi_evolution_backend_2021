@@ -16,5 +16,5 @@ public interface ServicoEmprestimoFeignClient {
 
 
     @RequestMapping(path="/emprestimo", method= RequestMethod.POST)
-    ResponseEntity<EmprestimoDTO> criarEmprestimoConsolidado(EmprestimoDTO emprestimoDTO);
+    EmprestimoDTO criarEmprestimoConsolidado(EmprestimoDTO emprestimoDTO);
 }
