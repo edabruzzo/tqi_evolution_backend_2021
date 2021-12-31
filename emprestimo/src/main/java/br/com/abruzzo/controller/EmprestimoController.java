@@ -1,10 +1,12 @@
 package br.com.abruzzo.controller;
 
 import br.com.abruzzo.config.ParametrosConfig;
+import br.com.abruzzo.dto.EmprestimoDTO;
 import br.com.abruzzo.exceptions.ErroOperacaoTransacionalBancoException;
 import br.com.abruzzo.model.Emprestimo;
 import br.com.abruzzo.service.EmprestimoService;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 /**
@@ -35,6 +38,9 @@ public class EmprestimoController {
 
     private EmprestimoService emprestimoService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     public EmprestimoController(EmprestimoService emprestimoService) {
         this.emprestimoService = emprestimoService;
     }
@@ -43,11 +49,11 @@ public class EmprestimoController {
      *  Método que retorna um emprestimo conforme id especificado,
      *  após um GET request via chamada Rest
      * @param id  Id do emprestimo cadastrado em banco
-     * @return    retorna um emprestimo no formato JSON
+     * @return    retorna um emprestimo DTO no formato JSON
      */
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Emprestimo> getEmprestimoById(@PathVariable Long id) {
+    public ResponseEntity<EmprestimoDTO> getEmprestimoById(@PathVariable Long id) {
 
         logger.info("Chegou GET request no Endpoint {}/{}/{}",
                 ParametrosConfig.ENDPOINT_BASE.getValue()
@@ -55,24 +61,48 @@ public class EmprestimoController {
 
         Optional<Emprestimo> emprestimo = emprestimoService.findById(id);
 
-        if (emprestimo.isPresent()) return ResponseEntity.ok().body(emprestimo.get());
+
+        if (emprestimo.isPresent()) {
+            EmprestimoDTO emprestimoDTO = this.modelMapper.map(emprestimo.get(),EmprestimoDTO.class);
+            return ResponseEntity.ok().body(emprestimoDTO);
+        }
         else return (ResponseEntity) ResponseEntity.notFound().build();
 
     }
 
 
     /**
-     *  Método que retorna um Flux de todos os emprestimos cadastrados na base
+     *  Método que retorna uma lista de Emprestimo DTO
+     *  de todos os emprestimos cadastrados na base
      *  após um GET request via chamada Rest
      *
-     * @return    retorna um Flux stream de emprestimos no formato JSON
+     * @return    retorna um ResponseEntity de lista de DTOs de emprestimos no formato JSON
      */
     @GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<Emprestimo> retornaTodosEmprestimos(){
+    public ResponseEntity<List<EmprestimoDTO>> retornaTodosEmprestimos(){
+
         logger.info("Chegou GET request no Endpoint {}/{}", ParametrosConfig.ENDPOINT_BASE.getValue()
                 , ParametrosConfig.EMPRESTIMO_ENDPOINT.getValue());
-        return emprestimoService.findAll();
+
+        ResponseEntity resposta = ResponseEntity.notFound().build();
+        List<EmprestimoDTO> listaEmprestimoDTO = new ArrayList<>();
+        try {
+            List<Emprestimo> listaEmprestimos = emprestimoService.findAll();
+            listaEmprestimos.stream().forEach(emprestimo ->{
+
+                EmprestimoDTO emprestimoDTO = this.modelMapper.map(emprestimo,EmprestimoDTO.class);
+                listaEmprestimoDTO.add(emprestimoDTO);
+
+            });
+
+            return ResponseEntity.ok().body(listaEmprestimoDTO);
+
+        }catch(Exception exception){
+
+            return resposta;
+
+        }
     }
 
 
@@ -81,27 +111,28 @@ public class EmprestimoController {
      *  Método responsável por cadastrar um emprestimo na base de dados
      *  após uma request via chamada Rest utilizando o método HTTP POST
      *
-     * @param emprestimo Objeto JSON emprestimo que chega como payload no request body
-     * @return    retorna uma Mono stream com o emprestimo salvo no formato JSON
+     * @param emprestimoDTO Objeto DTO JSON emprestimo que chega como payload no request body
+     * @return    retorna um DTO com o emprestimo salvo no formato JSON
      */
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public Emprestimo createEmprestimo(@RequestBody Emprestimo emprestimo) throws ErroOperacaoTransacionalBancoException {
+    public ResponseEntity<EmprestimoDTO> criarEmprestimoConsolidado(@RequestBody EmprestimoDTO emprestimoDTO) throws ErroOperacaoTransacionalBancoException {
 
         logger.info("Requisição para salvar um emprestimo na base");
         logger.info("POST recebido no seguinte endpoint: {}", ParametrosConfig.ENDPOINT_BASE.getValue());
 
         Emprestimo emprestimoSalvo = null;
         try{
+            Emprestimo emprestimo = this.modelMapper.map(emprestimoDTO, Emprestimo.class);
             emprestimoSalvo = emprestimoService.save(emprestimo);
+            emprestimoDTO = this.modelMapper.map(emprestimoSalvo,EmprestimoDTO.class);
+            logger.info("Emprestimo %s foi salvo", emprestimo.toString());
+            logger.info("%s", emprestimo);
+            return ResponseEntity.ok().body(emprestimoDTO);
+
         }catch(Exception erro){
-
             throw new ErroOperacaoTransacionalBancoException(erro.getLocalizedMessage(), logger);
-
         }
-        logger.info("Emprestimo {} foi salvo", emprestimo);
-        logger.info("{}", emprestimo);
-        return emprestimoSalvo;
     }
 
 
@@ -110,25 +141,28 @@ public class EmprestimoController {
      *  após uma request via chamada Rest utilizando o método HTTP PUT
      *
      * @param id  Id do emprestimo cadastrado em banco
-     * @param emprestimoUpdated emprestimo Objeto JSON emprestimo que chega como payload no request body
-     * @return    retorna uma Mono stream com o emprestimo salvo no formato JSON
+     * @param emprestimoUpdatedDTO emprestimo DTO JSON emprestimo que chega como payload no request body
+     * @return    retorna um DTO com o emprestimo salvo no formato JSON
      */
-    @PutMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE,
+                produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Emprestimo> atualizaEmprestimo(@PathVariable Long id,
-                                                   @RequestBody Emprestimo emprestimoUpdated) throws ErroOperacaoTransacionalBancoException {
+    public ResponseEntity<EmprestimoDTO> atualizaEmprestimo(@PathVariable Long id,
+                                                   @RequestBody EmprestimoDTO emprestimoUpdatedDTO) throws ErroOperacaoTransacionalBancoException {
 
         logger.info("Requisição para atualizar um emprestimo na base");
         logger.info("PUT request recebido no seguinte endpoint: {}", ParametrosConfig.ENDPOINT_BASE.getValue());
-        emprestimoUpdated.setId(id);
-        ResponseEntity<Emprestimo> resposta = null;
+        emprestimoUpdatedDTO.setId(id);
+
         try {
-            emprestimoService.save(emprestimoUpdated);
+            Emprestimo emprestimo = this.modelMapper.map(emprestimoUpdatedDTO,Emprestimo.class);
+            Emprestimo emprestimoUpdated = emprestimoService.save(emprestimo);
+            emprestimoUpdatedDTO = this.modelMapper.map(emprestimoUpdated,EmprestimoDTO.class);
+            logger.info("Empréstimo atualizado %s",emprestimoUpdated);
+            return ResponseEntity.ok().body(emprestimoUpdatedDTO);
         }catch(Exception erro){
-            resposta = ResponseEntity.notFound().build();
             throw new ErroOperacaoTransacionalBancoException(erro.getLocalizedMessage(), logger);
         }
-        return resposta;
 
     }
 
@@ -139,19 +173,18 @@ public class EmprestimoController {
      *  após uma request via chamada Rest utilizando o método HTTP DELETE
      *
      * @param id  Id do emprestimo cadastrado em banco
-     * @return    retorna uma Mono stream com o emprestimo salvo no formato JSON
+     *
      */
     @DeleteMapping(value="{id}")
     @ResponseStatus(code=HttpStatus.OK)
-    public void delete(@PathVariable Long id) throws ErroOperacaoTransacionalBancoException {
+    public ResponseEntity<String> delete(@PathVariable Long id) throws ErroOperacaoTransacionalBancoException {
         logger.info("DELETE request recebido no endpoint: {}", ParametrosConfig.ENDPOINT_BASE.getValue());
         try{
             emprestimoService.deleteById(id);
             logger.info("Emprestimo com id {} foi deletado", id);
+            return ResponseEntity.ok().body(String.format("Emprestimo com id {} foi deletado", id));
         }catch (Exception erro){
             throw new ErroOperacaoTransacionalBancoException(erro.getLocalizedMessage(), logger);
         }
     }
-
-
 }

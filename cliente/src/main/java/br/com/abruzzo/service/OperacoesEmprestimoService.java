@@ -1,7 +1,8 @@
 package br.com.abruzzo.service;
 
 import br.com.abruzzo.config.ParametrosConfig;
-import br.com.abruzzo.dto.EmprestimoDTO;
+import br.com.abruzzo.dto.SolicitacaoEmprestimoDTO;
+import br.com.abruzzo.client.SolicitacaoEmprestimoFeignClient;
 import br.com.abruzzo.exceptions.*;
 import br.com.abruzzo.model.Cliente;
 import br.com.abruzzo.validacoes.ValidacoesCliente;
@@ -17,7 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+
 
 import java.net.URI;
 import java.sql.Date;
@@ -30,6 +31,9 @@ import java.util.Optional;
  *  Classe da camada de serviço responsável por fazer a chamada REST para o microserviço de empréstimos
  *  e por validar a solitação que chegou via chamada Rest no microsserviço responsável por gerenciar clientes.
  *
+ *
+ *  Optamos por utilizar o Feign como Web Client Declarative Rest para fazer chamadas ao serviço
+ *  de solicitação de empréstimos
  *
  *  Necessário importar o @EnableDiscoveryClient da seguinte dependẽncia:
  *  @link org.springframework.cloud.client.discovery.DiscoveryClient
@@ -54,10 +58,10 @@ public class OperacoesEmprestimoService {
     private ClienteService clienteService;
 
     @Autowired
-    private RestTemplate restTemplate;
+    private EurekaClient eurekaDiscoveryClient;
 
     @Autowired
-    private EurekaClient eurekaDiscoveryClient;
+    private SolicitacaoEmprestimoFeignClient solicitacaoEmprestimoFeignClient;
 
     public OperacoesEmprestimoService(ClienteService clienteService) {
         this.clienteService = clienteService;
@@ -91,17 +95,18 @@ public class OperacoesEmprestimoService {
      */
     @HystrixCommand(fallbackMethod = "solicitaEmprestimoFallback",
                     threadPoolKey = "solicitarEmprestimoThreadPool")
-    public ResponseEntity<String> solicitarEmprestimo(Long idCliente, double valor, int parcelas, Date dataPrimeiraParcela) {
+    public ResponseEntity<SolicitacaoEmprestimoDTO> criaSolicitacaoEmprestimo(Long idCliente, double valor, int parcelas, Date dataPrimeiraParcela) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        EmprestimoDTO emprestimoDTO = new EmprestimoDTO();
-        emprestimoDTO.setIdCliente(idCliente);
-        emprestimoDTO.setValor(valor);
-        emprestimoDTO.setNumeroMaximoParcelas(parcelas);
-        emprestimoDTO.setData_primeira_parcela(dataPrimeiraParcela);
-        emprestimoDTO.setCpf(this.clienteService.findById(idCliente).get().getCpf());
+        SolicitacaoEmprestimoDTO solicitacaoEmprestimoDTO = new SolicitacaoEmprestimoDTO();
+        solicitacaoEmprestimoDTO.setIdCliente(idCliente);
+        solicitacaoEmprestimoDTO.setValor(valor);
+        solicitacaoEmprestimoDTO.setNumeroMaximoParcelas(parcelas);
+        solicitacaoEmprestimoDTO.setData_primeira_parcela(dataPrimeiraParcela);
+        solicitacaoEmprestimoDTO.setCpfCliente(this.clienteService.findById(idCliente).get().getCpf());
+        solicitacaoEmprestimoDTO.setEmailCliente(this.clienteService.findById(idCliente).get().getEmail());
 
         ResponseEntity resultado =  ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
@@ -109,6 +114,7 @@ public class OperacoesEmprestimoService {
         boolean condicoesEmprestimoRegulares = validarCondicoesEmprestimo(parcelas, dataPrimeiraParcela);
 
         if(clientePodePedirEmprestimo && condicoesEmprestimoRegulares){
+
             List<InstanceInfo> listaInstancias = eurekaDiscoveryClient
                     .getInstancesByVipAddressAndAppName(null,ParametrosConfig.SERVICO_SOLICITACAO_EMPRESTIMO.getValue(),false);
 
@@ -117,7 +123,10 @@ public class OperacoesEmprestimoService {
 
             if(eurekaDiscoveryClient.getInstancesByVipAddressAndAppName(null,ParametrosConfig.SERVICO_SOLICITACAO_EMPRESTIMO.getValue(),false)
                     .get(0).getStatus().equals(InstanceInfo.InstanceStatus.UP))
-                return restTemplate.postForEntity(this.urlSolicitacaoEmprestimo, emprestimoDTO, String.class);
+
+
+                return this.solicitacaoEmprestimoFeignClient.criaSolicitacaoEmprestimo(solicitacaoEmprestimoDTO);
+
 
             else{
                 try {
@@ -130,7 +139,7 @@ public class OperacoesEmprestimoService {
 
         }else{
             try {
-                throw new AutorizacaoException(String.format("Empréstimo não autorizado: {}",emprestimoDTO.toString()),logger);
+                throw new AutorizacaoException(String.format("Solicitação de Empréstimo não autorizada: %s",solicitacaoEmprestimoDTO),logger);
             } catch (AutorizacaoException e) {
                 e.printStackTrace();
             }
@@ -140,9 +149,9 @@ public class OperacoesEmprestimoService {
         }
 
 
-    public ResponseEntity<String> solicitarEmprestimoFallback() {
-        EmprestimoDTO emprestimoDTOFallback = new EmprestimoDTO();
-        return ResponseEntity.ok().body(emprestimoDTOFallback.toString());
+    public ResponseEntity<SolicitacaoEmprestimoDTO> solicitarEmprestimoFallback() {
+        SolicitacaoEmprestimoDTO emprestimoDTOFallback = new SolicitacaoEmprestimoDTO();
+        return ResponseEntity.ok().body(emprestimoDTOFallback);
 
     }
 

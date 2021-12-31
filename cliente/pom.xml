@@ -101,15 +101,12 @@
 
 
 		<!-- Declarative REST Client. OpenFeign creates a dynamic implementation of an interface decorated with JAX-RS or Spring MVC annotations -->
-		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign
+		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
 			<version>3.1.0</version>
 		</dependency>
-		-->
-
-
 
 
 		<!-- SPRING CLOUD CONFIGURAÇÕES PARA SERVICE DISCOVERY UTILIZANDO EUREKA SERVER  -->
@@ -205,6 +202,15 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+		</dependency>
+
+		<!--		Para mapeamento do Model - DTO -
+		http://modelmapper.org/getting-started/  -->
+
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>2.4.2</version>
 		</dependency>
 	</dependencies>
 

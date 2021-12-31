@@ -2,10 +2,12 @@ package br.com.abruzzo.controller;
 
 
 import br.com.abruzzo.config.ParametrosConfig;
+import br.com.abruzzo.dto.ClienteDTO;
 import br.com.abruzzo.exceptions.ErroOperacaoTransacionalBancoException;
 import br.com.abruzzo.model.Cliente;
 import br.com.abruzzo.service.ClienteService;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,16 +37,19 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
 
     /**
      *  Método que retorna um cliente conforme id especificado,
      *  após um GET request via chamada Rest
      * @param id  Id do cliente cadastrado em banco
-     * @return    retorna um Cliente no formato JSON
+     * @return    retorna um ClienteDTO - Data Transfer Object no formato JSON
      */
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Cliente> getClienteById(@PathVariable Long id) {
+    public ResponseEntity<ClienteDTO> getClienteById(@PathVariable Long id) {
 
         logger.info("Chegou GET request no Endpoint {}/{}/{}",
                   ParametrosConfig.ENDPOINT_BASE.getValue()
@@ -51,7 +57,10 @@ public class ClienteController {
 
         Optional<Cliente> cliente = clienteService.findById(id);
 
-        if (cliente.isPresent()) return ResponseEntity.ok().body(cliente.get());
+        if (cliente.isPresent()){
+            ClienteDTO clienteDTO = this.modelMapper.map(cliente.get(), ClienteDTO.class);
+            return ResponseEntity.ok().body(clienteDTO);
+        }
         else return (ResponseEntity) ResponseEntity.notFound().build();
 
     }
@@ -61,14 +70,27 @@ public class ClienteController {
      *  Método que retorna um Flux de todos os clientes cadastrados na base
      *  após um GET request via chamada Rest
      *
-     * @return    retorna um Flux stream de clientes no formato JSON
+     * @return    retorna um ResponseEntity de uma lista de clientes DTO no formato JSON
      */
     @GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<Cliente> retornaTodosClientes(){
+    public ResponseEntity<List<ClienteDTO>> retornaTodosClientes(){
+
         logger.info("Chegou GET request no Endpoint {}/{}", ParametrosConfig.ENDPOINT_BASE.getValue()
                 , ParametrosConfig.CLIENTE_ENDPOINT.getValue());
-        return clienteService.findAll();
+
+        List<ClienteDTO> listaClientesDTO = new ArrayList<>();
+
+
+        List<Cliente> listaClientes =  clienteService.findAll();
+
+        listaClientes.stream().forEach(cliente -> {
+            ClienteDTO clienteDTO = this.modelMapper.map(cliente, ClienteDTO.class);
+            listaClientesDTO.add(clienteDTO);
+        });
+
+        return ResponseEntity.ok().body(listaClientesDTO);
+
     }
 
 
@@ -77,17 +99,18 @@ public class ClienteController {
      *  Método responsável por cadastrar um cliente na base de dados
      *  após uma request via chamada Rest utilizando o método HTTP POST
      *
-     * @param cliente Objeto JSON cliente que chega como payload no request body
+     * @param clienteDTO cliente DTO - Data Transfer Object - JSON cliente que chega como payload no request body
      * @return    retorna uma Mono stream com o cliente salvo no formato JSON
      */
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente createCliente(@RequestBody Cliente cliente) throws ErroOperacaoTransacionalBancoException {
+    public ClienteDTO createCliente(@RequestBody Cliente clienteDTO) throws ErroOperacaoTransacionalBancoException {
 
         logger.info("Requisição para salvar um cliente na base");
         logger.info("POST recebido no seguinte endpoint: {}", ParametrosConfig.ENDPOINT_BASE.getValue());
 
         Cliente clienteSalvo = null;
+        Cliente cliente = this.modelMapper.map(clienteDTO, Cliente.class);
         try{
             clienteSalvo = clienteService.save(cliente);
         }catch(Exception erro){
@@ -95,9 +118,12 @@ public class ClienteController {
             throw new ErroOperacaoTransacionalBancoException(erro.getLocalizedMessage(), logger);
 
         }
-        logger.info("Cliente {} foi salvo", cliente);
-        logger.info("{}", cliente);
-        return clienteSalvo;
+
+        ClienteDTO clienteDTOSalvo = this.modelMapper.map(clienteSalvo, ClienteDTO.class);
+
+        logger.info("Cliente {} foi salvo", clienteDTOSalvo);
+        logger.info("{}", clienteDTOSalvo);
+        return clienteDTOSalvo;
     }
 
 
@@ -106,24 +132,28 @@ public class ClienteController {
      *  após uma request via chamada Rest utilizando o método HTTP PUT
      *
      * @param id  Id do cliente cadastrado em banco
-     * @param clienteUpdated cliente Objeto JSON cliente que chega como payload no request body
+     * @param clienteUpdatedDTO cliente DTO - Data Transfer Object - JSON cliente que chega como payload no request body
      * @return    retorna uma Mono stream com o cliente salvo no formato JSON
      */
     @PutMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Cliente> atualizaCliente(@PathVariable Long id,
-                                                         @RequestBody Cliente clienteUpdated) throws ErroOperacaoTransacionalBancoException {
+    public ResponseEntity<ClienteDTO> atualizaCliente(@PathVariable Long id,
+                                                         @RequestBody ClienteDTO clienteUpdatedDTO) throws ErroOperacaoTransacionalBancoException {
 
         logger.info("Requisição para atualizar um cliente na base");
         logger.info("PUT request recebido no seguinte endpoint: {}", ParametrosConfig.ENDPOINT_BASE.getValue());
-        clienteUpdated.setId(id);
-        ResponseEntity<Cliente> resposta = null;
+        clienteUpdatedDTO.setId(id);
+        ResponseEntity<ClienteDTO> resposta = null;
         try {
-            clienteService.save(clienteUpdated);
+            Cliente clienteUpdated = this.modelMapper.map(clienteUpdatedDTO,Cliente.class);
+            Cliente clienteSalvo = clienteService.save(clienteUpdated);
+            ClienteDTO clienteDTO = this.modelMapper.map(clienteSalvo, ClienteDTO.class);
+            resposta = ResponseEntity.ok().body(clienteDTO);
         }catch(Exception erro){
             resposta = ResponseEntity.notFound().build();
             throw new ErroOperacaoTransacionalBancoException(erro.getLocalizedMessage(), logger);
         }
+
         return resposta;
 
     }

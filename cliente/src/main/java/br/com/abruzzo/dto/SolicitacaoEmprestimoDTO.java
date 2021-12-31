@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import java.sql.Date;
 
 /**
@@ -18,7 +17,7 @@ import java.sql.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmprestimoDTO {
+public class SolicitacaoEmprestimoDTO {
 
     private Long id;
     private Double valor;
@@ -26,19 +25,21 @@ public class EmprestimoDTO {
     private Integer numeroMaximoParcelas;
     private Long idCliente;
     private String status;
-    private String cpf;
+    private String cpfCliente;
+    private String emailCliente;
 
 
     @Override
     public String toString() {
-        return "EmprestimoDTO{" +
+        return "SolicitacaoEmprestimoDTO{" +
                 "id=" + id +
                 ", valor=" + valor +
                 ", data_primeira_parcela=" + data_primeira_parcela +
                 ", numeroMaximoParcelas=" + numeroMaximoParcelas +
                 ", idCliente=" + idCliente +
                 ", status='" + status + '\'' +
-                ", cpf='" + cpf + '\'' +
+                ", cpfCliente='" + cpfCliente + '\'' +
+                ", emailCliente='" + emailCliente + '\'' +
                 '}';
     }
 }
