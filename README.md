@@ -148,10 +148,6 @@ que irá persistir a solicitação no Redis, enquanto ela está sendo avaliada
 
 
 
-
-
-
-
 ### Service Discovery
 
 Quando trabalhamos com arquiteturas orientadas a eventos que possuam microsserviços distribuídos entre diferentes hosts,
@@ -196,6 +192,7 @@ Foi criado um repositório específico para configurações dos microsserviços 
 + https://github.com/edabruzzo/tqi_evolution_backend_2021_microservices_configuration_repo
 
 
+
 ### Ribbon - Client Side Load Balancing
 
 Com a anotação do Ribbon LoadBalance no RestTemplate responsável por invocar o microservice Emprestimo, 
@@ -230,10 +227,6 @@ O Feign trabalha com anotações próprias e com anotações da implementação 
 
 Ele se integra de forma muito fácil com o Ribbon e com o Eureka para fazer chamadas para outros microsserviços
 e com provimento de balanceamento de carga.
-
-
-
-
 
 7.1 How to Include Feign
 To include Feign in your project use the starter with group org.springframework.cloud and artifact id spring-cloud-starter-openfeign. See the Spring Cloud Project page for details on setting up your build system with the current Spring Cloud Release Train.
@@ -339,6 +332,18 @@ O Circuit Breaker executa o processamento da requisição numa thread separada q
 o método Fallback que retorna um DTO vazio.
 
 
+Nós também implementamos um field para track do status da transação de solicitação do empréstimo 
+a cada evento processado (processamento, avaliação, aprovaçção, reprovação, falha ao salvar por problemas de infra)
+
+O Hystrix nos permite capturar um Fallback, checar o estado desse objeto DTO e, a depender do estado,
+podemos devolver ao cliente o estado da solicitação (autorizada, reprovada, consolidada no serviço de gerenciamento 
+de empréstimos), ou podemos simplesmente reprocessar a solicitação nos casos de erro ao salvar 
+em memória por problemas de Infra (serviço ou banco de dados fora do ar)
+
+Isso nos permite garantir a realização de todos os passos necessários e ter uma estratégia de
+recuperação de erros em tempo de execução.
+
+
 #### Importante !
 
 Em cenários com um volume muito grande de requisições de usuários, essa alocação de Threads de fallback para 
@@ -347,6 +352,9 @@ tratar problemas de performance pode gerar um gargalo no sistema, na alocação 
 Esse gargalo precisa ser tratado !!!
 
 Uma forma de tratar esse cenário é com uma técnica chamada Bulkhead.
+
+
+
 
 
 ### Bulkhead
