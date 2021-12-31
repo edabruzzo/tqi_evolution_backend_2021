@@ -24,7 +24,7 @@ echo 'Criando empréstimo na base'
 
 echo '\n'
 
-curl --location --request POST 'http://localhost:8081/emprestimo' \
+curl --location --request POST 'http://servico_emprestimo/emprestimo' \
  --header 'Content-Type: application/json' \
  --data-raw '{
      "valor" : 10000,

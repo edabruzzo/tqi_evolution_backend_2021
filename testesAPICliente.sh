@@ -23,7 +23,7 @@ echo 'Cadastrando cliente Andrea'
 
 echo '\n'
 
-curl --location --request POST 'http://localhost:8080/cliente' \
+curl --location --request POST 'http://servico_cliente/cliente' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "nome" : "Andrea",
@@ -39,7 +39,7 @@ curl --location --request POST 'http://localhost:8080/cliente' \
 echo '\n'
 
 
-curl --location --request GET 'http://localhost:8080/cliente/1'
+curl --location --request GET 'http://servico_cliente/cliente/1'
 
 
 echo '\n'
@@ -48,7 +48,7 @@ echo 'Cadastrando cliente José'
 
 echo '\n'
 
-curl --location --request POST 'http://localhost:8080/cliente' \
+curl --location --request POST 'http://servico_cliente/cliente' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "nome" : "José",
@@ -63,7 +63,7 @@ curl --location --request POST 'http://localhost:8080/cliente' \
 echo '\n'
 
 
-curl --location --request GET 'http://localhost:8080/cliente'
+curl --location --request GET 'http://servico_cliente/cliente'
 
  
 echo '\n'
@@ -72,7 +72,7 @@ echo 'Atualizando Cliente de id 1'
 
 echo '\n'
 
- curl --location --request PUT 'http://localhost:8080/cliente/1' \
+ curl --location --request PUT 'http://servico_cliente/cliente/1' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "nome" : "Andrea",
@@ -87,11 +87,11 @@ echo '\n'
 
 echo '\n'
 
-curl --location --request GET 'http://localhost:8080/cliente/1'
+curl --location --request GET 'http://servico_cliente/cliente/1'
 
 echo '\n'
 
-curl --location --request GET 'http://localhost:8080/cliente/'
+curl --location --request GET 'http://servico_cliente/cliente/'
 
 echo '\n'
 
@@ -99,11 +99,11 @@ echo 'Deletando cliente de id 1'
 
 echo '\n'
 
-curl --location --request DELETE 'http://localhost:8080/cliente/1'
+curl --location --request DELETE 'http://servico_cliente/cliente/1'
 
 echo '\n'
 
-curl --location --request GET 'http://localhost:8080/cliente/'
+curl --location --request GET 'http://servico_cliente/cliente/'
 
 echo '\n'
 
@@ -111,7 +111,7 @@ echo '\n'
 
 echo '\n'
 
-curl --location --request POST 'http://localhost:8080/cliente' \
+curl --location --request POST 'http://servico_cliente/cliente' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "nome" : "José",
