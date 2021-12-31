@@ -1,6 +1,7 @@
 package br.com.abruzzo.controller;
 
 import br.com.abruzzo.config.ParametrosConfig;
+import br.com.abruzzo.dto.SolicitacaoEmprestimoDTO;
 import br.com.abruzzo.service.OperacoesEmprestimoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,10 +36,10 @@ public class OperacoesEmprestimoController {
             consumes = MediaType.ALL_VALUE,
             produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<String> solicitacaoEmprestimo(@RequestParam(name = "idCliente") Long idCliente,
-                                      @RequestParam(name = "valor") double valor,
-                                      @RequestParam(name = "parcelas") int parcelas,
-                                      @RequestParam(name = "dataPrimeiraParcela") Date dataPrimeiraParcela)  {
+    public ResponseEntity<SolicitacaoEmprestimoDTO> solicitacaoEmprestimo(@RequestParam(name = "idCliente") Long idCliente,
+                                                                          @RequestParam(name = "valor") double valor,
+                                                                          @RequestParam(name = "parcelas") int parcelas,
+                                                                          @RequestParam(name = "dataPrimeiraParcela") Date dataPrimeiraParcela)  {
 
         logger.info("Requisição -> Solicitação de empréstimo -> ");
         logger.info("IdCliente: {} | Valor do empréstimo: R$ {} | Parcelas: {} | Data primeira parcela: {}",
@@ -48,7 +49,7 @@ public class OperacoesEmprestimoController {
         ResponseEntity resposta =  ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
         try{
-            ResponseEntity<String> resultado = operacoesEmprestimoService.solicitarEmprestimo(idCliente,valor,parcelas,dataPrimeiraParcela);
+            ResponseEntity<SolicitacaoEmprestimoDTO> resultado = operacoesEmprestimoService.solicitarEmprestimo(idCliente,valor,parcelas,dataPrimeiraParcela);
             return resultado;
         }catch(Exception erro){
             erro.printStackTrace();

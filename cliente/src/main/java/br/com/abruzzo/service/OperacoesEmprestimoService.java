@@ -3,6 +3,7 @@ package br.com.abruzzo.service;
 import br.com.abruzzo.config.ParametrosConfig;
 import br.com.abruzzo.dto.SolicitacaoEmprestimoDTO;
 import br.com.abruzzo.client.SolicitacaoEmprestimoFeignClient;
+import br.com.abruzzo.dto.SolicitacaoEmprestimoStatusDTO;
 import br.com.abruzzo.exceptions.*;
 import br.com.abruzzo.model.Cliente;
 import br.com.abruzzo.validacoes.ValidacoesCliente;
@@ -95,7 +96,7 @@ public class OperacoesEmprestimoService {
      */
     @HystrixCommand(fallbackMethod = "solicitaEmprestimoFallback",
                     threadPoolKey = "solicitarEmprestimoThreadPool")
-    public ResponseEntity<SolicitacaoEmprestimoDTO> criaSolicitacaoEmprestimo(Long idCliente, double valor, int parcelas, Date dataPrimeiraParcela) {
+    public ResponseEntity<SolicitacaoEmprestimoDTO> solicitarEmprestimo(Long idCliente, double valor, int parcelas, Date dataPrimeiraParcela) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -107,6 +108,7 @@ public class OperacoesEmprestimoService {
         solicitacaoEmprestimoDTO.setData_primeira_parcela(dataPrimeiraParcela);
         solicitacaoEmprestimoDTO.setCpfCliente(this.clienteService.findById(idCliente).get().getCpf());
         solicitacaoEmprestimoDTO.setEmailCliente(this.clienteService.findById(idCliente).get().getEmail());
+        solicitacaoEmprestimoDTO.setStatus(String.valueOf(SolicitacaoEmprestimoStatusDTO.ABERTA));
 
         ResponseEntity resultado =  ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
