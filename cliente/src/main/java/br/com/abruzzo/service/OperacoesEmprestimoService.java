@@ -2,6 +2,7 @@ package br.com.abruzzo.service;
 
 import br.com.abruzzo.config.ParametrosConfig;
 import br.com.abruzzo.dto.SolicitacaoEmprestimoDTO;
+import br.com.abruzzo.client.SolicitacaoEmprestimoFeignClient;
 import br.com.abruzzo.exceptions.*;
 import br.com.abruzzo.model.Cliente;
 import br.com.abruzzo.validacoes.ValidacoesCliente;
@@ -12,15 +13,12 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.client.RestTemplate;
+
 
 import java.net.URI;
 import java.sql.Date;
@@ -51,7 +49,6 @@ import java.util.Optional;
  * @date 26/12/2021
  */
 @Service
-@FeignClient("servico_solicitacao_emprestimo")
 public class OperacoesEmprestimoService {
 
     private static final Logger logger = LoggerFactory.getLogger(OperacoesEmprestimoService.class);
@@ -61,10 +58,10 @@ public class OperacoesEmprestimoService {
     private ClienteService clienteService;
 
     @Autowired
-    private RestTemplate restTemplate;
+    private EurekaClient eurekaDiscoveryClient;
 
     @Autowired
-    private EurekaClient eurekaDiscoveryClient;
+    private SolicitacaoEmprestimoFeignClient solicitacaoEmprestimoFeignClient;
 
     public OperacoesEmprestimoService(ClienteService clienteService) {
         this.clienteService = clienteService;
@@ -98,8 +95,7 @@ public class OperacoesEmprestimoService {
      */
     @HystrixCommand(fallbackMethod = "solicitaEmprestimoFallback",
                     threadPoolKey = "solicitarEmprestimoThreadPool")
-    @RequestMapping(method= RequestMethod.POST)
-    public ResponseEntity<String> criaSolicitacaoEmprestimo(Long idCliente, double valor, int parcelas, Date dataPrimeiraParcela) {
+    public ResponseEntity<SolicitacaoEmprestimoDTO> criaSolicitacaoEmprestimo(Long idCliente, double valor, int parcelas, Date dataPrimeiraParcela) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -118,6 +114,7 @@ public class OperacoesEmprestimoService {
         boolean condicoesEmprestimoRegulares = validarCondicoesEmprestimo(parcelas, dataPrimeiraParcela);
 
         if(clientePodePedirEmprestimo && condicoesEmprestimoRegulares){
+
             List<InstanceInfo> listaInstancias = eurekaDiscoveryClient
                     .getInstancesByVipAddressAndAppName(null,ParametrosConfig.SERVICO_SOLICITACAO_EMPRESTIMO.getValue(),false);
 
@@ -126,7 +123,10 @@ public class OperacoesEmprestimoService {
 
             if(eurekaDiscoveryClient.getInstancesByVipAddressAndAppName(null,ParametrosConfig.SERVICO_SOLICITACAO_EMPRESTIMO.getValue(),false)
                     .get(0).getStatus().equals(InstanceInfo.InstanceStatus.UP))
-                return restTemplate.postForEntity(this.urlSolicitacaoEmprestimo, solicitacaoEmprestimoDTO, String.class);
+
+
+                return this.solicitacaoEmprestimoFeignClient.criaSolicitacaoEmprestimo(solicitacaoEmprestimoDTO);
+
 
             else{
                 try {
@@ -139,7 +139,7 @@ public class OperacoesEmprestimoService {
 
         }else{
             try {
-                throw new AutorizacaoException(String.format("Empréstimo não autorizado: {}",solicitacaoEmprestimoDTO.toString()),logger);
+                throw new AutorizacaoException(String.format("Solicitação de Empréstimo não autorizada: %s",solicitacaoEmprestimoDTO),logger);
             } catch (AutorizacaoException e) {
                 e.printStackTrace();
             }
@@ -149,9 +149,9 @@ public class OperacoesEmprestimoService {
         }
 
 
-    public ResponseEntity<String> solicitarEmprestimoFallback() {
+    public ResponseEntity<SolicitacaoEmprestimoDTO> solicitarEmprestimoFallback() {
         SolicitacaoEmprestimoDTO emprestimoDTOFallback = new SolicitacaoEmprestimoDTO();
-        return ResponseEntity.ok().body(emprestimoDTOFallback.toString());
+        return ResponseEntity.ok().body(emprestimoDTOFallback);
 
     }
 
