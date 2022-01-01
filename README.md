@@ -314,8 +314,18 @@ autenticação downstream utilizando o nosso Gateway Zuul proxy, embarcado na JV
 Para que haja a integração entre o Spring Security e o Spring Cloud OAuth 2.0, precisamos criar uma classe de configuração 
 que herda do WebSecurityConfigurerAdapter, injetando os beans gerenciados 
 AuthenticatorManager e UserDetailService do SpringSecurity injetados no Adapter do Spring Cloud OAuth2: AuthorizationServerConfigurerAdapter
-
 A integração entre eles é feita via método configure do Adapter.
+
+É necessário também anotar a classe principal do nosso servidor de autenticação com @EnableAuthorizationServer e @EnableResourceServer
+
+
+
+A autenticação de usuário **e microsserviço** é efetuada através de trocas de tokens de acesso criptografados JWT. 
+
+
+
+
+
 
 
 #### OAuth 2.0
