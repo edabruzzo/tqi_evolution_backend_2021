@@ -1,0 +1,35 @@
+# https://docs.spring.io/spring-cloud-config/docs/current/reference/html/#config-data-import
+spring:
+  application:
+    name: gateway
+  cloud:
+    bootstrap:
+      enabled: true
+
+server:
+  port: 5555
+
+
+eureka:
+   client:
+     register-with-eureka: true
+     fetch-registry: true
+     service-url:
+       defaultZone: http://localhost:8761/eureka
+     server:
+       wait-time-in-ms-when-sync-empty: 3000
+
+
+
+management:
+   endpoints:
+     web:
+       exposure:
+         include:
+           - "routes"
+
+zuul:
+   sensitive-headers:
+     - Cookie, Authorization
+
+

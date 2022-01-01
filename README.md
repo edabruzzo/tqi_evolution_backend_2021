@@ -257,7 +257,34 @@ In the @FeignClient annotation the String value ("stores" above) is an arbitrary
 The Ribbon client above will want to discover the physical addresses for the "stores" service. If your application is a Eureka client then it will resolve the service in the Eureka service registry. If you don’t want to use Eureka, you can simply configure a list of servers in your external configuration (see above for example).
 
 
+### Roteador e filtro Zuul Netflix API Gateway 
 
+![img.png](imagens/gateway.png)
+Fonte: https://cloud.spring.io/spring-cloud-gateway/reference/html/
+
+Referência:
++ https://cloud.spring.io/spring-cloud-netflix/multi/multi__router_and_filter_zuul.html
+
+Optamos por utilizar o Spring Cloud Netflix Zuul como proxy, filtro e roteador de nossa aplicação.
+
+Consideramos que num cenário de uma API reativa, utilizando Reactor, Netty e WebFlux, o Spring Gateway 
+seria a opção mais apropriada, mas como estamos trabalhando com soluções síncronas, como o Spring Data,
+o projeto Zuul foi nossa escolha.
+
+O funcionamento de um Gateway Proxy, basicamente segue a seguinte lógica:
+
+Os microsserviços não são expostos diretamente na internet. Ao invés disso, posicionamos um servidor proxy 
+para receber os requests. Quando um cliente faz um request para um serviço, o Gateway 
+possui um tratamento para as rotas dos microsserviços mapeadas pelo Eureka Server.
+
+Com base nesse mapeamento, o Gateway conhece as rotas para os serviços registrados no Eureka server.
+E ele sabe, com base nisso, determinar para qual rota de microserviço o request recebido será enviado.
+
+Este tratamento é executado de acordo com uma cadeia de filtros,específica para o request.
+Assim, podem ser executadas lógicas em diversos momentos da aplicação da cadeia de filtros.
+
+O Zuul é um gateway, um proxy embarbacado baseado na JVM e desenvolvido pela Netflix, que o utiliza de forma embarcada
+para roteamento e balanceamento de carga do lado do cliente.
 
 
 
