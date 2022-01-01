@@ -309,6 +309,15 @@ o qual implementa autenticação baseada em OAuth2 SSO (Single Sign-ON) com supo
 a troca de tokens entre Resource Servers de nosso sistema, assim como a configuração de 
 autenticação downstream utilizando o nosso Gateway Zuul proxy, embarcado na JVM.
 
+
+
+Para que haja a integração entre o Spring Security e o Spring Cloud OAuth 2.0, precisamos criar uma classe de configuração 
+que herda do WebSecurityConfigurerAdapter, injetando os beans gerenciados 
+AuthenticatorManager e UserDetailService do SpringSecurity injetados no Adapter do Spring Cloud OAuth2: AuthorizationServerConfigurerAdapter
+
+A integração entre eles é feita via método configure do Adapter.
+
+
 #### OAuth 2.0
 Referência:
 + https://backstage.forgerock.com/knowledge/kb/article/a45882528
