@@ -1,0 +1,21 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head th:replace="~{base :: head}"></head>
+
+<body>
+
+    <div class="container">
+        <div class="card" th:each="cliente : ${listaClientes}" >
+            <div class="card-header" th:text="${cliente.nome}"> Nome</div>
+            <div th:text="${cliente.id}"> Id Cliente</div>
+            <div th:text="${cliente.email}"> E-mail</div>
+            <div class="card-header" th:text="${cliente.cpf}"> CPF</div>
+            <div th:text="${cliente.rg}"> RG</div>
+            <div th:text="${cliente.enderecoCompleto}"> Endereço completo</div>
+            <div th:text="${cliente.renda}"> Renda</div>
+        </div>
+    </div>
+
+</body>
+
+</html>
