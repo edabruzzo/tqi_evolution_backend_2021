@@ -32,7 +32,7 @@ public class ClienteController {
         listaClientes.add(cliente3);
         listaClientes.add(cliente4);
 
-        model.addAttribute(listaClientes);
+        model.addAttribute("listaClientes",listaClientes);
 
         return "cliente";
 
