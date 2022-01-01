@@ -2,38 +2,28 @@
 
 DATA_HORA=$(date +"%d_%m_%Y_%H_hs_%M_min")
 DATA_DIA_MES=$(date +"%d_%m_%Y")
-NOME_MICROSERVICO="Serviço de Solicitação de Empréstimo"
+NOME_MICROSERVICO="zuul_proxy_gateway"
 diretorio_log_testes=/home/$USER/IdeaProjects/tqi_evolution_backend_2021/logs_testes
 diretorio_logs_testes_do_dia=$diretorio_log_testes/$DATA_DIA_MES
 logRequests=$diretorio_logs_testes_do_dia/TESTES_$NOME_MICROSERVICO_$DATA_HORA.log
-
-inicio_request="http:/"
-
-if [ -n "$1" ]; then
-    inicio_request="http://$1"
-fi
-
-
-
 
 mkdir $diretorio_logs_testes_do_dia
 
 touch $logRequests
 
-function testarRequests() {
+
+function testarRequests {
 echo '\n'
 echo '\n'
 echo '---------------------------------------------------------------------------------------------'
 echo "Iniciando testes da API do Microsserviço $NOME_MICROSERVICO: ${DATA_HORA}"
 echo '\n'
-
+echo "Testando Rotas de microsserviços através do $NOME_MICROSERVICO"
+echo '\n'
+curl --location --request GET 'http://localhost:5555/actuator/routes'
 echo '\n'
 
-curl --location --request GET "$inicio_request/servico_cliente/emprestimo/solicitar?idCliente=2&valor=50000&parcelas=60&dataPrimeiraParcela=2022-02-01"
-
-echo '\n'
-
-echo "Testes da API do microsserviço $NOME_MICROSERVICO finalizados às $(date +"%d_%m_%Y_%H_hs_%M_min")"
+echo "Testes da API do microsserviço Gateway Zuul Proxy $NOME_MICROSERVICO finalizados às $(date +"%d_%m_%Y_%H_hs_%M_min")"
 echo '\n'
 echo '\n'
 echo '---------------------------------------------------------------------------------------------'
@@ -42,6 +32,8 @@ echo '\n'
 
 }
 
+#echo $(testarRequests) | tee $logRequests >/dev/null
 
+#testaAPIClientes
+#testaAPIEmprestimos
 call testarRequests >> $logRequests
-

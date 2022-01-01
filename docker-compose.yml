@@ -101,6 +101,26 @@ services:
     networks:
       - tqi_evolution_backend_2021_spring-cloud-network
 
+
+  zuul_gateway:
+    build:
+      dockerfile: ./docker/zuul_gateway.dockerfile:0.0.1-SNAPSHOT
+      context: .
+    image: edabruzzo/tqi_evolution_backend_2021/zuul_gateway:latest
+    ports:
+      - "5555:5555"
+    labels:
+      collect_logs_with_filebeat: "true"
+      decode_log_event_to_json_object: "true"
+
+    restart: on-failure
+    depends_on:
+      - eureka_server
+    networks:
+      - tqi_evolution_backend_2021_spring-cloud-network
+
+
+
   servico_emprestimo:
     build:
       dockerfile: ./docker/emprestimo.dockerfile:0.0.1-SNAPSHOT

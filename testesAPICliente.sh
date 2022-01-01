@@ -7,11 +7,19 @@ diretorio_log_testes=/home/$USER/IdeaProjects/tqi_evolution_backend_2021/logs_te
 diretorio_logs_testes_do_dia=$diretorio_log_testes/$DATA_DIA_MES
 logRequests=$diretorio_logs_testes_do_dia/TESTES_$NOME_MICROSERVICO_$DATA_HORA.log
 
+
+inicio_request="http:/"
+
+if [ -n "$1" ]; then
+    inicio_request="http://$1"
+fi
+
+
 mkdir $diretorio_logs_testes_do_dia
 
 touch $logRequests
 
-function testarRequests {
+function testarRequests() {
 echo '\n'
 echo '\n'
 echo '---------------------------------------------------------------------------------------------'
@@ -23,7 +31,7 @@ echo 'Cadastrando cliente Andrea'
 
 echo '\n'
 
-curl --location --request POST 'http://servico_cliente/cliente' \
+curl --location --request POST "$inicio_request/servico_cliente/cliente" \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "nome" : "Andrea",
@@ -39,7 +47,7 @@ curl --location --request POST 'http://servico_cliente/cliente' \
 echo '\n'
 
 
-curl --location --request GET 'http://servico_cliente/cliente/1'
+curl --location --request GET "$inicio_request/servico_cliente/cliente/1"
 
 
 echo '\n'
@@ -48,7 +56,7 @@ echo 'Cadastrando cliente José'
 
 echo '\n'
 
-curl --location --request POST 'http://servico_cliente/cliente' \
+curl --location --request POST "$inicio_request/servico_cliente/cliente" \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "nome" : "José",
@@ -63,7 +71,7 @@ curl --location --request POST 'http://servico_cliente/cliente' \
 echo '\n'
 
 
-curl --location --request GET 'http://servico_cliente/cliente'
+curl --location --request GET "$inicio_request/servico_cliente/cliente"
 
  
 echo '\n'
@@ -72,7 +80,7 @@ echo 'Atualizando Cliente de id 1'
 
 echo '\n'
 
- curl --location --request PUT 'http://servico_cliente/cliente/1' \
+ curl --location --request PUT "$inicio_request/servico_cliente/cliente/1" \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "nome" : "Andrea",
@@ -87,11 +95,11 @@ echo '\n'
 
 echo '\n'
 
-curl --location --request GET 'http://servico_cliente/cliente/1'
+curl --location --request GET "$inicio_request/servico_cliente/cliente/1"
 
 echo '\n'
 
-curl --location --request GET 'http://servico_cliente/cliente/'
+curl --location --request GET "$inicio_request/servico_cliente/cliente/"
 
 echo '\n'
 
@@ -99,11 +107,11 @@ echo 'Deletando cliente de id 1'
 
 echo '\n'
 
-curl --location --request DELETE 'http://servico_cliente/cliente/1'
+curl --location --request DELETE "$inicio_request/servico_cliente/cliente/1"
 
 echo '\n'
 
-curl --location --request GET 'http://servico_cliente/cliente/'
+curl --location --request GET "$inicio_request/servico_cliente/cliente/"
 
 echo '\n'
 
@@ -111,7 +119,7 @@ echo '\n'
 
 echo '\n'
 
-curl --location --request POST 'http://servico_cliente/cliente' \
+curl --location --request POST "$inicio_request/servico_cliente/cliente" \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "nome" : "José",

@@ -1,7 +1,7 @@
 # https://docs.spring.io/spring-cloud-config/docs/current/reference/html/#config-data-import
 spring:
   application:
-    name: gateway
+    name: zuul_gateway
   cloud:
     bootstrap:
       enabled: true
