@@ -11,7 +11,7 @@ mkdir $diretorio_logs_testes_do_dia
 
 touch $logRequests
 
-function testarRequests {
+function testarRequests() {
 echo '\n'
 echo '\n'
 echo '---------------------------------------------------------------------------------------------'
