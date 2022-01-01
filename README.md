@@ -288,6 +288,30 @@ para roteamento e balanceamento de carga do lado do cliente.
 
 
 
+### Autenticação e autorização de acesso a operações
+
+Referência: https://www.baeldung.com/spring-cloud-security
+
+Quando pensamos em autorização em um contexto de arquitetura de microsserviços, precisamos lembrar 
+que os estados e contextos de execução entre microsserviços e instâncias de um mesmo microsserviço
+não são compartilhados, sendo que cada qual está rodando em um ambiente isolado dos demais.
+
+Diferentemente de um monolito rodando num servidor de aplicação (Jboss/Wildfly ... )ou mesmo num uber jar, 
+não temos como compartilhar o estado da sessão de usuário durante a realização de uma transação, 
+justamente porque a transação agora está quebrada em vários serviços que rodam em ambientes isolados.
+
+Isso nos impõe a necessidade de pensar no uso de um serviço externo ou criar nosso próprio servidor 
+de autenticação para ser utilizado por todos os microsserviços necessários para que se complete uma transação 
+ou um serviço completo de nosso sistema.
+
+Diante disso, implementamos um servidor de autenticação em nosso sistema, utilizando Spring Cloud Security,
+o qual implementa autenticação baseada em OAuth2 SSO (Single Sign-ON) com suporte para 
+a troca de tokens entre Resource Servers de nosso sistema, assim como a configuração de 
+autenticação downstream utilizando o nosso Gateway Zuul proxy, embarcado na JVM.
+
+
+
+
 ### Agregação de logs com ElasticSearch
 
 ![Diagrama Elastic Search Stack](imagens/diagram-elastic-stack.png)
