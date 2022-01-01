@@ -16,6 +16,7 @@
         <module>serviceDiscoveryEurekaServer</module>
         <module>gateway</module>
         <module>servico_solicitacao_emprestimo</module>
+        <module>servidor_autenticacao</module>
     </modules>
 
     <properties>
