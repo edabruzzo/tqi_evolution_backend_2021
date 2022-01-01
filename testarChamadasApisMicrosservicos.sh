@@ -7,6 +7,7 @@ sh ./testesAPI_Emprestimo.sh
 sh ./testes_Solicitacao_Emprestimo.sh
 sh ./testes_zuul_proxy_gateway.sh
 
+sh ./testes_servidor_autenticacao.sh
 
 zuul_proxy_gateway="localhost:5555"
 

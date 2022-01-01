@@ -309,7 +309,9 @@ o qual implementa autenticação baseada em OAuth2 SSO (Single Sign-ON) com supo
 a troca de tokens entre Resource Servers de nosso sistema, assim como a configuração de 
 autenticação downstream utilizando o nosso Gateway Zuul proxy, embarcado na JVM.
 
-
+#### OAuth 2.0
+Referência:
++ https://backstage.forgerock.com/knowledge/kb/article/a45882528
 
 
 ### Agregação de logs com ElasticSearch
