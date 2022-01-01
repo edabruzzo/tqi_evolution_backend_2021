@@ -56,6 +56,14 @@
 		</dependency>
 
 
+		<!-- Declarative REST Client. OpenFeign creates a dynamic implementation of an interface decorated with JAX-RS or Spring MVC annotations -->
+		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+
 
 		<!--
 		DEPENDÊNCIA PARA PERMITIR QUE O MICROSERVICE BUSQUE NO CONFIG SERVER AS CONFIGURAÇÕES
@@ -85,6 +93,28 @@
 			<artifactId>modelmapper</artifactId>
 			<version>2.4.2</version>
 		</dependency>
+
+
+		<!-- SEGURANÇA DA APLICAÇÃO   -->
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-oauth2</artifactId>
+			<version>2.2.2.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+
+		<!-- SEGURANÇA DA APLICAÇÃO   -->
+
 
 
 	</dependencies>

@@ -1,5 +1,7 @@
 package br.com.abruzzo;
 
+import feign.RequestInterceptor;
+import feign.RequestTemplate;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,11 +11,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableRedisRepositories
 @EnableEurekaClient
+@EnableResourceServer
 public class ServicoSolicitacaoEmprestimoApplication {
 
 	public static void main(String[] args) {
@@ -54,6 +61,28 @@ public class ServicoSolicitacaoEmprestimoApplication {
 		template.setConnectionFactory(jedisConnectionFactory());
 		return template;
 	}
+
+
+
+
+
+	@Bean
+	public RequestInterceptor getRequestInterceptor(){
+		return new RequestInterceptor() {
+			@Override
+			public void apply(RequestTemplate requestTemplate) {
+				Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+				if(authentication==null)
+					return;
+
+				OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) authentication.getDetails();
+				requestTemplate.header("Authorization","Bearer"+details.getTokenValue());
+
+			}
+		} ;
+	}
+
 
 
 }

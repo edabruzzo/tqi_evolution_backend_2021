@@ -1,5 +1,7 @@
 package br.com.abruzzo;
 
+import feign.RequestInterceptor;
+import feign.RequestTemplate;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -9,7 +11,10 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -38,12 +43,34 @@ public class ClienteApplication {
      */
     @Bean
     @LoadBalanced
-    RestTemplate getRestTemplate(){
+    public RestTemplate getRestTemplate(){
         return new RestTemplate();
     }
 
     @Bean
-    ModelMapper modelMapper () {return new ModelMapper();}
+    public ModelMapper modelMapper () {return new ModelMapper();}
+
+
+    @Bean
+    public RequestInterceptor getRequestInterceptor(){
+        return new RequestInterceptor() {
+            @Override
+            public void apply(RequestTemplate requestTemplate) {
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+                if(authentication==null)
+                    return;
+
+                OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) authentication.getDetails();
+                requestTemplate.header("Authorization","Bearer"+details.getTokenValue());
+
+            }
+        }   ;
+    }
+
+
+
+
 
 
 
