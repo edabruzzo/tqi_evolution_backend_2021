@@ -38,6 +38,7 @@
 
 ### Arquitetura escolhida -  Arquitetura de microserviços orientada a eventos usando Spring Cloud
 
+  ![img.png](imagens/arquitetura_microservices_spring_cloud.png)
 
   Optamos por modelar nossa aplicação em microserviços para garantir independência de cada funcionalidade do resto da aplicação induz ao baixo acoplamento. Com isso, temos mais facilidade de lidar com questões técnicas, que são fortemente influenciadas pelos requisitos funcionais e não funcionais do negócio que estamos informatizando.
   
