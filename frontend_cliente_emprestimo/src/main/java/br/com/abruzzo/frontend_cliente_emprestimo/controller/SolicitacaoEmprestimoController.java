@@ -44,7 +44,7 @@ public class SolicitacaoEmprestimoController {
     }
 
 
-    
+
     @PostMapping("novo")
     public String solicitarNovoEmprestimo(@RequestBody SolicitacaoClienteEmprestimoDTO solicitacaoClienteEmprestimoDTO){
 
