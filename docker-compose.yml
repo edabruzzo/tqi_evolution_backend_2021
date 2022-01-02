@@ -58,7 +58,7 @@ services:
       - elasticsearch
     networks:
       - tqi_evolution_backend_2021_spring-cloud-network
-      -
+      
   filebeat:
     image: docker.elastic.co/beats/filebeat:7.2.0
     volumes:
@@ -173,7 +173,7 @@ services:
     depends_on:
       - config-server
       - eureka_server
-      -
+      
     networks:
       - tqi_evolution_backend_2021_spring-cloud-network
 

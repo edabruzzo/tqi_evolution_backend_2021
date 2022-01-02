@@ -1,0 +1,13 @@
+<div th:replace="~{base :: titulo('Meus Empréstimos')}"></div>
+
+<nav class="navbar navbar-expand navbar-light bg-light d-flex justify-content-between mb-3">
+    <div class="navbar-nav">
+        <a th:classappend="${status} == null ? 'active'" class="nav-item nav-link" href="/home">Todos Empréstimos</a>
+        <a th:classappend="${status} == 'em processamento' ? 'active'" class="nav-item nav-link" href="/home/aguardando">Em processamento</a>
+        <a th:classappend="${status} == 'aguardando aprovação' ? 'active'" class="nav-item nav-link" href="/home/aguardando">Aguardando aprovação</a>
+        <a th:classappend="${status} == 'aprovados' ? 'active'" class="nav-item nav-link" href="/home/aprovado">Aprovados</a>
+        <a th:classappend="${status} == 'Não aprovados' ? 'active'" class="nav-item nav-link" href="/home/aprovado">Não Aprovados</a>
+        <a th:classappend="${status} == 'consolidados' ? 'active'" class="nav-item nav-link" href="/home/entregue">Consolidados</a>
+    </div>
+    <a href="/solicitacao_emprestimo/solicitar"><button class="btn btn-outline-secondary my-2 my-sm-0">Solicitar Novo Empérstimo</button></a>
+</nav>

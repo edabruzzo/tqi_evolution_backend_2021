@@ -90,7 +90,7 @@ public class SolicitacaoEmprestimoController {
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<SolicitacaoEmprestimoDTO>> getSolicitacoesEmprestimoCliente(
+    public List<SolicitacaoEmprestimoDTO> getSolicitacoesEmprestimoCliente(
             @RequestParam(name="idCliente", required=false) Long idCliente,
             @RequestParam(name="cpfCliente",required=false) String cpfCliente){
 
@@ -107,7 +107,7 @@ public class SolicitacaoEmprestimoController {
             listaSolicitacoesEmprestimoClienteDTO.add(solicitacaoEmprestimoDTO);
         });
 
-        return ResponseEntity.ok().body(listaSolicitacoesEmprestimoClienteDTO);
+        return listaSolicitacoesEmprestimoClienteDTO;
 
     }
 
@@ -120,12 +120,10 @@ public class SolicitacaoEmprestimoController {
      */
     @GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<SolicitacaoEmprestimoDTO>> retornaTodasSolicitacaoEmprestimos(){
+    public List<SolicitacaoEmprestimoDTO> retornaTodasSolicitacaoEmprestimos(){
 
         logger.info("Chegou GET request no Endpoint %s para listar todas as solicitações de empréstimos", ParametrosConfig.ENDPOINT_BASE.getValue());
         List<SolicitacaoEmprestimoDTO> listaSolicitacaoEmprestimoDTO = new ArrayList<>();
-
-        ResponseEntity resposta = ResponseEntity.notFound().build();
 
         try {
             List<SolicitacaoEmprestimo> listaSolicitacaoEmprestimo = solicitacaoEmprestimoService.findAll();
@@ -138,13 +136,11 @@ public class SolicitacaoEmprestimoController {
 
             });
 
-            resposta = ResponseEntity.ok().body(listaSolicitacaoEmprestimoDTO);
-
         }catch(Exception erro){
             logger.error("Erro ao listar todas as Solicitações de empréstimo");
         }
 
-        return resposta;
+        return listaSolicitacaoEmprestimoDTO;
     }
     
     

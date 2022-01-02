@@ -12,10 +12,14 @@ import java.util.List;
  * @date 01/01/2022
  */
 @FeignClient("servico_cliente")
-public interface ClienteFeignClient {
+public interface IClienteFeignClient {
+
+    @RequestMapping(path= "cliente",method= RequestMethod.GET)
+    public List<ClienteDTO> retornaTodosClientes();
+
 
     @RequestMapping(path= "cliente",method= RequestMethod.POST)
-    public List<ClienteDTO> retornaTodosClientes();
+    public ClienteDTO criaNovoCliente(ClienteDTO clienteDTO);
 
 
 }

@@ -49,7 +49,7 @@ public class ClienteController {
      */
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<ClienteDTO> getClienteById(@PathVariable Long id) {
+    public ClienteDTO getClienteById(@PathVariable Long id) {
 
         logger.info("Chegou GET request no Endpoint {}/{}/{}",
                   ParametrosConfig.ENDPOINT_BASE.getValue()
@@ -59,9 +59,10 @@ public class ClienteController {
 
         if (cliente.isPresent()){
             ClienteDTO clienteDTO = this.modelMapper.map(cliente.get(), ClienteDTO.class);
-            return ResponseEntity.ok().body(clienteDTO);
+            return clienteDTO;
         }
-        else return (ResponseEntity) ResponseEntity.notFound().build();
+        else
+            return new ClienteDTO();
 
     }
 
@@ -70,11 +71,11 @@ public class ClienteController {
      *  Método que retorna um Flux de todos os clientes cadastrados na base
      *  após um GET request via chamada Rest
      *
-     * @return    retorna um ResponseEntity de uma lista de clientes DTO no formato JSON
+     * @return    retorna uma lista de clientes DTO no formato JSON
      */
     @GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<ClienteDTO>> retornaTodosClientes(){
+    public List<ClienteDTO> retornaTodosClientes(){
 
         logger.info("Chegou GET request no Endpoint {}/{}", ParametrosConfig.ENDPOINT_BASE.getValue()
                 , ParametrosConfig.CLIENTE_ENDPOINT.getValue());
@@ -89,7 +90,7 @@ public class ClienteController {
             listaClientesDTO.add(clienteDTO);
         });
 
-        return ResponseEntity.ok().body(listaClientesDTO);
+        return listaClientesDTO;
 
     }
 
@@ -100,11 +101,11 @@ public class ClienteController {
      *  após uma request via chamada Rest utilizando o método HTTP POST
      *
      * @param clienteDTO cliente DTO - Data Transfer Object - JSON cliente que chega como payload no request body
-     * @return    retorna uma Mono stream com o cliente salvo no formato JSON
+     * @return    retorna um  cliente DTO salvo no formato JSON
      */
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ClienteDTO createCliente(@RequestBody Cliente clienteDTO) throws ErroOperacaoTransacionalBancoException {
+    public ClienteDTO criaNovoCliente(@RequestBody Cliente clienteDTO) throws ErroOperacaoTransacionalBancoException {
 
         logger.info("Requisição para salvar um cliente na base");
         logger.info("POST recebido no seguinte endpoint: {}", ParametrosConfig.ENDPOINT_BASE.getValue());

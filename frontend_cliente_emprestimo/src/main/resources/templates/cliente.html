@@ -4,6 +4,11 @@
 
 <body>
 
+
+
+
+
+    <div> <div th:replace="~{navegacao :: nav('Meus Pedidos')}"></div></div>
     <div class="container">
         <div class="card" th:each="cliente : ${listaClientes}" >
             <div class="card-header" th:text="${cliente.nome}"> Nome</div>

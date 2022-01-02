@@ -17,7 +17,7 @@ mkdir $diretorio_logs_testes_do_dia
 touch $logRequests
 
 
-function testarRequests() {
+function testarRequests {
 echo '\n'
 echo '\n'
 echo '---------------------------------------------------------------------------------------------'
@@ -26,12 +26,12 @@ echo '\n'
 echo "Testando Autenticação do serviço cliente e de usuário de testes no Microsserviço: $NOME_MICROSERVICO"
 echo '\n'
 
-$access_token_obtido= $(curl --location --request POST "$URL_TESTES/oauth/token" \
+curl --location --request POST "$URL_TESTES/oauth/token" \
 --header 'Authorization: Basic Og==' \
 --form 'scope="web"' \
 --form 'grant_type="password"' \
 --form 'username="joao"' \
---form 'password="joao_secret"' |  jq -r '.access_token')
+--form 'password="joao_secret"'
 
 echo '\n'
 
@@ -47,16 +47,16 @@ echo'INFORMAÇÕES DO USUÁRIO LOGADO \n'
 
 access_token="access_token"
 
-curl --location --request GET "$URL_TESTES/user"  \
---header 'Content-Type: application/json' \
---data-raw """
+#curl --location --request GET "$URL_TESTES/user"  \
+#--header 'Content-Type: application/json' \
+#--data-raw "
 
 '{
     "access_token" : "$access_token_obtido"
  }'
 
 
-"""
+"
 
 echo "\n"
 

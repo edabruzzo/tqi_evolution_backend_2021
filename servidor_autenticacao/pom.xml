@@ -43,6 +43,35 @@
 		</dependency>
 	</dependencies>
 
+
+
+
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<!--Compatibilidade Table 1. Release train Spring Boot compatibility
+
+                https://spring.io/projects/spring-cloud#overview
+                -->
+				<version>2021.0.0</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+
+	<repositories>
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+		</repository>
+	</repositories>
+
 	<build>
 		<plugins>
 			<plugin>
