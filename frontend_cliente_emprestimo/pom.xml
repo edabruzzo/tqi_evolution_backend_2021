@@ -131,6 +131,15 @@
 		</dependency>
 
 
+		<!-- Adiciona segurança ao nível dos métodos
+  Vide: https://www.baeldung.com/spring-security-method-security
+  -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+		</dependency>
+
+
 		<!-- SEGURANÇA DA APLICAÇÃO   -->
 
 
