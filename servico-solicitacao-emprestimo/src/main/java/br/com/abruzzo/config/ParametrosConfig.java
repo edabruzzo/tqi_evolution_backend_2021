@@ -6,8 +6,8 @@ package br.com.abruzzo.config;
  */
 public enum ParametrosConfig {
 
-    ENDPOINT_BASE("http://servico_solicitacao_emprestimo"),
-    SERVICO_EMPRESTIMO("http://servico_emprestimo"),
+    ENDPOINT_BASE("http://servico-solicitacao-emprestimo"),
+    SERVICO_EMPRESTIMO("http://servico-emprestimo"),
     OPERACAO_EMPRESTIMO_ENDPOINT(SERVICO_EMPRESTIMO.getValue().concat("/emprestimo"));
 
     private final String value;

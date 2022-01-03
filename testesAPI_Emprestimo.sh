@@ -32,7 +32,7 @@ echo 'Criando empréstimo na base'
 
 echo '\n'
 
-curl --location --request POST "$inicio_request/servico_emprestimo/emprestimo" \
+curl --location --request POST "$inicio_request/servico-emprestimo/emprestimo" \
  --header 'Content-Type: application/json' \
  --data-raw '{
      "valor" : 10000,

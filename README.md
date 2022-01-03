@@ -129,7 +129,7 @@ Em nenhum momento é criada uma dependência relacional entre as Entidades JPA C
 Nós utilizamos o serviço de gerenciamento de clientes como ponto de entrada da solicitação de empréstimos.
 A partir dele, após avaliações de regras de negóio básicas, o serviço de solicitação e avaliação de empréstimos
 é chamado para persistir em memória a solicitação, e disparar outros serviços externos de avaliações sobre 
-a solicitação. A solicitação permanece persistida em memória, num banco REDIS enquant é processada por outros serviços
+a solicitação. A solicitação permanece persistida em memória, num banco REDIS enquanto é processada por outros serviços
 e, caso aprovada, o serviço de solicitaçaõ e avaliação chama o serviço de gerenciamento de empréstimo para persistir 
 o empréstimo somente no caso de aprovação, pois ele passa a ser gerenciado pelo serviço de empréstimo,
 que faz uso de um banco relacional. A solicitação de empréstimo fica em memória, enquanto é avaliada por um sistema de gerenciamento de risco de crédito interno
@@ -291,7 +291,11 @@ para roteamento e balanceamento de carga do lado do cliente.
 
 ### Autenticação e autorização de acesso a operações
 
-Referência: https://www.baeldung.com/spring-cloud-security
+Referências: 
+
++ https://www.baeldung.com/spring-cloud-security
++ https://medium.com/@mool.smreeti/microservices-with-spring-boot-authentication-with-jwt-and-spring-security-6e10155d9db0
+
 
 Quando pensamos em autorização em um contexto de arquitetura de microsserviços, precisamos lembrar 
 que os estados e contextos de execução entre microsserviços e instâncias de um mesmo microsserviço
@@ -377,7 +381,7 @@ Referência:
 
 ### RODANDO NOSSA APLICAÇÃO EM CONTAINER
 ![img.png](imagens/docker_containers.png)
-Fonte e referência: https://cassiomolin.com/2019/06/30/log-aggregation-with-spring-boot-elastic-stack-and-docker/
+Fonte e referência: + https://cassiomolin.com/2019/06/30/log-aggregation-with-spring-boot-elastic-stack-and-docker/
 
 Nossa aplicação está rodando de forma totalmente dockerizada em uma rede bridge 
  
@@ -385,6 +389,62 @@ Nossa aplicação está rodando de forma totalmente dockerizada em uma rede brid
 +https://www.baeldung.com/dockerizing-spring-boot-application
 +https://developer.okta.com/blog/2019/02/28/spring-microservices-docker
 
+Necessário configurar um Dockerfile na raiz de cada Microsserviço ou em outro local centralizado, caso 
+deseje.
+
+Dockerfile
+```
+# spring.io/guides/gs/spring-boot-docker
+
+FROM openjdk:11-jre
+MAINTAINER Emmanuel de Oliveira Abruzzo <emmanuel.oliveira3@gmail.com>
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java -jar app.jar"]
+
+```
+Executar o comando Maven para construir os *.jar de cada projeto:
+
+
+E, após, construir a imagem Docker de cada projeto:
+
+```
+docker build -t 
+```
+
+
+É possível usar o próprio Maven para construir nossas imagens docker no momento de buildar cada projeto, 
+através do plugin do Docker para o Maven construído pelo Spotify.
+
+
+```
+docker logout
+```
+Logar no docker hub a partir da linha de comando:
+
+
+```shell
+
+password=***********
+usuario=************
+
+echo $password | docker login --username $usuario --password-stdin
+
+for diretorio_projeto in ./tqi_evolution_backend_2021; 
+  
+  do cd $diretorio_projeto && mvn clean package  && docker build -t edabruzzo/tqi_evolution_backend_2021/$diretorio_projeto:0.0.1-SNAPSHOT ./$diretorio_projeto;
+  
+done;
+
+
+```
+Ou utilizando o docker-compose na raiz do projeto a partir do docker-compose.yml:
+
+```shell
+cd ~/IdeaProjects/tqi_evolution_backend_2021/
+docker-compose up -d
+
+```
 
 
 ### Circuit Breaker com Hystrix

@@ -1,8 +1,7 @@
 package br.com.abruzzo.client;
 
 import br.com.abruzzo.dto.EmprestimoDTO;
-import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.http.ResponseEntity;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @date 31/12/2021
  */
 
-@FeignClient("servico_emprestimo")
+@FeignClient("servico-emprestimo")
 public interface ServicoEmprestimoFeignClient {
 
 

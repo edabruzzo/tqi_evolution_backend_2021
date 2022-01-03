@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.abruzzo</groupId>
-	<artifactId>gateway</artifactId>
+	<artifactId>zull_gateway</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>zuul_gateway</name>
 	<description>Demo project for Spring Boot</description>

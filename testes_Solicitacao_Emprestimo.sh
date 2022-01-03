@@ -29,7 +29,7 @@ echo '\n'
 
 echo '\n'
 
-curl --location --request GET "$inicio_request/servico_cliente/emprestimo/solicitar?idCliente=2&valor=50000&parcelas=60&dataPrimeiraParcela=2022-02-01"
+curl --location --request GET "$inicio_request/servico-cliente/emprestimo/solicitar?idCliente=2&valor=50000&parcelas=60&dataPrimeiraParcela=2022-02-01"
 
 echo '\n'
 

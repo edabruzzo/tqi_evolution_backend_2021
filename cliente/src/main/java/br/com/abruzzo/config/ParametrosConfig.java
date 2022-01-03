@@ -2,10 +2,10 @@ package br.com.abruzzo.config;
 
 public enum ParametrosConfig {
 
-    ENDPOINT_BASE("http://servico_cliente"),
+    ENDPOINT_BASE("http://servico-cliente"),
     CLIENTE_ENDPOINT("/cliente"),
-    OPERACAO_EMPRESTIMO_ENDPOINT("http://servico_solicitacao_emprestimo/solicitacao_emprestimo"),
-    SERVICO_SOLICITACAO_EMPRESTIMO("servico_solicitacao_emprestimo"),
+    OPERACAO_EMPRESTIMO_ENDPOINT("http://servico-solicitacao-emprestimo/solicitacao_emprestimo"),
+    SERVICO_SOLICITACAO_EMPRESTIMO("servico-solicitacao-emprestimo"),
     PATH_SOLICITACAO_EMPRESTIMO("solicitacao_emprestimo");
 
     private final String value;

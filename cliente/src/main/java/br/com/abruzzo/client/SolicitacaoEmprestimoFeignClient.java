@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @date 31/12/2021
  */
 
-@FeignClient("servico_solicitacao_emprestimo")
+@FeignClient("servico-solicitacao-emprestimo")
 public interface SolicitacaoEmprestimoFeignClient {
 
 

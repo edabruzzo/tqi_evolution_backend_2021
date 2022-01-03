@@ -2,7 +2,7 @@ package br.com.abruzzo.config;
 
 public enum ParametrosConfig {
 
-    ENDPOINT_BASE("http://servico_emprestimo"),
+    ENDPOINT_BASE("http://servico-emprestimo"),
     EMPRESTIMO_ENDPOINT("/emprestimo"),
     TABLENAME("tb_emprestimo");
 

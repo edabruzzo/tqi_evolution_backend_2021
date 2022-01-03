@@ -11,7 +11,7 @@ import java.util.List;
  * @author Emmanuel Abruzzo
  * @date 01/01/2022
  */
-@FeignClient("servico_cliente")
+@FeignClient("servico-cliente")
 public interface IClienteFeignClient {
 
     @RequestMapping(path= "cliente",method= RequestMethod.GET)

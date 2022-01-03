@@ -12,7 +12,7 @@ import java.util.List;
  * @author Emmanuel Abruzzo
  * @date 02/01/2022
  */
-@FeignClient("servico_solicitacao_emprestimo")
+@FeignClient("servico-solicitacao-emprestimo")
 public interface ISolicitacaoEmprestimoFeignClient {
 
     @RequestMapping(path= "solicitacao_emprestimo",method= RequestMethod.GET)

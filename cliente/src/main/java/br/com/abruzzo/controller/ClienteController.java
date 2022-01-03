@@ -168,7 +168,7 @@ public class ClienteController {
      * @param id  Id do cliente cadastrado em banco
      * @return    retorna uma Mono stream com o cliente salvo no formato JSON
      */
-    @DeleteMapping(value="{id}")
+    @DeleteMapping(value="/{id}")
     @ResponseStatus(code=HttpStatus.OK)
     public void delete(@PathVariable Long id) throws ErroOperacaoTransacionalBancoException {
         logger.info("DELETE request recebido no endpoint: {}", ParametrosConfig.ENDPOINT_BASE.getValue());

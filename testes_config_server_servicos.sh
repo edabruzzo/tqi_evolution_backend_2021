@@ -20,13 +20,28 @@ echo "Iniciando testes da API do Microsserviço $NOME_MICROSERVICO: ${DATA_HORA}
 echo '\n'
 echo "Testando Configurações do Serviço de Clientes no $NOME_MICROSERVICO"
 echo '\n'
-curl --location --request GET 'http://localhost:8888/servico_cliente/default'
+curl --location --request GET 'http://localhost:8888/servico-cliente/default'
 echo '\n'
 
 echo "Testando Configurações do Serviço de Empréstimo no $NOME_MICROSERVICO"
 echo '\n'
-curl --location --request GET 'http://localhost:8888/servico_emprestimo/default'
+curl --location --request GET 'http://localhost:8888/servico-emprestimo/default'
 echo '\n'
+
+
+
+echo "Testando Configurações do Serviço de Solicitação de Empréstimo no $NOME_MICROSERVICO"
+echo '\n'
+curl --location --request GET 'http://localhost:8888/servico-solicitacao-emprestimo/default'
+echo '\n'
+
+
+echo "Testando Configurações do Frontend no $NOME_MICROSERVICO"
+echo '\n'
+curl --location --request GET 'http://localhost:8888/frontend_cliente_emprestimo/default'
+echo '\n'
+
+
 
 echo "Testes da API do microsserviço $NOME_MICROSERVICO finalizados às $(date +"%d_%m_%Y_%H_hs_%M_min")"
 echo '\n'

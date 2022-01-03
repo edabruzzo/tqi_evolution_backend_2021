@@ -3,6 +3,9 @@
 DATA_HORA=$(date +"%d_%m_%Y_%H_hs_%M_min")
 DATA_DIA_MES=$(date +"%d_%m_%Y")
 NOME_MICROSERVICO="Serviço de gerenciamento de clientes"
+
+nome_eureka_servico="servico-cliente"
+
 diretorio_log_testes=/home/$USER/IdeaProjects/tqi_evolution_backend_2021/logs_testes
 diretorio_logs_testes_do_dia=$diretorio_log_testes/$DATA_DIA_MES
 logRequests=$diretorio_logs_testes_do_dia/TESTES_$NOME_MICROSERVICO_$DATA_HORA.log
@@ -31,7 +34,7 @@ echo 'Cadastrando cliente Andrea'
 
 echo '\n'
 
-curl --location --request POST "$inicio_request/servico_cliente/cliente" \
+curl --location --request POST "$inicio_request/$nome_eureka_servico/cliente" \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "nome" : "Andrea",
@@ -47,7 +50,7 @@ curl --location --request POST "$inicio_request/servico_cliente/cliente" \
 echo '\n'
 
 
-curl --location --request GET "$inicio_request/servico_cliente/cliente/1"
+curl --location --request GET "$inicio_request/$nome_eureka_servico/cliente/1"
 
 
 echo '\n'
@@ -56,7 +59,7 @@ echo 'Cadastrando cliente José'
 
 echo '\n'
 
-curl --location --request POST "$inicio_request/servico_cliente/cliente" \
+curl --location --request POST "$inicio_request/$nome_eureka_servico/cliente" \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "nome" : "José",
@@ -71,7 +74,7 @@ curl --location --request POST "$inicio_request/servico_cliente/cliente" \
 echo '\n'
 
 
-curl --location --request GET "$inicio_request/servico_cliente/cliente"
+curl --location --request GET "$inicio_request/$nome_eureka_servico/cliente"
 
  
 echo '\n'
@@ -80,7 +83,7 @@ echo 'Atualizando Cliente de id 1'
 
 echo '\n'
 
- curl --location --request PUT "$inicio_request/servico_cliente/cliente/1" \
+ curl --location --request PUT "$inicio_request/$nome_eureka_servico/cliente/1" \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "nome" : "Andrea",
@@ -95,11 +98,11 @@ echo '\n'
 
 echo '\n'
 
-curl --location --request GET "$inicio_request/servico_cliente/cliente/1"
+curl --location --request GET "$inicio_request/$nome_eureka_servico/cliente/1"
 
 echo '\n'
 
-curl --location --request GET "$inicio_request/servico_cliente/cliente/"
+curl --location --request GET "$inicio_request/$nome_eureka_servico/cliente/"
 
 echo '\n'
 
@@ -107,11 +110,11 @@ echo 'Deletando cliente de id 1'
 
 echo '\n'
 
-curl --location --request DELETE "$inicio_request/servico_cliente/cliente/1"
+curl --location --request DELETE "$inicio_request/$nome_eureka_servico/cliente/1"
 
 echo '\n'
 
-curl --location --request GET "$inicio_request/servico_cliente/cliente/"
+curl --location --request GET "$inicio_request/$nome_eureka_servico/cliente/"
 
 echo '\n'
 
@@ -119,7 +122,7 @@ echo '\n'
 
 echo '\n'
 
-curl --location --request POST "$inicio_request/servico_cliente/cliente" \
+curl --location --request POST "$inicio_request/$nome_eureka_servico/cliente" \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "nome" : "José",

@@ -106,7 +106,7 @@ services:
     build:
       dockerfile: ./docker/zuul_gateway.dockerfile:0.0.1-SNAPSHOT
       context: .
-    image: edabruzzo/tqi_evolution_backend_2021/zuul_gateway:latest
+    image: edabruzzo/tqi_evolution_backend_2021/zuul_gateway:0.0.1-SNAPSHOT
     ports:
       - "5555:5555"
     labels:
@@ -121,11 +121,11 @@ services:
 
 
 
-  servico_emprestimo:
+  servico-emprestimo:
     build:
-      dockerfile: ./docker/emprestimo.dockerfile:0.0.1-SNAPSHOT
+      dockerfile: ./docker/servico-emprestimo.dockerfile:0.0.1-SNAPSHOT
       context: .
-    image: edabruzzo/tqi_evolution_backend_2021/servico_emprestimo:latest
+    image: edabruzzo/tqi_evolution_backend_2021/servico-emprestimo:0.0.1-SNAPSHOT
     ports:
       - "8081:8081"
     labels:
@@ -140,12 +140,12 @@ services:
 
 
 
-  servico_cliente:
+  servico-cliente:
     build:
       dockerfile: ./docker/cliente.dockerfile
       context: .
-    image: edabruzzo/tqi_evolution_backend_2021/servico_cliente:0.0.1-SNAPSHOT
-    container_name: servico_cliente
+    image: edabruzzo/tqi_evolution_backend_2021/servico-cliente:0.0.1-SNAPSHOT
+    container_name: servico-cliente
     ports:
       - "8080:8080"
     labels:
@@ -153,17 +153,17 @@ services:
       decode_log_event_to_json_object: "true"
     restart: on-failure
     depends_on:
-      - servico_solicitacao_emprestimo
-      - servico_emprestimo
+      - servico-solicitacao-emprestimo
+      - servico-emprestimo
     networks:
       - tqi_evolution_backend_2021_spring-cloud-network
 
-  servico_solicitacao_emprestimo:
+  servico-solicitacao-emprestimo:
     build:
-      dockerfile: ./docker/servico_solicitacao_emprestimo.dockerfile
+      dockerfile: ./docker/servico-solicitacao-emprestimo.dockerfile
       context: .
-    image: edabruzzo/tqi_evolution_backend_2021/servico_solicitacao_emprestimo:0.0.1-SNAPSHOT
-    container_name: servico_cliente
+    image: edabruzzo/tqi_evolution_backend_2021/servico-solicitacao-emprestimo:0.0.1-SNAPSHOT
+    container_name: servico-solicitacao-emprestimo
     ports:
       - "8082:8082"
     labels:
@@ -184,7 +184,7 @@ services:
       dockerfile: ./docker/frontend_cliente_emprestimo.dockerfile
       context: .
     image: edabruzzo/tqi_evolution_backend_2021/frontend_cliente_emprestimo:0.0.1-SNAPSHOT
-    container_name: servico_cliente
+    container_name: servico-cliente
     ports:
       - "5000:5000"
     labels:
@@ -192,7 +192,7 @@ services:
       decode_log_event_to_json_object: "true"
     restart: on-failure
     depends_on:
-      - servico_cliente
+      - servico-cliente
     networks:
       - tqi_evolution_backend_2021_spring-cloud-network
 

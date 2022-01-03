@@ -17,7 +17,7 @@ Testando Configurações do Serviço de Clientes no config-server
 Testando Configurações do Serviço de Empréstimo no config-server
 
 
-{"name":"servico_emprestimo","profiles":["default"],"label":null,"version":null,"state":null,"propertySources":[{"name":"class path resource [application.properties","source":{"spring.application.name":"config-server","server.port":"8888","spring.profiles.active":"native","spring.cloud.config.server.git.uri":"https://github.com/edabruzzo/tqi_evolution_backend_2021_microservices_configuration_repo.git"}}]}
+{"name":"servico-emprestimo","profiles":["default"],"label":null,"version":null,"state":null,"propertySources":[{"name":"class path resource [application.properties","source":{"spring.application.name":"config-server","server.port":"8888","spring.profiles.active":"native","spring.cloud.config.server.git.uri":"https://github.com/edabruzzo/tqi_evolution_backend_2021_microservices_configuration_repo.git"}}]}
 
 Testes da API do microsserviço config-server finalizados às 28_12_2021_20_hs_40_min
 
