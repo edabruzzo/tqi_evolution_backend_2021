@@ -24,7 +24,7 @@ import java.util.List;
  * @date 29/12/2021
  */
 @RestController
-@RequestMapping("/solicitacao_emprestimo")
+@RequestMapping("/solicitacao-emprestimo")
 public class SolicitacaoEmprestimoController {
 
     private static final Logger logger = LoggerFactory.getLogger(SolicitacaoEmprestimoController.class);

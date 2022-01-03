@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public interface SolicitacaoEmprestimoFeignClient {
 
 
-    @RequestMapping(path= "solicitacao_emprestimo",method= RequestMethod.POST)
+    @RequestMapping(path= "solicitacao-emprestimo",method= RequestMethod.POST)
     public SolicitacaoEmprestimoDTO criaSolicitacaoEmprestimo(SolicitacaoEmprestimoDTO solicitacaoEmprestimoDTO);
 
 

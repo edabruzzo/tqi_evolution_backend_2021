@@ -18,10 +18,10 @@ public interface ISolicitacaoEmprestimoFeignClient {
     @RequestMapping(path= "solicitacao_emprestimo",method= RequestMethod.GET)
     public List<SolicitacaoEmprestimoDTO> getSolicitacoesEmprestimoCliente(Long idCliente, String cpfCliente);
 
-    @RequestMapping(path= "solicitacao_emprestimo",method= RequestMethod.GET)
+    @RequestMapping(path= "solicitacao-emprestimo",method= RequestMethod.GET)
     public List<SolicitacaoEmprestimoDTO> retornaTodasSolicitacaoEmprestimos();
 
-    @RequestMapping(path= "solicitacao_emprestimo",method= RequestMethod.POST)
+    @RequestMapping(path= "solicitacao-emprestimo",method= RequestMethod.POST)
     public SolicitacaoEmprestimoDTO criaSolicitacaoEmprestimo(SolicitacaoEmprestimoDTO solicitacaoEmprestimoDTO);
 
 
