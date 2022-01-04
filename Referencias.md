@@ -33,6 +33,8 @@
 + https://cloud.spring.io/spring-cloud-netflix/multi/multi_spring-cloud-feign.html
 + https://github.com/wagnersistemalima/kotlin-spring-boot-microsservicos-spring-cloud  -> README.md (ver)
 + https://github.com/spring-cloud-samples/configserver  -> Importante Docker plugin
++ https://www.tutorialspoint.com/spring_boot/spring_boot_zuul_proxy_server_and_routing.htm
+
 
 ### Docker
 + https://github.com/oktadev/okta-spring-microservices-docker-example/blob/main/config/pom.xml

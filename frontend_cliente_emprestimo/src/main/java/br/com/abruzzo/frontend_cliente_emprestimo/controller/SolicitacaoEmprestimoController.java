@@ -47,6 +47,7 @@ public class SolicitacaoEmprestimoController {
 
 
     @GetMapping("solicitar")
+    @RolesAllowed({"FUNCIONARIO", "SUPER_ADMIN"})
     public String solicitarEmprestimo(){
         return "emprestimo/solicitacao-emprestimo";
     }
@@ -79,8 +80,6 @@ public class SolicitacaoEmprestimoController {
         ClienteDTO clienteSalvoDTO = this.clienteService.criaNovoCliente(solicitacaoClienteEmprestimoDTO);
 
         SolicitacaoEmprestimoDTO solicitacaoEmprestimoSalvaDTO = this.solicitacaoEmprestimoService.solicitarNovoEmprestimo(solicitacaoClienteEmprestimoDTO, clienteSalvoDTO.getId());
-
-
 
         return "emprestimo";
     }
