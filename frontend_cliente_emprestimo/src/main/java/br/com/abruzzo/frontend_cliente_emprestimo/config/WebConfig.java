@@ -1,5 +1,6 @@
 package br.com.abruzzo.frontend_cliente_emprestimo.config;
 
+import br.com.abruzzo.frontend_cliente_emprestimo.interceptors.InterceptadorAcesso;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -13,6 +14,6 @@ public class WebConfig extends WebMvcConfigurationSupport {
 
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new InterceptadorDeAcessos()).addPathPatterns("/**");
+        registry.addInterceptor(new InterceptadorAcesso()).addPathPatterns("/**");
     }
 }

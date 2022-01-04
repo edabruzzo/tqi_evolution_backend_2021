@@ -1,8 +1,6 @@
 package br.com.abruzzo.frontend_cliente_emprestimo.service;
 
 import br.com.abruzzo.dto.SolicitacaoClienteEmprestimoDTO;
-import br.com.abruzzo.frontend_cliente_emprestimo.controller.EmprestimoController;
-import br.com.abruzzo.frontend_cliente_emprestimo.exceptions.ClienteTentandoListarCPFOutroClienteException;
 import br.com.abruzzo.frontend_cliente_emprestimo.exceptions.FuncionarioSemPrivilegioAdminTentandoCriarSUPERADMINException;
 import br.com.abruzzo.frontend_cliente_emprestimo.feign_clients.IAutenticacaoUsuarioFeignClient;
 import br.com.abruzzo.frontend_cliente_emprestimo.dto.UsuarioDTO;
@@ -44,7 +42,7 @@ public class AutenticacaoUsuarioService {
 
         listaRoles.add("CLIENTE");
 
-        usuarioDTO.setRoles(listaRoles);
+        usuarioDTO.setAuthorities(listaRoles);
         usuarioDTO.setLoginAttempt(0);
         usuarioDTO.setPassword(solicitacaoClienteEmprestimoDTO.getSenha());
 
@@ -79,7 +77,7 @@ public class AutenticacaoUsuarioService {
         boolean usuarioLogadoFuncionarioSemPrivilegioAdmin = ! authentication.getAuthorities().stream()
                 .anyMatch(role -> role.getAuthority().equals("SUPER_ADMIN"));
 
-        boolean usuarioNovoPossuiPrivilegioAdmin = usuarioDTO.getRoles().stream()
+        boolean usuarioNovoPossuiPrivilegioAdmin = usuarioDTO.getAuthorities().stream()
                 .anyMatch(role -> role.equals("SUPER_ADMIN"));
 
         if(usuarioLogadoFuncionarioSemPrivilegioAdmin && usuarioNovoPossuiPrivilegioAdmin){

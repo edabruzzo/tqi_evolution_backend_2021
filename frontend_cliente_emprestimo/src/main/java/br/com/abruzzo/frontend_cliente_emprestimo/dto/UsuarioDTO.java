@@ -3,6 +3,7 @@ package br.com.abruzzo.frontend_cliente_emprestimo.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ public class UsuarioDTO {
     private String password;
     private String status;
     private Integer loginAttempt;
-    private List<String> roles = new ArrayList<>();
+    private List<GrantedAuthority> authorities = new ArrayList<>();
+
 
 }

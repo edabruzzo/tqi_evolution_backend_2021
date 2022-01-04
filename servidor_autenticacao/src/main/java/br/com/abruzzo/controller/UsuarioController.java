@@ -32,7 +32,6 @@ public class UsuarioController {
 
     private UsuarioService usuarioService;
 
-
     public UsuarioController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
     }
@@ -59,31 +58,9 @@ public class UsuarioController {
         Usuario usuarioSalvo = null ;
 
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        boolean usuarioLogadoSemPrivilegioAdmin = authentication.getAuthorities().stream()
-                .anyMatch(r -> ! r.getAuthority().equals("SUPER_ADMIN"));
-
-        boolean estaTentandoSalvarAdmin = usuarioDTO.getRoles().stream()
-                        .anyMatch(role -> role.equals("SUPER_ADMIN"));
-
-        if(usuarioLogadoSemPrivilegioAdmin && estaTentandoSalvarAdmin){
-
-            String credenciaisUsuarioLogado = authentication.getCredentials().toString();
-
-            String mensagemErro = "Tentativa de um Funcionário cadastrar um Administrador no sistema\n";
-            mensagemErro += String.format("Usuário que fez a tentativa %s",credenciaisUsuarioLogado);
-            mensagemErro += "\nTentando salvar o seguinte usuário com perfil de Admin\n";
-            mensagemErro += String.format("Usuário que fez a tentativa %s",usuarioDTO);
-
-            throw new UsuarioSemPrivilegioAdminTentandoSalvarAdminException(mensagemErro, this.logger);
-        }
-
-
-
         try{
             Usuario usuario = this.modelMapper.map(usuarioDTO, Usuario.class);
-            usuarioSalvo = usuarioService.save(usuario);
+            usuarioSalvo = usuarioService.salvarUsuarioBaseAutenticacao(usuario);
             usuarioDTO = this.modelMapper.map(usuarioSalvo,UsuarioDTO.class);
             logger.info("Usuario %s foi salvo", usuario.toString());
             logger.info("%s", usuario);

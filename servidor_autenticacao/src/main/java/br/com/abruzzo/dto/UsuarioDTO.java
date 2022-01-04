@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -27,6 +28,6 @@ public class UsuarioDTO {
     private String password;
     private String status;
     private Integer loginAttempt;
-    private List<String> roles = new ArrayList<>();
+    private List<GrantedAuthority> authorities = new ArrayList<>();
 
 }
