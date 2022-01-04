@@ -146,7 +146,7 @@ public class Cliente implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Cliente cliente = (Cliente) o;
-        return Objects.equals(id, cliente.id) && Objects.equals(nome, cliente.nome) && Objects.equals(email, cliente.email) && Objects.equals(cpf, cliente.cpf) && Objects.equals(rg, cliente.rg) && Objects.equals(enderecoCompleto, cliente.enderecoCompleto) && Objects.equals(renda, cliente.renda) && Objects.equals(senha, cliente.senha);
+        return Objects.equals(id, cliente.id) && Objects.equals(nome, cliente.nome) && Objects.equals(email, cliente.email) && Objects.equals(cpf, cliente.cpf) && Objects.equals(rg, cliente.rg) && Objects.equals(enderecoCompleto, cliente.enderecoCompleto) && Objects.equals(renda, cliente.renda);
     }
 
     @Override
