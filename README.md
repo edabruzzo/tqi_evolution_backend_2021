@@ -323,12 +323,15 @@ A integração entre eles é feita via método configure do Adapter.
 
 É necessário também anotar a classe principal do nosso servidor de autenticação com @EnableAuthorizationServer e @EnableResourceServer
 
-
-
 A autenticação de usuário **e microsserviço** é efetuada através de trocas de tokens de acesso criptografados JWT. 
 
 
+#### Spring security method level 
+Referência
++ https://www.baeldung.com/spring-security-method-security
 
+O Spring Security possui suporte a autorização de acesso no nível dos métodos nas camadas service, controller, ... 
+Nós podemos adicionar restrições na execução de métodos, de acordo com roles dos usuários.
 
 
 

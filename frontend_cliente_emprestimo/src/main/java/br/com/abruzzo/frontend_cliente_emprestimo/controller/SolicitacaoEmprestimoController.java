@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @date 02/01/2022
  */
 @Controller
-@RequestMapping("solicitacao_emprestimo")
+@RequestMapping("solicitacao-emprestimo")
 public class SolicitacaoEmprestimoController {
 
 
@@ -39,7 +39,7 @@ public class SolicitacaoEmprestimoController {
 
     @GetMapping("solicitar")
     public String solicitarEmprestimo(){
-        return "emprestimo/solicitacao_emprestimo";
+        return "emprestimo/solicitacao-emprestimo";
 
     }
 
@@ -56,6 +56,9 @@ public class SolicitacaoEmprestimoController {
         clienteDTO.setRenda(solicitacaoClienteEmprestimoDTO.getRenda());
         clienteDTO.setSenha(solicitacaoClienteEmprestimoDTO.getSenha());
         clienteDTO.setRg(solicitacaoClienteEmprestimoDTO.getRg());
+
+
+
 
 
         /**
