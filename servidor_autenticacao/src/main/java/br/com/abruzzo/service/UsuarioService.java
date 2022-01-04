@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,13 +25,6 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
 
-    public Usuario save(Usuario usuario) {
-        Usuario usuarioSalvo = this.usuarioRepository.save(usuario);
-        return usuarioSalvo;
-    }
-
-
-
 
     public Usuario salvarUsuarioBaseAutenticacao(Usuario usuario) {
 
@@ -39,7 +33,7 @@ public class UsuarioService {
         boolean usuarioLogadoSemPrivilegioAdmin = authentication.getAuthorities().stream()
                 .anyMatch(r -> ! r.getAuthority().equals("SUPER_ADMIN"));
 
-        boolean estaTentandoSalvarAdmin = usuario.getAuthorities().stream()
+        boolean estaTentandoSalvarAdmin = usuario.getRoles().stream()
                 .anyMatch(role -> role.equals("SUPER_ADMIN"));
 
         Usuario usuarioSalvo = null;
@@ -56,6 +50,13 @@ public class UsuarioService {
             throw new UsuarioSemPrivilegioAdminTentandoSalvarAdminException(mensagemErro, this.logger);
         }
 
+        /**
+         * Antes de salvar o usuário em banco é necessário encriptar a senha dele.
+         * Estamos fazendo isso com o BCryptPasswordEncoder
+         */
+        String senhaEncriptadaUsuario = encriptarSenha(usuario.getPassword());
+            usuario.setPassword(senhaEncriptadaUsuario);
+
         try{
             usuario = usuarioRepository.save(usuario);
 
@@ -70,10 +71,10 @@ public class UsuarioService {
         return usuarioSalvo;
     }
 
-
-
-
-
+    private String encriptarSenha(String password) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.encode(password);
+    }
 
 
 }
