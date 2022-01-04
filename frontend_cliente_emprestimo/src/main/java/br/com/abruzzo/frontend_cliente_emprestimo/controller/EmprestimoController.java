@@ -1,15 +1,13 @@
 package br.com.abruzzo.frontend_cliente_emprestimo.controller;
 
-import br.com.abruzzo.frontend_cliente_emprestimo.feign_clients.IEmprestimoFeignClient;
 import br.com.abruzzo.frontend_cliente_emprestimo.dto.EmprestimoDTO;
-import br.com.abruzzo.frontend_cliente_emprestimo.exceptions.ClienteTentandoListarCPFOutroClienteException;
+import br.com.abruzzo.frontend_cliente_emprestimo.service.EmprestimoFrontEndService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +28,7 @@ public class EmprestimoController {
     private static final Logger logger = LoggerFactory.getLogger(EmprestimoController.class);
 
     @Autowired
-    IEmprestimoFeignClient emprestimoFeignClient;
+    EmprestimoFrontEndService emprestimoService;
 
 
 
@@ -39,6 +37,7 @@ public class EmprestimoController {
      *  de todos os emprestimos de um cliente específico cadastrados na base
      *  após um GET request via chamada Rest
      *
+     *  Restrição:
      *  O cliente não pode consultar o CPF de outro cliente.... se o fizer, será lançada uma exceção
      *  e a tentativa será logada
      *
@@ -49,39 +48,9 @@ public class EmprestimoController {
     @RolesAllowed({"CLIENTE","FUNCIONARIO","SUPER_ADMIN"})
     public List<EmprestimoDTO> retornaTodosEmprestimosByCliente(@PathVariable String cpfClienteConsultado){
 
+        List<EmprestimoDTO> listaEmprestimoDTO = emprestimoService.retornaTodosEmprestimosByCliente(cpfClienteConsultado);
+        return listaEmprestimoDTO;
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        boolean usuarioLogadoCliente = authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("CLIENTE"));
-
-        /**
-         * Isso só é possível pois estou usando o cpfCliente como username no servidor de aplicação.
-         * Do contrário, teria que bater lá no serviço de cliente com Feign
-         */
-        String cpfClienteLogado = authentication.getName();
-
-        boolean estaTentandoListarEmprestimosOutroCliente = cpfClienteLogado != cpfClienteConsultado;
-
-        if(usuarioLogadoCliente && estaTentandoListarEmprestimosOutroCliente){
-
-            String credenciaisUsuarioLogado = authentication.getCredentials().toString();
-
-            String mensagemErro = "Tentativa de um Cliente listar os empréstimos de outra pessoa\n";
-            mensagemErro += String.format("Usuário que fez a tentativa %s",credenciaisUsuarioLogado);
-
-            throw new ClienteTentandoListarCPFOutroClienteException(mensagemErro, this.logger);
-        }
-
-            try{
-            List<EmprestimoDTO> listaEmprestimoDTO = emprestimoFeignClient.retornaTodosEmprestimosByCliente(cpfClienteLogado);
-
-            return listaEmprestimoDTO;
-
-        }catch(Exception exception){
-            logger.error(exception.getLocalizedMessage());
-            return new ArrayList<EmprestimoDTO>();
-
-        }
     }
 
 
@@ -102,7 +71,7 @@ public class EmprestimoController {
 
 
         try{
-            return emprestimoFeignClient.retornaTodosEmprestimos();
+            return this.emprestimoService.retornaTodosEmprestimos();
 
         }catch(Exception exception){
             logger.error(exception.getLocalizedMessage());

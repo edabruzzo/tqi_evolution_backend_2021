@@ -38,4 +38,5 @@ public class EmprestimoService {
 
        return this.emprestimoRepository.findAllByCpf(cpfCliente);
     }
+
 }
