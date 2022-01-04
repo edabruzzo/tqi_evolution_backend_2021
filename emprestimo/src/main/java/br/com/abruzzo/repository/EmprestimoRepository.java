@@ -23,6 +23,4 @@ public interface EmprestimoRepository extends JpaRepository<Emprestimo, Long> {
     @Query(value=consultaEmprestimosPorCpfCliente,nativeQuery = true)
     List<Emprestimo> findAllByCpf(@Param(value = "cpfCliente") String cpfCliente);
 
-
-
 }

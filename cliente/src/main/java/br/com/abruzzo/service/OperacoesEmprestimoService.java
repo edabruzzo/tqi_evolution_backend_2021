@@ -2,7 +2,7 @@ package br.com.abruzzo.service;
 
 import br.com.abruzzo.config.ParametrosConfig;
 import br.com.abruzzo.dto.SolicitacaoEmprestimoDTO;
-import br.com.abruzzo.client.SolicitacaoEmprestimoFeignClient;
+import br.com.abruzzo.feign_clients.SolicitacaoEmprestimoFeignClient;
 import br.com.abruzzo.dto.SolicitacaoEmprestimoStatusDTO;
 import br.com.abruzzo.exceptions.*;
 import br.com.abruzzo.model.Cliente;
@@ -14,10 +14,6 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 

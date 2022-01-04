@@ -1,4 +1,4 @@
-package br.com.abruzzo.client;
+package br.com.abruzzo.feign_clients;
 
 import br.com.abruzzo.dto.SolicitacaoEmprestimoDTO;
 import org.springframework.cloud.openfeign.FeignClient;

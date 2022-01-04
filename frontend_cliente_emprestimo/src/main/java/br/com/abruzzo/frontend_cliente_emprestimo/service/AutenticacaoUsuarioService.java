@@ -42,7 +42,7 @@ public class AutenticacaoUsuarioService {
 
         listaRoles.add("CLIENTE");
 
-        usuarioDTO.setAuthorities(listaRoles);
+        usuarioDTO.setRoles(listaRoles);
         usuarioDTO.setLoginAttempt(0);
         usuarioDTO.setPassword(solicitacaoClienteEmprestimoDTO.getSenha());
 
@@ -77,7 +77,7 @@ public class AutenticacaoUsuarioService {
         boolean usuarioLogadoFuncionarioSemPrivilegioAdmin = ! authentication.getAuthorities().stream()
                 .anyMatch(role -> role.getAuthority().equals("SUPER_ADMIN"));
 
-        boolean usuarioNovoPossuiPrivilegioAdmin = usuarioDTO.getAuthorities().stream()
+        boolean usuarioNovoPossuiPrivilegioAdmin = usuarioDTO.getRoles().stream()
                 .anyMatch(role -> role.equals("SUPER_ADMIN"));
 
         if(usuarioLogadoFuncionarioSemPrivilegioAdmin && usuarioNovoPossuiPrivilegioAdmin){
