@@ -177,9 +177,15 @@
 			<artifactId>logback-core</artifactId>
 			<version>1.2.3</version>
 		</dependency>
+        <dependency>
+            <groupId>br.com.abruzzo</groupId>
+            <artifactId>servico-emprestimo</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
 
 
-	</dependencies>
+    </dependencies>
 
 
 	<dependencyManagement>

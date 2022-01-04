@@ -20,11 +20,10 @@ public class ClienteController {
     @GetMapping("/cliente")
     public String home(Model model){
 
-
-        ClienteDTO cliente1  = new ClienteDTO(1L,"Andrea","andrea@gmail.com","11111111111","11111111-1","Rua 1",10000d,"123");
-        ClienteDTO cliente2 = new ClienteDTO(2L,"José","jose@gmail.com","22222222222","22222222-2","Rua 2",5000d,"123456");
-        ClienteDTO cliente3 = new ClienteDTO(3L,"Alberto","alberto@gmail.com","33333333333","33333333-3","Rua 3",15000d,"333333");
-        ClienteDTO cliente4 = new ClienteDTO(4L,"Maria","maria@gmail.com","44444444444","44444444-4","Rua 2",8500d,"321654987");
+        ClienteDTO cliente1  = new ClienteDTO(1L,"Andrea","andrea@gmail.com","11111111111","11111111-1","Rua 1",10000d);
+        ClienteDTO cliente2 = new ClienteDTO(2L,"José","jose@gmail.com","22222222222","22222222-2","Rua 2",5000d);
+        ClienteDTO cliente3 = new ClienteDTO(3L,"Alberto","alberto@gmail.com","33333333333","33333333-3","Rua 3",15000d);
+        ClienteDTO cliente4 = new ClienteDTO(4L,"Maria","maria@gmail.com","44444444444","44444444-4","Rua 2",8500d);
 
         List<ClienteDTO> listaClientes = new ArrayList<>();
         listaClientes.add(cliente1);

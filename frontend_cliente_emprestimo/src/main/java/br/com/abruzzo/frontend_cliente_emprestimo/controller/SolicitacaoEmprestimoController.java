@@ -64,7 +64,7 @@ public class SolicitacaoEmprestimoController {
      * @param solicitacaoClienteEmprestimoDTO
      * @return
      */
-    @RolesAllowed({"FUNCIONARIO"})
+    @RolesAllowed({"FUNCIONARIO", "SUPER_ADMIN"})
     @PostMapping("novo")
     public String solicitarNovoEmprestimo(@RequestBody SolicitacaoClienteEmprestimoDTO solicitacaoClienteEmprestimoDTO){
 
@@ -79,7 +79,17 @@ public class SolicitacaoEmprestimoController {
         usuarioDTO.setRoles(listaRoles);
         usuarioDTO.setLoginAttempt(0);
         usuarioDTO.setPassword(solicitacaoClienteEmprestimoDTO.getSenha());
-        usuarioDTO.setUsername(solicitacaoClienteEmprestimoDTO.getNome());
+
+        /**
+         * Importante !
+         *
+         * Estamos usando o CPF como username do usuário logado
+         * Isto permite algumas checagens de segurança no serviço de empréstimo
+         * sem precisar bater no servidor de clientes.
+         */
+        usuarioDTO.setUsername(solicitacaoClienteEmprestimoDTO.getCpf());
+
+
 
 
         /**

@@ -1,8 +1,10 @@
 package br.com.abruzzo.frontend_cliente_emprestimo.client;
 
 import br.com.abruzzo.frontend_cliente_emprestimo.dto.ClienteDTO;
+import br.com.abruzzo.frontend_cliente_emprestimo.dto.EmprestimoDTO;
 import br.com.abruzzo.frontend_cliente_emprestimo.dto.SolicitacaoEmprestimoDTO;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -24,6 +26,4 @@ public interface ISolicitacaoEmprestimoFeignClient {
     @RequestMapping(path= "solicitacao-emprestimo",method= RequestMethod.POST)
     public SolicitacaoEmprestimoDTO criaSolicitacaoEmprestimo(SolicitacaoEmprestimoDTO solicitacaoEmprestimoDTO);
 
-
-
-}
+   }

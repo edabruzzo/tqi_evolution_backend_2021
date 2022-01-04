@@ -2,6 +2,7 @@ package br.com.abruzzo.controller;
 
 import br.com.abruzzo.config.ParametrosConfig;
 import br.com.abruzzo.dto.EmprestimoDTO;
+import br.com.abruzzo.exceptions.ClienteTentandoListarCPFOutroClienteException;
 import br.com.abruzzo.exceptions.ErroOperacaoTransacionalBancoException;
 import br.com.abruzzo.model.Emprestimo;
 import br.com.abruzzo.service.EmprestimoService;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -120,14 +123,38 @@ public class EmprestimoController {
     @GetMapping(value="/{cpfCliente}",produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed({"CLIENTE","FUNCIONARIO","SUPER_ADMIN"})
-    public List<EmprestimoDTO> retornaTodosEmprestimosByCliente(@PathVariable String cpfCliente){
+    public List<EmprestimoDTO> retornaTodosEmprestimosByCliente(@PathVariable String cpfClienteConsultado){
 
         logger.info("Chegou GET request no Endpoint {}/{}", ParametrosConfig.ENDPOINT_BASE.getValue()
                 , ParametrosConfig.EMPRESTIMO_ENDPOINT.getValue());
 
+
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        boolean usuarioLogadoCliente = authentication.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("CLIENTE"));
+
+        /**
+         * Isso só é possível pois estou usando o cpfCliente como username no servidor de aplicação.
+         * Do contrário, teria que bater lá no serviço de cliente com Feign
+         */
+        String cpfClienteLogado = authentication.getName();
+
+        boolean estaTentandoListarEmprestimosOutroCliente = cpfClienteLogado != cpfClienteConsultado;
+
+        if(usuarioLogadoCliente && estaTentandoListarEmprestimosOutroCliente){
+
+            String credenciaisUsuarioLogado = authentication.getCredentials().toString();
+
+            String mensagemErro = "Tentativa de um Cliente listar os empréstimos de outra pessoa\n";
+            mensagemErro += String.format("Usuário que fez a tentativa %s",credenciaisUsuarioLogado);
+
+            throw new ClienteTentandoListarCPFOutroClienteException(mensagemErro, this.logger);
+        }
+
         List<EmprestimoDTO> listaEmprestimoDTO = new ArrayList<>();
         try {
-            List<Emprestimo> listaEmprestimos = emprestimoService.findAllByCpf(cpfCliente);
+            List<Emprestimo> listaEmprestimos = emprestimoService.findAllByCpf(cpfClienteLogado);
             listaEmprestimos.stream().forEach(emprestimo ->{
 
                 EmprestimoDTO emprestimoDTO = this.modelMapper.map(emprestimo,EmprestimoDTO.class);
@@ -135,11 +162,11 @@ public class EmprestimoController {
 
             });
 
-            return ResponseEntity.ok().body(listaEmprestimoDTO);
+            return listaEmprestimoDTO;
 
         }catch(Exception exception){
-
-            return resposta;
+            logger.error(exception.getLocalizedMessage());
+            return new ArrayList<EmprestimoDTO>();
 
         }
     }

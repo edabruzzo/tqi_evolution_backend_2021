@@ -1,7 +1,6 @@
 package br.com.abruzzo.repository;
 
 
-import br.com.abruzzo.model.SolicitacaoEmprestimo;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
