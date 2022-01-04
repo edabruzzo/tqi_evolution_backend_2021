@@ -14,12 +14,12 @@ public class ClienteDTO {
     private String rg;
     private String enderecoCompleto;
     private Double renda;
-    private String senha;
+
 
 
     public ClienteDTO() {  }
 
-    public ClienteDTO(Long id, String nome, String email, String cpf, String rg, String enderecoCompleto, Double renda, String senha) {
+    public ClienteDTO(Long id, String nome, String email, String cpf, String rg, String enderecoCompleto, Double renda) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -27,7 +27,7 @@ public class ClienteDTO {
         this.rg = rg;
         this.enderecoCompleto = enderecoCompleto;
         this.renda = renda;
-        this.senha = senha;
+
     }
 
     public Long getId() {
@@ -86,12 +86,5 @@ public class ClienteDTO {
         this.renda = renda;
     }
 
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
 }
 

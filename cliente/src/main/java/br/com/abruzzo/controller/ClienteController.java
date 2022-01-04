@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.annotation.security.RolesAllowed;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -49,6 +50,7 @@ public class ClienteController {
      */
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({"FUNCIONARIO","SUPER_ADMIN"})
     public ClienteDTO getClienteById(@PathVariable Long id) {
 
         logger.info("Chegou GET request no Endpoint {}/{}/{}",
@@ -75,6 +77,7 @@ public class ClienteController {
      */
     @GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({"FUNCIONARIO","SUPER_ADMIN"})
     public List<ClienteDTO> retornaTodosClientes(){
 
         logger.info("Chegou GET request no Endpoint {}/{}", ParametrosConfig.ENDPOINT_BASE.getValue()

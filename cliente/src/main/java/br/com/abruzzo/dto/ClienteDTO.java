@@ -17,7 +17,6 @@ public class ClienteDTO {
     private String rg;
     private String enderecoCompleto;
     private Double renda;
-    private String senha;
 
 
     public Long getId() {
@@ -76,11 +75,17 @@ public class ClienteDTO {
         this.renda = renda;
     }
 
-    public String getSenha() {
-        return senha;
+
+    public ClienteDTO() {
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public ClienteDTO(Long id, String nome, String email, String cpf, String rg, String enderecoCompleto, Double renda) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.cpf = cpf;
+        this.rg = rg;
+        this.enderecoCompleto = enderecoCompleto;
+        this.renda = renda;
     }
 }

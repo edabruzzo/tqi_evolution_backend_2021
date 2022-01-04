@@ -34,7 +34,7 @@ public class Usuario implements Serializable {
     private String password;
 
     @Column(name="status")
-    private Character status;
+    private String status;
 
     @Column(name="tentativasLogin")
     private Integer loginAttempt;

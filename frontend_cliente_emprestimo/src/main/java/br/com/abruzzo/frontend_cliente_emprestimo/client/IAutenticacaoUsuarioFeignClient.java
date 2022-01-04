@@ -15,7 +15,7 @@ import javax.annotation.security.RolesAllowed;
 @FeignClient("")
 public interface IAutenticacaoUsuarioFeignClient {
 
-    @RolesAllowed({"SUPER_ADMIN"})
+    @RolesAllowed({"FUNCIONARIO","SUPER_ADMIN"})
     @RequestMapping("/usuario")
     public UsuarioDTO criarUsuario(@RequestBody UsuarioDTO usuarioDTO);
 }

@@ -1,11 +1,13 @@
 package br.com.abruzzo.frontend_cliente_emprestimo.controller;
 
 import br.com.abruzzo.dto.SolicitacaoClienteEmprestimoDTO;
+import br.com.abruzzo.frontend_cliente_emprestimo.client.IAutenticacaoUsuarioFeignClient;
 import br.com.abruzzo.frontend_cliente_emprestimo.client.IClienteFeignClient;
 import br.com.abruzzo.frontend_cliente_emprestimo.client.ISolicitacaoEmprestimoFeignClient;
 import br.com.abruzzo.frontend_cliente_emprestimo.dto.ClienteDTO;
 import br.com.abruzzo.frontend_cliente_emprestimo.dto.SolicitacaoEmprestimoDTO;
 import br.com.abruzzo.frontend_cliente_emprestimo.dto.SolicitacaoEmprestimoStatusDTO;
+import br.com.abruzzo.frontend_cliente_emprestimo.dto.UsuarioDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
+import javax.annotation.security.RolesAllowed;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -37,6 +41,12 @@ public class SolicitacaoEmprestimoController {
     @Autowired
     ISolicitacaoEmprestimoFeignClient solicitacaoEmprestimoFeignClient;
 
+    @Autowired
+    IAutenticacaoUsuarioFeignClient autenticacaoUsuarioFeignClient;
+
+
+
+
     @GetMapping("solicitar")
     public String solicitarEmprestimo(){
         return "emprestimo/solicitacao-emprestimo";
@@ -44,9 +54,42 @@ public class SolicitacaoEmprestimoController {
     }
 
 
-
+    /**
+     * Método para efetuar a solicitação de um novo empréstimo
+     * Aqui partimos do princípio que somente um funcionário pode cadastrar uma nova solicitação
+     * supondo que exista uma agência física para que o cliente realize tal pedido e tenha
+     * seus documentos pessoais e comprovante de renda em mãos, para pedir um empréstimo.
+     *
+     *
+     * @param solicitacaoClienteEmprestimoDTO
+     * @return
+     */
+    @RolesAllowed({"FUNCIONARIO"})
     @PostMapping("novo")
     public String solicitarNovoEmprestimo(@RequestBody SolicitacaoClienteEmprestimoDTO solicitacaoClienteEmprestimoDTO){
+
+
+
+
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setEmailAddress(solicitacaoClienteEmprestimoDTO.getEmail());
+        usuarioDTO.setStatus("A");
+        List<String> listaRoles = new ArrayList<>();
+        listaRoles.add("CLIENTE");
+        usuarioDTO.setRoles(listaRoles);
+        usuarioDTO.setLoginAttempt(0);
+        usuarioDTO.setPassword(solicitacaoClienteEmprestimoDTO.getSenha());
+        usuarioDTO.setUsername(solicitacaoClienteEmprestimoDTO.getNome());
+
+
+        /**
+         * Após a chamada para @link IClienteFeignClient se tudo correr bem já teremos
+         * salvo o usuário no microsserviço responsável pelo gerenciamento de autenticação de usuários
+         * que nos retornará o clienteSalvoDTO já com um idUsuario preenchido
+         */
+        UsuarioDTO usuarioDTOSalvo = this.autenticacaoUsuarioFeignClient.criarUsuario(usuarioDTO);
+
+
 
         ClienteDTO clienteDTO = new ClienteDTO();
         clienteDTO.setCpf(solicitacaoClienteEmprestimoDTO.getCpf());
@@ -54,9 +97,7 @@ public class SolicitacaoEmprestimoController {
         clienteDTO.setEnderecoCompleto(solicitacaoClienteEmprestimoDTO.getEnderecoCompleto());
         clienteDTO.setNome(solicitacaoClienteEmprestimoDTO.getNome());
         clienteDTO.setRenda(solicitacaoClienteEmprestimoDTO.getRenda());
-        clienteDTO.setSenha(solicitacaoClienteEmprestimoDTO.getSenha());
         clienteDTO.setRg(solicitacaoClienteEmprestimoDTO.getRg());
-
 
 
 
