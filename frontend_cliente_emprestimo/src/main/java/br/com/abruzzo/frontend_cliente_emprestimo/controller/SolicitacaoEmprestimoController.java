@@ -1,12 +1,8 @@
 package br.com.abruzzo.frontend_cliente_emprestimo.controller;
 
 import br.com.abruzzo.dto.SolicitacaoClienteEmprestimoDTO;
-import br.com.abruzzo.frontend_cliente_emprestimo.client.IAutenticacaoUsuarioFeignClient;
-import br.com.abruzzo.frontend_cliente_emprestimo.client.IClienteFeignClient;
-import br.com.abruzzo.frontend_cliente_emprestimo.client.ISolicitacaoEmprestimoFeignClient;
 import br.com.abruzzo.frontend_cliente_emprestimo.dto.ClienteDTO;
 import br.com.abruzzo.frontend_cliente_emprestimo.dto.SolicitacaoEmprestimoDTO;
-import br.com.abruzzo.frontend_cliente_emprestimo.dto.SolicitacaoEmprestimoStatusDTO;
 import br.com.abruzzo.frontend_cliente_emprestimo.dto.UsuarioDTO;
 import br.com.abruzzo.frontend_cliente_emprestimo.service.AutenticacaoUsuarioService;
 import br.com.abruzzo.frontend_cliente_emprestimo.service.ClienteService;
@@ -21,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.security.RolesAllowed;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -66,12 +60,11 @@ public class SolicitacaoEmprestimoController {
      *
      *
      * @param solicitacaoClienteEmprestimoDTO
-     * @return
+     * @return nomeView  emprestimo
      */
     @RolesAllowed({"FUNCIONARIO", "SUPER_ADMIN"})
     @PostMapping("novo")
     public String solicitarNovoEmprestimo(@RequestBody SolicitacaoClienteEmprestimoDTO solicitacaoClienteEmprestimoDTO){
-
 
 
         UsuarioDTO usuarioDTOSalvo = this.autenticacaoUsuarioService.criarUsuario(solicitacaoClienteEmprestimoDTO);

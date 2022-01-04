@@ -1,4 +1,4 @@
-package br.com.abruzzo.frontend_cliente_emprestimo.client;
+package br.com.abruzzo.frontend_cliente_emprestimo.feign_clients;
 
 import br.com.abruzzo.frontend_cliente_emprestimo.dto.UsuarioDTO;
 import org.springframework.cloud.openfeign.FeignClient;

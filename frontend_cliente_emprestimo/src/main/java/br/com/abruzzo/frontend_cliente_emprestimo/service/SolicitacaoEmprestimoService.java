@@ -1,7 +1,7 @@
 package br.com.abruzzo.frontend_cliente_emprestimo.service;
 
 import br.com.abruzzo.dto.SolicitacaoClienteEmprestimoDTO;
-import br.com.abruzzo.frontend_cliente_emprestimo.client.ISolicitacaoEmprestimoFeignClient;
+import br.com.abruzzo.frontend_cliente_emprestimo.feign_clients.ISolicitacaoEmprestimoFeignClient;
 import br.com.abruzzo.frontend_cliente_emprestimo.dto.SolicitacaoEmprestimoDTO;
 import br.com.abruzzo.frontend_cliente_emprestimo.dto.SolicitacaoEmprestimoStatusDTO;
 import org.springframework.beans.factory.annotation.Autowired;

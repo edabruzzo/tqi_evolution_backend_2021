@@ -1,6 +1,6 @@
 package br.com.abruzzo.frontend_cliente_emprestimo.controller;
 
-import br.com.abruzzo.frontend_cliente_emprestimo.client.IEmprestimoFeignClient;
+import br.com.abruzzo.frontend_cliente_emprestimo.feign_clients.IEmprestimoFeignClient;
 import br.com.abruzzo.frontend_cliente_emprestimo.dto.EmprestimoDTO;
 import br.com.abruzzo.frontend_cliente_emprestimo.exceptions.ClienteTentandoListarCPFOutroClienteException;
 import org.slf4j.Logger;
