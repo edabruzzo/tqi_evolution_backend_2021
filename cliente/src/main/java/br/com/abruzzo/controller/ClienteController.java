@@ -108,6 +108,7 @@ public class ClienteController {
      */
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
+    @RolesAllowed({"FUNCIONARIO","SUPER_ADMIN"})
     public ClienteDTO criaNovoCliente(@RequestBody Cliente clienteDTO) throws ErroOperacaoTransacionalBancoException {
 
         logger.info("Requisição para salvar um cliente na base");
@@ -141,6 +142,7 @@ public class ClienteController {
      */
     @PutMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
+    @RolesAllowed({"FUNCIONARIO","SUPER_ADMIN"})
     public ResponseEntity<ClienteDTO> atualizaCliente(@PathVariable Long id,
                                                          @RequestBody ClienteDTO clienteUpdatedDTO) throws ErroOperacaoTransacionalBancoException {
 
@@ -168,11 +170,17 @@ public class ClienteController {
      *  Método responsável por receber o request para deletar um cliente na base de dados
      *  após uma request via chamada Rest utilizando o método HTTP DELETE
      *
+     *
+     *  Segurança: Apenas usuário com a Role SUPER_ADMIN tem autorização para invocar este
+     *  método do Controller
+     *
+     *
      * @param id  Id do cliente cadastrado em banco
      * @return    retorna uma Mono stream com o cliente salvo no formato JSON
      */
     @DeleteMapping(value="/{id}")
     @ResponseStatus(code=HttpStatus.OK)
+    @RolesAllowed({"SUPER_ADMIN"})
     public void delete(@PathVariable Long id) throws ErroOperacaoTransacionalBancoException {
         logger.info("DELETE request recebido no endpoint: {}", ParametrosConfig.ENDPOINT_BASE.getValue());
         try{

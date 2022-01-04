@@ -33,4 +33,9 @@ public class EmprestimoService {
     }
 
     public void deleteById(Long id) {emprestimoRepository.deleteById(id);}
+
+    public List<Emprestimo> findAllByCpf(String cpfCliente) {
+
+       return this.emprestimoRepository.findAllByCpf(cpfCliente);
+    }
 }

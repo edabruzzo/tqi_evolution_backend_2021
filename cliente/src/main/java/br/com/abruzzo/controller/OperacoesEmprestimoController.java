@@ -11,9 +11,25 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.sql.Date;
 
 /**
+ *
+ * Classe responsável por invocar o Service para realizar uma solicitação de empréstimo
+ * Não permitimos que o cliente faça a solicitação.
+ *
+ * Estamos supondo que exista uma agência física e, por isso, apenas funcionários e admins podem
+ * realizar solicitações de empréstimo no atendimento ao cliente, que estará em posse de seus
+ * documentos e comprovantes de renda.
+ *
+ * Estamos anotando o layer controller como seguro e apenas aberto a roles específicas
+ *
+ * usando a anotaçaõ do JSR-250
+ *
+ * Para mais informações, vide: https://www.baeldung.com/spring-security-method-security
+ *
+ *
  * @link https://howtodoinjava.com/spring-boot2/resttemplate/resttemplate-post-json-example/
  * @link https://www.baeldung.com/spring-resttemplate-post-json
  *
@@ -23,6 +39,7 @@ import java.sql.Date;
 
 @RestController
 @RequestMapping("/emprestimo")
+@RolesAllowed({"FUNCIONARIO","SUPER_ADMIN"})
 public class OperacoesEmprestimoController {
 
     private static final Logger logger = LoggerFactory.getLogger(ClienteController.class);

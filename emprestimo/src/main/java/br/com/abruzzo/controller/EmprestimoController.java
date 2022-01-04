@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.annotation.security.RolesAllowed;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -53,6 +54,7 @@ public class EmprestimoController {
      */
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({"FUNCIONARIO","SUPER_ADMIN"})
     public EmprestimoDTO getEmprestimoById(@PathVariable Long id) {
 
         logger.info("Chegou GET request no Endpoint {}/{}/{}",
@@ -79,6 +81,7 @@ public class EmprestimoController {
      */
     @GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({"FUNCIONARIO","SUPER_ADMIN"})
     public ResponseEntity<List<EmprestimoDTO>> retornaTodosEmprestimos(){
 
         logger.info("Chegou GET request no Endpoint {}/{}", ParametrosConfig.ENDPOINT_BASE.getValue()
@@ -106,6 +109,44 @@ public class EmprestimoController {
 
 
 
+
+    /**
+     *  Método que retorna uma lista de Emprestimo DTO
+     *  de todos os emprestimos cadastrados na base
+     *  após um GET request via chamada Rest
+     *
+     * @return    retorna um ResponseEntity de lista de DTOs de emprestimos no formato JSON
+     */
+    @GetMapping(value="/{cpfCliente}",produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({"CLIENTE","FUNCIONARIO","SUPER_ADMIN"})
+    public List<EmprestimoDTO> retornaTodosEmprestimosByCliente(@PathVariable String cpfCliente){
+
+        logger.info("Chegou GET request no Endpoint {}/{}", ParametrosConfig.ENDPOINT_BASE.getValue()
+                , ParametrosConfig.EMPRESTIMO_ENDPOINT.getValue());
+
+        List<EmprestimoDTO> listaEmprestimoDTO = new ArrayList<>();
+        try {
+            List<Emprestimo> listaEmprestimos = emprestimoService.findAllByCpf(cpfCliente);
+            listaEmprestimos.stream().forEach(emprestimo ->{
+
+                EmprestimoDTO emprestimoDTO = this.modelMapper.map(emprestimo,EmprestimoDTO.class);
+                listaEmprestimoDTO.add(emprestimoDTO);
+
+            });
+
+            return ResponseEntity.ok().body(listaEmprestimoDTO);
+
+        }catch(Exception exception){
+
+            return resposta;
+
+        }
+    }
+
+
+
+
     /**
      *  Método responsável por cadastrar um emprestimo na base de dados
      *  após uma request via chamada Rest utilizando o método HTTP POST
@@ -115,6 +156,7 @@ public class EmprestimoController {
      */
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
+    @RolesAllowed({"FUNCIONARIO","SUPER_ADMIN"})
     public ResponseEntity<EmprestimoDTO> criarEmprestimoConsolidado(@RequestBody EmprestimoDTO emprestimoDTO) throws ErroOperacaoTransacionalBancoException {
 
         logger.info("Requisição para salvar um emprestimo na base");
@@ -146,6 +188,7 @@ public class EmprestimoController {
     @PutMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE,
                 produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
+    @RolesAllowed({"SUPER_ADMIN"})
     public ResponseEntity<EmprestimoDTO> atualizaEmprestimo(@PathVariable Long id,
                                                    @RequestBody EmprestimoDTO emprestimoUpdatedDTO) throws ErroOperacaoTransacionalBancoException {
 
@@ -176,6 +219,7 @@ public class EmprestimoController {
      */
     @DeleteMapping(value="{id}")
     @ResponseStatus(code=HttpStatus.OK)
+    @RolesAllowed({"SUPER_ADMIN"})
     public ResponseEntity<String> delete(@PathVariable Long id) throws ErroOperacaoTransacionalBancoException {
         logger.info("DELETE request recebido no endpoint: {}", ParametrosConfig.ENDPOINT_BASE.getValue());
         try{
