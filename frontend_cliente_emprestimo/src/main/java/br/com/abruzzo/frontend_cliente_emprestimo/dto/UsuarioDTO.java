@@ -25,7 +25,7 @@ public class UsuarioDTO {
     private String password;
     private String status;
     private Integer loginAttempt;
-    private List<GrantedAuthority> authorities = new ArrayList<>();
+    private List<String> roles = new ArrayList<>();
 
 
 }

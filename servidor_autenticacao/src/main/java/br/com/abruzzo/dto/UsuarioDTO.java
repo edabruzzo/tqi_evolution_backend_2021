@@ -1,5 +1,6 @@
 package br.com.abruzzo.dto;
 
+import br.com.abruzzo.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,6 +29,10 @@ public class UsuarioDTO {
     private String password;
     private String status;
     private Integer loginAttempt;
-    private List<GrantedAuthority> authorities = new ArrayList<>();
+
+    /**
+     * @link Vide: https://stackoverflow.com/questions/37615034/spring-security-spring-boot-how-to-set-roles-for-users/50533455
+     */
+    private List<String> roles = new ArrayList<>();
 
 }

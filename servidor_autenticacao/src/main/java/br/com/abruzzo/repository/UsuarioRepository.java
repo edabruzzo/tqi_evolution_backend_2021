@@ -1,6 +1,6 @@
 package br.com.abruzzo.repository;
 
-import br.com.abruzzo.security.Usuario;
+import br.com.abruzzo.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

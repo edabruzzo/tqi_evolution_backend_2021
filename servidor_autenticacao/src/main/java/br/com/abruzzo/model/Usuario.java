@@ -1,5 +1,6 @@
-package br.com.abruzzo.security;
+package br.com.abruzzo.model;
 
+import br.com.abruzzo.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -49,8 +50,8 @@ public class Usuario implements Serializable {
 
     @ElementCollection(fetch= FetchType.EAGER)
     @Builder.Default
-    private List<GrantedAuthority> authorities = new ArrayList<>();
-
+    private List<Role> roles = new ArrayList<>();
+    
 
 
 }

@@ -1,14 +1,25 @@
 package br.com.abruzzo.config;
 
+import br.com.abruzzo.model.Role;
+
+
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import javax.sql.DataSource;
 
 /**
  * @author Emmanuel Abruzzo
@@ -25,6 +36,9 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter{
     @Value("${usuarioTeste}")
     private String usuarioTeste;
 
+
+    @Autowired
+    private DataSource dataSource;
 
     @Override
     @Bean
@@ -46,7 +60,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter{
     }
 
 
-    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder){
+    public void configureInMemory(AuthenticationManagerBuilder authenticationManagerBuilder){
         try {
             authenticationManagerBuilder
                     .inMemoryAuthentication()
@@ -58,6 +72,25 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter{
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(encoder);
+
+        UserDetails usuarioInicial = User.withDefaultPasswordEncoder()
+                        .username("99999999999")
+                        .password("9999")
+                        .roles(String.valueOf(Role.FUNCIONARIO))
+                        .roles(String.valueOf(Role.SUPER_ADMIN))
+                        .build();
+
+
+
+
     }
 
 

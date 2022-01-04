@@ -1,10 +1,8 @@
 package br.com.abruzzo.service;
 
-import br.com.abruzzo.controller.UsuarioController;
-import br.com.abruzzo.dto.UsuarioDTO;
 import br.com.abruzzo.exceptions.UsuarioSemPrivilegioAdminTentandoSalvarAdminException;
 import br.com.abruzzo.repository.UsuarioRepository;
-import br.com.abruzzo.security.Usuario;
+import br.com.abruzzo.model.Usuario;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
