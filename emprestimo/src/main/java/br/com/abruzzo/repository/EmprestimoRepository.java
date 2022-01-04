@@ -19,6 +19,7 @@ public interface EmprestimoRepository extends JpaRepository<Emprestimo, Long> {
     String consultaEmprestimosPorCpfCliente = "select e.* from tb_emprestimo e " +
             " inner join tb_cliente c on c.idCliente = e.idCliente " +
             " where c.cpfCliente := cpfCliente";
+    
 
     @Query(value=consultaEmprestimosPorCpfCliente,nativeQuery = true)
     List<Emprestimo> findAllByCpf(@Param(value = "cpfCliente") String cpfCliente);

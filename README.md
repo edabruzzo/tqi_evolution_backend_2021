@@ -203,7 +203,8 @@ de um algoritmo de load balancing.
 Vide documentação do Ribbon:
 +https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.2.0.M3/reference/html/#customizing-the-default-for-all-ribbon-clients
 
-
+Para uma discussão mais aprofundada sobre Load Balancing
++ https://spring.io/blog/2020/03/25/spring-tips-spring-cloud-loadbalancer
 
 ### Integração entre Eureka Server | Ribbon | Declarative REST Clients usando: Feign
 
