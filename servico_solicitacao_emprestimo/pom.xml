@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.abruzzo</groupId>
-	<artifactId>servico-solicitacao-emprestimo</artifactId>
+	<artifactId>servico_solicitacao_emprestimo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>servico-solicitacao-emprestimo</name>
+	<name>servico_solicitacao_emprestimo</name>
 	<description>Servico para solicitação de empréstimo usando in-memory database Redis</description>
 	<properties>
 		<java.version>11</java.version>

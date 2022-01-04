@@ -17,7 +17,7 @@
         <module>frontend_cliente_emprestimo</module>
         <module>serviceDiscoveryEurekaServer</module>
         <module>zuul_gateway</module>
-        <module>servico-solicitacao-emprestimo</module>
+        <module>servico_solicitacao_emprestimo</module>
         <module>servidor_autenticacao</module>
     </modules>
 
