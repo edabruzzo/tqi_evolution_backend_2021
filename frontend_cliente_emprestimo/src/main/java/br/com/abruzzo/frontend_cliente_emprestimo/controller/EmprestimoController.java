@@ -1,9 +1,8 @@
 package br.com.abruzzo.frontend_cliente_emprestimo.controller;
 
 import br.com.abruzzo.frontend_cliente_emprestimo.client.IEmprestimoFeignClient;
-import br.com.abruzzo.frontend_cliente_emprestimo.client.ISolicitacaoEmprestimoFeignClient;
 import br.com.abruzzo.frontend_cliente_emprestimo.dto.EmprestimoDTO;
-import br.com.abruzzo.frontend_cliente_emprestimo.emprestimo.ClienteTentandoListarCPFOutroClienteException;
+import br.com.abruzzo.frontend_cliente_emprestimo.exceptions.ClienteTentandoListarCPFOutroClienteException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,10 +83,6 @@ public class EmprestimoController {
 
         }
     }
-
-
-
-
 
 
 
