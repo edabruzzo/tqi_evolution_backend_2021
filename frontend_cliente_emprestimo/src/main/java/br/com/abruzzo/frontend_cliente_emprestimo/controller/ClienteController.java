@@ -1,10 +1,13 @@
 package br.com.abruzzo.frontend_cliente_emprestimo.controller;
 
 import br.com.abruzzo.frontend_cliente_emprestimo.dto.ClienteDTO;
+import br.com.abruzzo.frontend_cliente_emprestimo.service.ClienteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,20 +20,15 @@ import java.util.List;
 public class ClienteController {
 
 
+    @Autowired
+    ClienteService clienteService;
+
+
     @GetMapping("/cliente")
+    @RolesAllowed({"FUNCIONARIO", "SUPER_ADMIN"})
     public String home(Model model){
 
-        ClienteDTO cliente1  = new ClienteDTO(1L,"Andrea","andrea@gmail.com","11111111111","11111111-1","Rua 1",10000d);
-        ClienteDTO cliente2 = new ClienteDTO(2L,"José","jose@gmail.com","22222222222","22222222-2","Rua 2",5000d);
-        ClienteDTO cliente3 = new ClienteDTO(3L,"Alberto","alberto@gmail.com","33333333333","33333333-3","Rua 3",15000d);
-        ClienteDTO cliente4 = new ClienteDTO(4L,"Maria","maria@gmail.com","44444444444","44444444-4","Rua 2",8500d);
-
-        List<ClienteDTO> listaClientes = new ArrayList<>();
-        listaClientes.add(cliente1);
-        listaClientes.add(cliente2);
-        listaClientes.add(cliente3);
-        listaClientes.add(cliente4);
-
+        List<ClienteDTO> listaClientes = this.clienteService.listarClientes();
         model.addAttribute("listaClientes",listaClientes);
 
         return "cliente";

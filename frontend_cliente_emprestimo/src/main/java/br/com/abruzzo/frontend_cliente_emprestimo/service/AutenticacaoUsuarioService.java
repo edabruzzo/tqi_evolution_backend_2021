@@ -62,10 +62,7 @@ public class AutenticacaoUsuarioService {
          * que nos retornará o clienteSalvoDTO já com um idUsuario preenchido
          */
          UsuarioDTO usuarioDTOSalvo = this.autenticacaoUsuarioFeignClient.criarUsuario(usuarioDTO);
-
         return usuarioDTOSalvo;
-
-
     }
 
 
@@ -88,8 +85,6 @@ public class AutenticacaoUsuarioService {
             mensagemErro += String.format("Usuário que fez a tentativa %s\n",credenciaisUsuarioLogado);
             mensagemErro += String.format("Usuário que ele tentou cadastrar: %s\n",usuarioDTO);
             throw new FuncionarioSemPrivilegioAdminTentandoCriarSUPERADMINException(mensagemErro, this.logger);
-
-
 
         }
         UsuarioDTO usuarioDTOSalvo = this.autenticacaoUsuarioFeignClient.criarUsuario(usuarioDTO);

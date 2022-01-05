@@ -38,6 +38,7 @@
                 <a sec:authorize="hasRole('CLIENTE')"class="nav-link" th:href="@{/solicitacao-emprestimo}/@{authentication.name}">Listar Solicitações Empréstimos do cliente</a>
                 <a sec:authorize="hasRole('FUNCIONARIO')" class="nav-link" th:href="@{/emprestimos/}">Listar Todos os Empréstimos</a>
                 <a sec:authorize="hasRole('FUNCIONARIO')" class="nav-link" th:href="@{/solicitacao-emprestimo}/novo">Solicitação de novo empréstimo</a>
+                <a sec:authorize="hasRole('FUNCIONARIO') || hasRole('SUPER_ADMIN')" class="nav-link" th:href="@{/usuarios}">Gerenciamento de usuários</a>
             </nav>
         </div>
     </div>

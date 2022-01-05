@@ -1,4 +1,6 @@
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head th:replace="~{base :: head}"></head>
 
@@ -6,18 +8,50 @@
 
 
 
-    <div> <div th:replace="~{navegacao :: nav('Meus Pedidos')}"></div></div>
-    <div class="container">
-        <div class="card" th:each="cliente : ${listaClientes}" >
-            <div class="card-header" th:text="${cliente.nome}"> Nome</div>
-            <div th:text="${cliente.id}"> Id Cliente</div>
-            <div th:text="${cliente.email}"> E-mail</div>
-            <div class="card-header" th:text="${cliente.cpf}"> CPF</div>
-            <div th:text="${cliente.rg}"> RG</div>
-            <div th:text="${cliente.enderecoCompleto}"> Endereço completo</div>
-            <div th:text="${cliente.renda}"> Renda</div>
+    <div>
+        <div th:replace="~{navegacao :: nav('Lista clientes')}"></div>
+    </div>
+
+
+
+
+    <div sec:authorize="hasRole('FUNCIONARIO')" th:switch="${listaClientes}">
+        <h2 th:case="null">Nenhum cliente a ser exibido!</h2>
+        <div th:case="*">
+            <h2>Lista de Clientes</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th >Id Cliente</th>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>CPF</th>
+                    <th>RG</th>
+                    <th>Endereço Completo</th>
+                    <th>Renda</th>
+                    <th sec:authorize="hasRole('SUPER_ADMIN')">Edit</th>
+                    <th sec:authorize="hasRole('SUPER_ADMIN')">Delete</th>
+
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="cliente : ${listaClientes}">
+                    <div th:text="${cliente.id}"> Id Cliente</div>
+                    <div class="card-header" th:text="${cliente.nome}"> Nome</div>
+                    <div th:text="${cliente.email}"> E-mail</div>
+                    <div class="card-header" th:text="${cliente.cpf}"> CPF</div>
+                    <div th:text="${cliente.rg}"> RG</div>
+                    <div th:text="${cliente.enderecoCompleto}"> Endereço completo</div>
+                    <div th:text="${cliente.renda}"> Renda</div>
+                    <td><a sec:authorize="hasRole('SUPER_ADMIN')" th:href="@{/cliente/edit/{id}(id=${cliente.id})}">Edit</a></td>
+                    <td><a sec:authorize="hasRole('SUPER_ADMIN')" th:href="@{/cliente/delete/{id}(id=${cliente.id})}">Delete</a></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
+
 
 </body>
 

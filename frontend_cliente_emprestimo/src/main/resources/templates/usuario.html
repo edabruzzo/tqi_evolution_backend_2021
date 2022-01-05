@@ -1,0 +1,53 @@
+
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head th:replace="~{base :: head}"></head>
+
+<body>
+
+    <div>
+        <div th:replace="~{navegacao :: nav('Lista de Usuários')}"></div>
+    </div>
+
+
+
+    <div sec:authorize="hasRole('SUPER_ADMIN')" th:switch="${listaUsuarios}">
+        <h2 th:case="null">Nenhum usuário a ser exibido!</h2>
+        <div th:case="*">
+            <h2>Lista de Usuários</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th >Id Usuário</th>
+                    <th>CPF do Cliente = Username no sistema</th>
+                    <th>E-mail</th>
+                    <th>Status</th>
+                    <th>Tentativas de login</th>
+                    <th>Roles</th>
+                    <th sec:authorize="hasRole('SUPER_ADMIN')">Edit</th>
+                    <th sec:authorize="hasRole('SUPER_ADMIN')">Delete</th>
+                </tr>
+
+                </thead>
+
+
+                <tbody>
+                <tr th:each="usuario : ${listaUsuarios}">
+                    <div th:text="${usuario.id}"> Id Usuário</div>
+                    <div class="card-header" th:text="${usuario.username}"> Estamos o CPF do cliente como username do sistema</div>
+                    <div th:text="${usuario.emailAddress}"> E-mail</div>
+                    <div th:text="${usuario.status}"> Status do usuário</div>
+                    <div th:text="${usuario.loginAttempt}"> Tentativas de Login</div>
+                    <div th:text="${usuario.roles}"> Papéis do usuário no sistema</div>
+                    <td><a sec:authorize="hasRole('SUPER_ADMIN')" th:href="@{/usuario/edit/{id}(id=${cliente.id})}">Edit</a></td>
+                    <td><a sec:authorize="hasRole('SUPER_ADMIN')" th:href="@{/usuario/delete/{id}(id=${cliente.id})}">Delete</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+
+</html>

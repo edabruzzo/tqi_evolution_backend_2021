@@ -5,6 +5,8 @@ import br.com.abruzzo.frontend_cliente_emprestimo.feign_clients.IClienteFeignCli
 import br.com.abruzzo.frontend_cliente_emprestimo.dto.ClienteDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 /**
  * @author Emmanuel Abruzzo
  * @date 04/01/2022
@@ -27,19 +29,19 @@ public class ClienteService {
         clienteDTO.setRg(solicitacaoClienteEmprestimoDTO.getRg());
 
 
-
-
         /**
          * Após a chamada para @link IClienteFeignClient se tudo correr bem já teremos
          * salvo o cliente no microsserviço responsável pelo gerenciamento de clientes
          * que nos retornará o clienteSalvoDTO já com um idCliente preenchido
          */
         ClienteDTO clienteSalvoDTO = this.clienteFeignClient.criaNovoCliente(clienteDTO);
-
         return clienteSalvoDTO;
     }
 
 
 
-
+    public List<ClienteDTO> listarClientes() {
+        List<ClienteDTO> listaClientesTO = this.clienteFeignClient.retornaTodosClientes();
+        return listaClientesTO;
+    }
 }

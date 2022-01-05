@@ -6,9 +6,8 @@ import br.com.abruzzo.frontend_cliente_emprestimo.dto.SolicitacaoEmprestimoDTO;
 import br.com.abruzzo.frontend_cliente_emprestimo.dto.UsuarioDTO;
 import br.com.abruzzo.frontend_cliente_emprestimo.service.AutenticacaoUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
 
@@ -21,16 +20,18 @@ import javax.annotation.security.RolesAllowed;
 public class UsuarioController {
 
 
-
-
     @Autowired
     AutenticacaoUsuarioService autenticacaoUsuarioService;
+
+    @GetMapping
+    public String usuarioView(Model model){
+        return "usuario";
+    }
 
 
     @RolesAllowed({"FUNCIONARIO", "SUPER_ADMIN"})
     @PostMapping("criar")
-    public String criarNovousuario(@RequestBody UsuarioDTO usuarioDTO){
-
+    public String criarNovousuario(@ModelAttribute UsuarioDTO usuarioDTO){
         UsuarioDTO usuarioDTOSalvo = this.autenticacaoUsuarioService.criarUsuario(usuarioDTO);
         return "usuario";
     }
