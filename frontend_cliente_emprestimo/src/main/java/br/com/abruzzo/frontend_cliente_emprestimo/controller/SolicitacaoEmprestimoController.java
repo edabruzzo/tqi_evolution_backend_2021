@@ -11,10 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
 
@@ -48,9 +46,10 @@ public class SolicitacaoEmprestimoController {
 
     @GetMapping("solicitar")
     @RolesAllowed({"FUNCIONARIO", "SUPER_ADMIN"})
-    public String solicitarEmprestimo(){
+    public String solicitarEmprestimo(Model model) {
+
         return "emprestimo/solicitacao-emprestimo";
-    }
+          }
 
 
     /**
@@ -65,7 +64,7 @@ public class SolicitacaoEmprestimoController {
      */
     @RolesAllowed({"FUNCIONARIO", "SUPER_ADMIN"})
     @PostMapping("novo")
-    public String solicitarNovoEmprestimo(@RequestBody SolicitacaoClienteEmprestimoDTO solicitacaoClienteEmprestimoDTO){
+    public String solicitarNovoEmprestimo(@ModelAttribute SolicitacaoClienteEmprestimoDTO solicitacaoClienteEmprestimoDTO){
 
 
         UsuarioDTO usuarioDTOSalvo = this.autenticacaoUsuarioService.criarUsuario(solicitacaoClienteEmprestimoDTO);
@@ -78,6 +77,8 @@ public class SolicitacaoEmprestimoController {
          * que nos retornará o clienteSalvoDTO já com um idCliente preenchido
          */
         ClienteDTO clienteSalvoDTO = this.clienteService.criaNovoCliente(solicitacaoClienteEmprestimoDTO);
+
+
 
         SolicitacaoEmprestimoDTO solicitacaoEmprestimoSalvaDTO = this.solicitacaoEmprestimoService.solicitarNovoEmprestimo(solicitacaoClienteEmprestimoDTO, clienteSalvoDTO.getId());
 

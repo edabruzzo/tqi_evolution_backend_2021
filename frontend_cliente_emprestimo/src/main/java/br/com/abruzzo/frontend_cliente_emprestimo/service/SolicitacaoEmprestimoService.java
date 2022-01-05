@@ -25,7 +25,7 @@ public class SolicitacaoEmprestimoService {
         SolicitacaoEmprestimoDTO solicitacaoEmprestimoDTO = new SolicitacaoEmprestimoDTO();
         solicitacaoEmprestimoDTO.setCpfCliente(solicitacaoClienteEmprestimoDTO.getCpf());
         solicitacaoEmprestimoDTO.setEmailCliente(solicitacaoClienteEmprestimoDTO.getEmail());
-        solicitacaoEmprestimoDTO.setData_primeira_parcela(solicitacaoClienteEmprestimoDTO.getData_primeira_parcela());
+        solicitacaoEmprestimoDTO.setData_primeira_parcela(solicitacaoClienteEmprestimoDTO.getDataPrimeiraParcela());
         solicitacaoEmprestimoDTO.setStatus(String.valueOf(SolicitacaoEmprestimoStatusDTO.ABERTA));
         solicitacaoEmprestimoDTO.setNumeroMaximoParcelas(solicitacaoClienteEmprestimoDTO.getNumeroMaximoParcelas());
         solicitacaoEmprestimoDTO.setValor(solicitacaoClienteEmprestimoDTO.getValor());

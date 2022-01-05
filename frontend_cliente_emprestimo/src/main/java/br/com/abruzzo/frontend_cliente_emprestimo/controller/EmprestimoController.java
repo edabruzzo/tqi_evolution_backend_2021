@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,10 +47,12 @@ public class EmprestimoController {
     @GetMapping(value="/{cpfCliente}",produces= MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed({"CLIENTE","FUNCIONARIO","SUPER_ADMIN"})
-    public List<EmprestimoDTO> retornaTodosEmprestimosByCliente(@PathVariable String cpfClienteConsultado){
+    public String retornaTodosEmprestimosByCliente(@PathVariable String cpfClienteConsultado, Model model){
 
         List<EmprestimoDTO> listaEmprestimoDTO = emprestimoService.retornaTodosEmprestimosByCliente(cpfClienteConsultado);
-        return listaEmprestimoDTO;
+        model.addAttribute("listaEmprestimos",listaEmprestimoDTO);
+
+        return "emprestimo/listagemEmprestimos";
 
     }
 
@@ -67,17 +70,13 @@ public class EmprestimoController {
     @GetMapping(produces= MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed({"FUNCIONARIO","SUPER_ADMIN"})
-    public List<EmprestimoDTO> retornaTodosEmprestimos(){
+    public String retornaTodosEmprestimos(Model model){
 
+            List<EmprestimoDTO> listaEmprestimos = this.emprestimoService.retornaTodosEmprestimos();
+            model.addAttribute("listaEmprestimos",listaEmprestimos);
 
-        try{
-            return this.emprestimoService.retornaTodosEmprestimos();
+            return "emprestimo/listagemEmprestimo";
 
-        }catch(Exception exception){
-            logger.error(exception.getLocalizedMessage());
-            return new ArrayList<EmprestimoDTO>();
-
-        }
     }
 
 

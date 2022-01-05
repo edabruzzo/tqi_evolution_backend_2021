@@ -1,70 +1,72 @@
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
 <head th:replace="~{base :: head}"></head>
 <body>
 <div th:replace="~{base :: logo}"></div>
 
 <div class="container">
-    <div th:replace="~{base :: titulo('Meus Pedidos')}"></div>
+    <div th:replace="~{base :: titulo('Requisicao Novo Emprestimo')}"></div>
 
 
 
 
+    <div sec:authorize="hasRole('FUNCIONARIO')"  class="card mt-3">
 
-
-
-    <div class="card mt-3">
-        <form th:object="${requisicaoNovoPedido}" class="card-body" action="/solicitacao_emprestimo/novo" method="POST">
+        <form th:object="${solicitacaoClienteEmprestimoDTO}" class="card-body" action="@{/solicitacao-emprestimo/novo}" method="POST">
             <div class="form-group">
-                <label for="nomeCliente">Cliente</label>
-                <input th:field="*{nomeCliente}" th:errorClass="is-invalid" class="form-control" placeholder="nome do cliente"/>
+                <label for="nome">Cliente</label>
+                <input th:field="*{nome}" th:errorClass="is-invalid" class="form-control" placeholder="nome do cliente"/>
                 <small>Informa qual o nome do cliente.</small>
-                <div class="invalid-feedback" th:errors="*{nomeCliente}">
+                <div class="invalid-feedback" th:errors="*{nome}">
                     Erros do nome do cliente
                 </div>
             </div>
             <div class="form-group">
-                <label for="cpfCliente">CPF</label>
-                <input th:field="*{cpfCliente}" th:errorClass="is-invalid" class="form-control" placeholder="CPF cliente"/>
+                <label for="cpf">CPF</label>
+                <input th:field="*{cpf}" th:errorClass="is-invalid" class="form-control" placeholder="CPF cliente"/>
                 <small>Informe o CPF do cliente.</small>
-                <div class="invalid-feedback" th:errors="*{cpfCliente}">
+                <div class="invalid-feedback" th:errors="*{cpf}">
                     Erros no CPF cliente
                 </div>
             </div>
 
+          
 
             <div class="form-group">
-                <label for="emailCliente">E-mail</label>
-                <input th:field="*{emailCliente}" th:errorClass="is-invalid" class="form-control" placeholder="E-mail cliente"/>
+                <label for="email">E-mail</label>
+                <input th:field="*{email}" th:errorClass="is-invalid" class="form-control" placeholder="E-mail cliente"/>
                 <small>Informe o e-mail do cliente.</small>
-                <div class="invalid-feedback" th:errors="*{emailCliente}">
+                <div class="invalid-feedback" th:errors="*{email}">
                     Erros no e-mail cliente
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="rgCliente">RG do cliente</label>
-                <input th:field="*{rgCliente}" th:errorClass="is-invalid" class="form-control" placeholder="rg do cliente"/>
+                <label for="rg">RG do cliente</label>
+                <input th:field="*{rg}" th:errorClass="is-invalid" class="form-control" placeholder="rg do cliente"/>
                 <small>Informe o RG do cliente</small>
-                <div class="invalid-feedback" th:errors="*{rgCliente}">
+                <div class="invalid-feedback" th:errors="*{rg}">
                     Erros no RG do cliente
                 </div>
             </div>
 
+
+            
             <div class="form-group">
-                <label for="enderecoCompletoCliente">Endereco completo do cliente</label>
-                <input th:field="*{enderecoCompletoCliente}" th:errorClass="is-invalid" class="form-control" placeholder="endereco completo do cliente"/>
+                <label for="enderecoCompleto">Endereco completo do cliente</label>
+                <input th:field="*{enderecoCompleto}" th:errorClass="is-invalid" class="form-control" placeholder="endereco completo do cliente"/>
                 <small>Informe o endereço completo do cliente</small>
-                <div class="invalid-feedback" th:errors="*{enderecoCompletoCliente}">
+                <div class="invalid-feedback" th:errors="*{enderecoCompleto}">
                     Erros no endereço completo do cliente
                 </div>
             </div>
 
-
             <div class="form-group">
-                <label for="rendaCliente">Renda do cliente</label>
-                <input th:field="*{rendaCliente}" th:errorClass="is-invalid" class="form-control" placeholder="renda do cliente"/>
+                <label for="renda">Renda do cliente</label>
+                <input th:field="*{renda}" th:errorClass="is-invalid" class="form-control" placeholder="renda do cliente"/>
                 <small>Informe a renda do cliente</small>
-                <div class="invalid-feedback" th:errors="*{rendaCliente}">
+                <div class="invalid-feedback" th:errors="*{renda}">
                     Erros na renda do cliente
                 </div>
             </div>
@@ -75,30 +77,30 @@
 
 
             <div class="form-group">
-                <label for="valorSolicitado">Valor da solicitação de empréstimo</label>
-                <input th:field="*{valorSolicitado}" th:errorClass="is-invalid" class="form-control" placeholder="valor emprestimo solicitado pelo cliente"/>
+                <label for="valor">Valor da solicitação de empréstimo</label>
+                <input th:field="*{valor}" th:errorClass="is-invalid" class="form-control" placeholder="valor emprestimo solicitado pelo cliente"/>
                 <small>Informe o valor do empréstimo solicitado pelo cliente</small>
-                <div class="invalid-feedback" th:errors="*{valorSolicitado}">
+                <div class="invalid-feedback" th:errors="*{valor}">
                     Erros no valor solicitado pelo cliente
                 </div>
             </div>
 
 
             <div class="form-group">
-                <label for="primeiraParcela">Valor da solicitação de empréstimo</label>
-                <input th:field="*{primeiraParcela}" th:errorClass="is-invalid" class="form-control" placeholder="primeira parcela do emprestimo solicitado pelo cliente"/>
+                <label for="dataPrimeiraParcela">Valor da solicitação de empréstimo</label>
+                <input th:field="*{dataPrimeiraParcela}" th:errorClass="is-invalid" class="form-control" placeholder="primeira parcela do emprestimo solicitado pelo cliente"/>
                 <small>Informe a data da primeira parcela do empréstimo solicitado pelo cliente</small>
-                <div class="invalid-feedback" th:errors="*{primeiraParcela}">
+                <div class="invalid-feedback" th:errors="*{dataPrimeiraParcela}">
                     Erros na data da primeira parcela do empréstimo solicitado pelo cliente
                 </div>
             </div>
 
 
             <div class="form-group">
-                <label for="numeroParcelas">Número de parcelas do empréstimo</label>
-                <input th:field="*{numeroParcelas}" th:errorClass="is-invalid" class="form-control" placeholder="número de parcelas do emprestimo solicitado pelo cliente"/>
+                <label for="numeroMaximoParcelas">Número de parcelas do empréstimo</label>
+                <input th:field="*{numeroMaximoParcelas}" th:errorClass="is-invalid" class="form-control" placeholder="número de parcelas do emprestimo solicitado pelo cliente"/>
                 <small>Informe o número de parcelas do empréstimo solicitado pelo cliente</small>
-                <div class="invalid-feedback" th:errors="*{numeroParcelas}">
+                <div class="invalid-feedback" th:errors="*{numeroMaximoParcelas}">
                     Erros no número de parcelas do empréstimo solicitado pelo cliente
                 </div>
             </div>
@@ -106,8 +108,8 @@
             <!-- DADOS DA SOLICITAÇÃO DE EMPRÉSTIMO -->
 
             <div class="form-group">
-                <label for="senhaCliente">Defina uma senha para o cliente</label>
-                <textarea th:field="*{senhaCliente}" class="form-control" placeholder="Defina uma senha forte para o cliente."></textarea>
+                <label for="senha">Defina uma senha para o cliente</label>
+                <textarea th:field="*{senha}" class="form-control" placeholder="Defina uma senha forte para o cliente."></textarea>
             </div>
             <button class="btn btn-primary" type="submit">Solicitar empréstimo</button>
         </form>
