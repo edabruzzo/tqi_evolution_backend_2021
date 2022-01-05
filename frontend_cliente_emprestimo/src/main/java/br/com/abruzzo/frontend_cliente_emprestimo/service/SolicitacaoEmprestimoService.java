@@ -7,6 +7,8 @@ import br.com.abruzzo.frontend_cliente_emprestimo.dto.SolicitacaoEmprestimoStatu
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author Emmanuel Abruzzo
  * @date 04/01/2022
@@ -57,6 +59,14 @@ public class SolicitacaoEmprestimoService {
         SolicitacaoEmprestimoDTO solicitacaoEmprestimoSalvaDTO = this.solicitacaoEmprestimoFeignClient.criaSolicitacaoEmprestimo(solicitacaoEmprestimoDTO);
 
         return solicitacaoEmprestimoSalvaDTO;
+
+    }
+
+    public List<SolicitacaoEmprestimoDTO> listarSolicitacoesEmprestimoCliente(String cpf) {
+
+        List<SolicitacaoEmprestimoDTO> listaSolicitacoesEmprestimoDTO = this.solicitacaoEmprestimoFeignClient.getSolicitacoesEmprestimoCliente(cpf);
+
+        return listaSolicitacoesEmprestimoDTO;
 
     }
 }

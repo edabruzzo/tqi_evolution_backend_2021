@@ -29,7 +29,6 @@ public class SolicitacaoEmprestimoController {
 
     private static final Logger logger = LoggerFactory.getLogger(SolicitacaoEmprestimoController.class);
 
-
     SolicitacaoEmprestimoService solicitacaoEmprestimoService;
 
     @Autowired

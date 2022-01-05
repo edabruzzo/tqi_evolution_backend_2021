@@ -50,6 +50,7 @@ public class EmprestimoController {
     public String retornaTodosEmprestimosByCliente(@PathVariable String cpfClienteConsultado, Model model){
 
         List<EmprestimoDTO> listaEmprestimoDTO = emprestimoService.retornaTodosEmprestimosByCliente(cpfClienteConsultado);
+
         model.addAttribute("listaEmprestimos",listaEmprestimoDTO);
 
         return "emprestimo/listagemEmprestimos";

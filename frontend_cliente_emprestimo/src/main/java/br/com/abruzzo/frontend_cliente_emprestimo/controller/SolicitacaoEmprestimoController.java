@@ -15,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -64,12 +66,10 @@ public class SolicitacaoEmprestimoController {
      */
     @RolesAllowed({"FUNCIONARIO", "SUPER_ADMIN"})
     @PostMapping("novo")
-    public String solicitarNovoEmprestimo(@ModelAttribute SolicitacaoClienteEmprestimoDTO solicitacaoClienteEmprestimoDTO){
+    public String solicitarNovoEmprestimo(@ModelAttribute SolicitacaoClienteEmprestimoDTO solicitacaoClienteEmprestimoDTO, Model model){
 
 
         UsuarioDTO usuarioDTOSalvo = this.autenticacaoUsuarioService.criarUsuario(solicitacaoClienteEmprestimoDTO);
-
-
 
         /**
          * Após a chamada para @link IClienteFeignClient se tudo correr bem já teremos
@@ -78,11 +78,35 @@ public class SolicitacaoEmprestimoController {
          */
         ClienteDTO clienteSalvoDTO = this.clienteService.criaNovoCliente(solicitacaoClienteEmprestimoDTO);
 
-
-
         SolicitacaoEmprestimoDTO solicitacaoEmprestimoSalvaDTO = this.solicitacaoEmprestimoService.solicitarNovoEmprestimo(solicitacaoClienteEmprestimoDTO, clienteSalvoDTO.getId());
 
-        return "emprestimo";
+        List<SolicitacaoEmprestimoDTO> listaSolicitacoesEmprestimoDTO = this.solicitacaoEmprestimoService.listarSolicitacoesEmprestimoCliente(solicitacaoClienteEmprestimoDTO.getCpf());
+
+        List<SolicitacaoClienteEmprestimoDTO> listaSolicitacaoClienteEmprestimoDTO = new ArrayList<>();
+
+        listaSolicitacoesEmprestimoDTO.stream().forEach(solicitacaoEmprestimoDTO -> {
+
+            SolicitacaoClienteEmprestimoDTO solicitacaoClienteEmprestimoDTOView = new SolicitacaoClienteEmprestimoDTO();
+
+            solicitacaoClienteEmprestimoDTOView.setCpf(solicitacaoClienteEmprestimoDTO.getCpf());
+            solicitacaoClienteEmprestimoDTOView.setEmail(solicitacaoEmprestimoDTO.getEmailCliente());
+            solicitacaoClienteEmprestimoDTOView.setNome(solicitacaoClienteEmprestimoDTO.getNome());
+            solicitacaoClienteEmprestimoDTOView.setRenda(solicitacaoClienteEmprestimoDTO.getRenda());
+            solicitacaoClienteEmprestimoDTOView.setRg(solicitacaoClienteEmprestimoDTO.getRg());
+            solicitacaoClienteEmprestimoDTOView.setValor(solicitacaoEmprestimoDTO.getValor());
+            solicitacaoClienteEmprestimoDTOView.setDataPrimeiraParcela(solicitacaoEmprestimoDTO.getData_primeira_parcela());
+            solicitacaoClienteEmprestimoDTOView.setNumeroMaximoParcelas(solicitacaoEmprestimoDTO.getNumeroMaximoParcelas());
+            solicitacaoClienteEmprestimoDTOView.setEnderecoCompleto(solicitacaoClienteEmprestimoDTO.getEnderecoCompleto());
+
+            listaSolicitacaoClienteEmprestimoDTO.add(solicitacaoClienteEmprestimoDTOView);
+
+
+
+        });
+
+            model.addAttribute("listaSolicitadoesEmprestimoCliente",listaSolicitacaoClienteEmprestimoDTO);
+
+        return "emprestimo/solicitacao-emprestimo";
     }
 
 

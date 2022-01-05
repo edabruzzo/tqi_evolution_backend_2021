@@ -12,24 +12,35 @@
 
 
 <div sec:authorize="authenticated()" th:switch="${listaEmprestimos}">
-    <h2 th:case="null">No users yet!</h2>
+    <h2 th:case="null">Nenhum empréstimo a ser exibido!</h2>
     <div th:case="*">
-        <h2>Users</h2>
+        <h2>Lista de Empréstimos</h2>
         <table>
             <thead>
             <tr>
-                <th>Name</th>
-                <th>Email</th>
+                <th>Id Empréstimo</th>
+                <th>Valor</th>
+                <th>Data da primeira parcela</th>
+                <th>Número de parcelas</th>
+                <th>Id do Cliente</th>
+                <th>CPF do Cliente</th>
                 <th>Edit</th>
                 <th>Delete</th>
+
+
             </tr>
             </thead>
             <tbody>
-            <tr th:each="user : ${users}">
-                <td th:text="${user.name}"></td>
-                <td th:text="${user.email}"></td>
-                <td><a th:href="@{/edit/{id}(id=${user.id})}">Edit</a></td>
-                <td><a th:href="@{/delete/{id}(id=${user.id})}">Delete</a></td>
+            <tr th:each="emprestimoCliente : ${listaEmprestimos}">
+                <td th:text="${emprestimoCliente.id}"></td>
+                <td th:text="${emprestimoCliente.valor}"></td>
+                <td th:text="${emprestimoCliente.dataPrimeiraParcela}"></td>
+                <td th:text="${emprestimoCliente.numeroMaximoParcelas}"></td>
+                <td sec:authorize="hasRole('FUNCIONARIO')"
+                    th:text="${emprestimoCliente.numeroMaximoParcelas}"></td>
+                <td th:text="${#authentication.get}"></td>
+                <td><a sec:authorize="hasRole('SUPER_ADMIN')" th:href="@{/edit/{id}(id=${emprestimoCliente.id})}">Edit</a></td>
+                <td><a sec:authorize="hasRole('SUPER_ADMIN')" th:href="@{/delete/{id}(id=${emprestimoCliente.id})}">Delete</a></td>
             </tr>
             </tbody>
         </table>
@@ -38,11 +49,7 @@
 </div>
 
 
-private Long id;
-private Double valor;
-private Date data_primeira_parcela;
-private Integer numeroMaximoParcelas;
-private Integer idCliente;
+
 
 
 </body>
