@@ -80,31 +80,8 @@ public class SolicitacaoEmprestimoController {
 
         SolicitacaoEmprestimoDTO solicitacaoEmprestimoSalvaDTO = this.solicitacaoEmprestimoService.solicitarNovoEmprestimo(solicitacaoClienteEmprestimoDTO, clienteSalvoDTO.getId());
 
-        List<SolicitacaoEmprestimoDTO> listaSolicitacoesEmprestimoDTO = this.solicitacaoEmprestimoService.listarSolicitacoesEmprestimoCliente(solicitacaoClienteEmprestimoDTO.getCpf());
-
-        List<SolicitacaoClienteEmprestimoDTO> listaSolicitacaoClienteEmprestimoDTO = new ArrayList<>();
-
-        listaSolicitacoesEmprestimoDTO.stream().forEach(solicitacaoEmprestimoDTO -> {
-
-            SolicitacaoClienteEmprestimoDTO solicitacaoClienteEmprestimoDTOView = new SolicitacaoClienteEmprestimoDTO();
-
-            solicitacaoClienteEmprestimoDTOView.setCpf(solicitacaoClienteEmprestimoDTO.getCpf());
-            solicitacaoClienteEmprestimoDTOView.setEmail(solicitacaoEmprestimoDTO.getEmailCliente());
-            solicitacaoClienteEmprestimoDTOView.setNome(solicitacaoClienteEmprestimoDTO.getNome());
-            solicitacaoClienteEmprestimoDTOView.setRenda(solicitacaoClienteEmprestimoDTO.getRenda());
-            solicitacaoClienteEmprestimoDTOView.setRg(solicitacaoClienteEmprestimoDTO.getRg());
-            solicitacaoClienteEmprestimoDTOView.setValor(solicitacaoEmprestimoDTO.getValor());
-            solicitacaoClienteEmprestimoDTOView.setDataPrimeiraParcela(solicitacaoEmprestimoDTO.getData_primeira_parcela());
-            solicitacaoClienteEmprestimoDTOView.setNumeroMaximoParcelas(solicitacaoEmprestimoDTO.getNumeroMaximoParcelas());
-            solicitacaoClienteEmprestimoDTOView.setEnderecoCompleto(solicitacaoClienteEmprestimoDTO.getEnderecoCompleto());
-
-            listaSolicitacaoClienteEmprestimoDTO.add(solicitacaoClienteEmprestimoDTOView);
-
-
-
-        });
-
-            model.addAttribute("listaSolicitadoesEmprestimoCliente",listaSolicitacaoClienteEmprestimoDTO);
+        List<SolicitacaoEmprestimoDTO> listaSolicitacoesEmprestimoDTO = this.solicitacaoEmprestimoService.listarSolicitacoesEmprestimo();
+        model.addAttribute("listaSolicitadoesEmprestimo",listaSolicitacoesEmprestimoDTO);
 
         return "emprestimo/solicitacao-emprestimo";
     }

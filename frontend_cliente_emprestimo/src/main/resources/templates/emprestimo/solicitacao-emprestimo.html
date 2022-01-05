@@ -117,33 +117,47 @@
 
 
 
-    <div sec:authorize="authenticated()" th:switch="${listaEmprestimos}">
-        <h2 th:case="null">Nenhum empréstimo a ser exibido!</h2>
+    <div sec:authorize="authenticated()" th:switch="${listaSolicitadoesEmprestimo}">
+        <h2 th:case="null">Nenhums solicitação de empréstimo a ser exibida !</h2>
         <div th:case="*">
-            <h2>Lista de Empréstimos</h2>
+            <h2>Lista de Solicitações de Empréstimos em andamento</h2>
             <table>
                 <thead>
                 <tr>
-                    <th>Id Empréstimo</th>
+
+
+                    private Long id;
+                    private Double valor;
+                    private Date data_primeira_parcela;
+                    private Integer numeroMaximoParcelas;
+                    private Long idCliente;
+                    private String status;
+                    private String cpfCliente;
+                    private String emailCliente;
+
+                    <th>Id Solicitação de Empréstimo</th>
                     <th>Valor</th>
                     <th>Data da primeira parcela</th>
                     <th>Número de parcelas</th>
-                    <th>Id do Cliente</th>
+                    <th sec:authorize="hasRole('FUNCIONARIO')">Id do Cliente</th>
                     <th>CPF do Cliente</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th sec:authorize="hasRole('SUPER_ADMIN')">Edit</th>
+                    <th sec:authorize="hasRole('SUPER_ADMIN')">Delete</th>
 
 
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="emprestimoCliente : ${listaEmprestimos}">
-                    <td th:text="${emprestimoCliente.id}"></td>
-                    <td th:text="${emprestimoCliente.valor}"></td>
-                    <td th:text="${emprestimoCliente.dataPrimeiraParcela}"></td>
-                    <td th:text="${emprestimoCliente.numeroMaximoParcelas}"></td>
+                <tr th:each="solicitacaoEmprestimo : ${listaSolicitadoesEmprestimo}">
+                    <td th:text="${solicitacaoEmprestimo.id}"></td>
+                    <td th:text="${solicitacaoEmprestimo.valor}"></td>
+                    <td th:text="${solicitacaoEmprestimo.dataPrimeiraParcela}"></td>
+                    <td th:text="${solicitacaoEmprestimo.numeroMaximoParcelas}"></td>
                     <td sec:authorize="hasRole('FUNCIONARIO')"
-                        th:text="${emprestimoCliente.numeroMaximoParcelas}"></td>
+                        th:text="${solicitacaoEmprestimo.idCliente}"></td>
+                    <td th:text="${solicitacaoEmprestimo.status}"></td>
+                    <td th:text="${solicitacaoEmprestimo.cpfCliente}"></td>
+                    <td th:text="${solicitacaoEmprestimo.emailCliente}"></td>
                     <td th:text="${#authentication.get}"></td>
                     <td><a sec:authorize="hasRole('SUPER_ADMIN')" th:href="@{/edit/{id}(id=${emprestimoCliente.id})}">Edit</a></td>
                     <td><a sec:authorize="hasRole('SUPER_ADMIN')" th:href="@{/delete/{id}(id=${emprestimoCliente.id})}">Delete</a></td>
@@ -151,7 +165,6 @@
                 </tbody>
             </table>
         </div>
-        <p><a href="/signup">Add a new user</a></p>
     </div>
 
 

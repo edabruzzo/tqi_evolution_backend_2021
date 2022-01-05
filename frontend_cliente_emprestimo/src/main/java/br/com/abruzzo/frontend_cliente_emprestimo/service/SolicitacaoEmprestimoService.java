@@ -69,4 +69,15 @@ public class SolicitacaoEmprestimoService {
         return listaSolicitacoesEmprestimoDTO;
 
     }
+
+
+
+    public List<SolicitacaoEmprestimoDTO> listarSolicitacoesEmprestimo() {
+
+        List<SolicitacaoEmprestimoDTO> listaSolicitacoesEmprestimoDTO = this.solicitacaoEmprestimoFeignClient.retornaTodasSolicitacaoEmprestimos();
+
+        return listaSolicitacoesEmprestimoDTO;
+
+    }
+
 }
