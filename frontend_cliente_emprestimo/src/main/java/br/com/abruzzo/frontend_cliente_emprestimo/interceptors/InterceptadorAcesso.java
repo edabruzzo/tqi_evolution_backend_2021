@@ -45,12 +45,11 @@ public class InterceptadorAcesso extends HandlerInterceptorAdapter {
     }
 
     private void logarAcesso(Acesso acesso) {
-        logger.info("Acesso %s \n", acesso);
-        logger.info("Usuário: %s \n",authentication.getName());
-        logger.info("Credencais: %s \n",authentication.getCredentials());
-        logger.info("Roles: %s \n",authentication.getAuthorities());
-        logger.info("Detalhes --> %s\n",authentication.getDetails());
+        logger.info("Acesso {} \n", acesso.toString());
+        if(this.authentication != null)
+            logger.info("Dados de autenticação: {} \n",authentication.toString());
     }
+
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
