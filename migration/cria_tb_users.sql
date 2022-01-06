@@ -34,16 +34,16 @@ DELETE FROM authorities;
 DELETE FROM usuario_roles;
 DELETE FROM users;
 	
+insert into users (username, password)
+values('99999999999','$2a$10$V1r4djNJed8bvEGnLMQJce7hhoL5vcymIpwJhBWxKz8HByKPJewtK');
 
 insert into authorities
-select username,
-'ROLE_FUNCIONARIO'
-from users;
-
+select '99999999999',
+'ROLE_FUNCIONARIO';
 
 insert into authorities
-select username,
-'ROLE_SUPER_ADMIN'
-from users;
+select '99999999999',
+'ROLE_SUPER_ADMIN';
+
 
 */
