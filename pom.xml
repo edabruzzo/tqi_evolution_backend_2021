@@ -19,6 +19,7 @@
         <module>zuul_gateway</module>
         <module>servico_solicitacao_emprestimo</module>
         <module>servidor_autenticacao</module>
+        <module>monolito_mvc_sistema_controle_emprestimos</module>
     </modules>
 
     <properties>
