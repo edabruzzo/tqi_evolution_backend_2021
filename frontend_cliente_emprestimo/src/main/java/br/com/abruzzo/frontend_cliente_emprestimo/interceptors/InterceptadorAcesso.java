@@ -21,7 +21,7 @@ import java.util.List;
 public class InterceptadorAcesso extends HandlerInterceptorAdapter {
 
 
-    private static final Logger logger = LoggerFactory.getLogger(EmprestimoController.class);
+    private static final Logger logger = LoggerFactory.getLogger(InterceptadorAcesso.class);
 
     public static List<Acesso> acessos = new ArrayList<Acesso>();
 
