@@ -53,7 +53,22 @@
   
   Para controle de acesso aos recursos e segurança da aplicação optamos pela implementação de um módulo de segurança para garantir acesso a recursos por:
   * autenticação 
-  * papeis 
+  * papeis (roles, authorities)
+  * 
+Utilizamos Thymeleaf integrado com Spring Security para permissão de visualização de componentes 
+html e execução de ações no sistema de acordo com roles de usuaŕios
+
+
+#### Tela Login
+![img.png](imagens/telaLogin.png)
+
+
+#### Tela solicitação de empréstimo
+![img.png](imagens/telaSolicitacaoNovoEmprestimo.png)
+
+
+
+
 
 
 ### Spring boot x Spring Cloud compatibility
@@ -83,6 +98,8 @@ Diante do deadline para entrega do projeto optamos por trabalhar na branch maste
 Porém, deixamos a branch 'reativa com Dynamo' preparada para evolução e posterior troca de paradigma após entrega do MVP (Minimum Viable Product)
 
 * Vide notas abaixo em relação ao DynamoDB
+
+
 
 
 ### Opção por uma branch específica para testar banco não-relacional  DynamoDB e outra branch para Postgres (relacional)
