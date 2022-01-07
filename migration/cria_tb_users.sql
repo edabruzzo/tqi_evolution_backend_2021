@@ -23,42 +23,36 @@ CREATE TABLE authorities (
 CREATE UNIQUE INDEX ix_auth_username
   on authorities (username,authority);
 
-
 /*
-
 SELECT * FROM users;
 SELECT * FROM authorities;
 SELECT * FROM usuario_roles;
+*/
 
 DELETE FROM authorities;
 DELETE FROM usuario_roles;
 DELETE FROM users;
 	
-insert into users (username, password)
-values('99999999999','$2a$10$V1r4djNJed8bvEGnLMQJce7hhoL5vcymIpwJhBWxKz8HByKPJewtK');
+insert into users (username, password,enabled)
+values('99999999999','$2a$10$V1r4djNJed8bvEGnLMQJce7hhoL5vcymIpwJhBWxKz8HByKPJewtK',true),
+('11111111111', '$2a$10$nFf6Im.KutzkUvjDPsua/Ob1W8VgD31ARgcR.okRf2FOY7BHb2EsS', true),
+('22222222222', '$2a$10$HiCPekkocMWOQQj8EbCbMODZvakReM0dtzDeqRUyKJhs7jA4plGFa', true);
 
 insert into authorities
-select '99999999999',
-'ROLE_FUNCIONARIO';
-
-insert into authorities
-select '99999999999',
-'ROLE_SUPER_ADMIN';
+values('99999999999','ROLE_FUNCIONARIO'),
+('99999999999','ROLE_SUPER_ADMIN'),
+('11111111111','ROLE_FUNCIONARIO'),
+('22222222222','ROLE_CLIENTE');
 
 
+DELETE FROM tb_cliente;
 
 insert into tb_cliente
 select 
 nextval('hibernate_sequence'),
-'11111111111',
+'22222222222',
 'asdf@gmail.com',
 'Rua x, xxxxx',
 'João',
 10000,
-'111111111';
-
-
-
-
-
-*/
+'222222';
