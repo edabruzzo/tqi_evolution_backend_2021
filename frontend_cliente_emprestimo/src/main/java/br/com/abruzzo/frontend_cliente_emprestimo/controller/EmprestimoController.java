@@ -76,7 +76,7 @@ public class EmprestimoController {
             List<EmprestimoDTO> listaEmprestimos = this.emprestimoService.retornaTodosEmprestimos();
             model.addAttribute("listaEmprestimos",listaEmprestimos);
 
-            return "emprestimo/listagemEmprestimo";
+            return "emprestimo/listagemEmprestimos";
 
     }
 

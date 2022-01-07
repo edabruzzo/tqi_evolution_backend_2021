@@ -46,4 +46,19 @@ select '99999999999',
 'ROLE_SUPER_ADMIN';
 
 
+
+insert into tb_cliente
+select 
+nextval('hibernate_sequence'),
+'11111111111',
+'asdf@gmail.com',
+'Rua x, xxxxx',
+'João',
+10000,
+'111111111';
+
+
+
+
+
 */
