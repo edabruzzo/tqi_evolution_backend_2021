@@ -1,4 +1,4 @@
-Não pense que é capaz. Saiba que é.
+~~Não pense que é capaz. Saiba que é.
 Dado o cenário abaixo, elabore uma sugestão para o back-end necessária para resolver o problema.
 Use a criatividade! Você pode explorar aqui todos os seus conhecimentos, demonstrando fluxos, telas, protótipos e/ou codificação.
 
@@ -30,4 +30,4 @@ O prazo máximo para finalizar esta implementação é 10/01/2022. Portanto, exp
 
 Quando finalizar, você deve criar uma tag no GitHub chamada tqi_evolution_avaliacao. Desta forma, nosso time já irá avaliar o material final.
 
-Bora pra este desafio?
+Bora pra este desafio?~~

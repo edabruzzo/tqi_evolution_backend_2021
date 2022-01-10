@@ -23,10 +23,6 @@
 #### DIGITAL INNOVATION ONE
 + https://digitalinnovation.one/
 
-+ #### Video deploy
-+ https://youtu.be/6Vd3WYr5r3E
-+ https://youtu.be/MM0CQyWEQ7s
-
 
 
 ### Localização de todos os projetos desenvolvidos no Bootcamp TQI junto à Digital Innvation One
@@ -39,6 +35,14 @@
 ### Arquitetura escolhida -  Arquitetura de microserviços orientada a eventos usando Spring Cloud
 
   ![img.png](imagens/arquitetura_microservices_spring_cloud.png)
+
+************************************************************************************************************************
+##### Mesmo optando por construir o sistema utilizando uma arquitetura de microsserviços com Spring Cloud
+##### construímos também um Sistema monolítico MVC, além de quebrar o monolito em microsserviços
+
+* Github do projeto monolítico em MVC:
++ https://github.com/edabruzzo/monolito_mvc_sistema_controle_emprestimos
+************************************************************************************************************************
 
   Optamos por modelar nossa aplicação em microserviços para garantir independência de cada funcionalidade do resto da aplicação induz ao baixo acoplamento. Com isso, temos mais facilidade de lidar com questões técnicas, que são fortemente influenciadas pelos requisitos funcionais e não funcionais do negócio que estamos informatizando.
   
@@ -65,6 +69,14 @@ html e execução de ações no sistema de acordo com roles de usuaŕios
 
 #### Tela solicitação de empréstimo
 ![img.png](imagens/telaSolicitacaoNovoEmprestimo.png)
+
+
+#### Tela de cadastro e listagem de clientes
+![img.png](imagens/tela_cadastro_lista_clientes.png)
+![img_1.png](imagens/tela_cadastro_lista_clientes_1.png)
+
+
+
 
 
 
@@ -611,251 +623,3 @@ docker exec -it tqi_evolution_backend_2021 /bin/bash
 
 psql -U postgres -d tqi_evolution_backend_2021 
 ```
-
-
-## Spring Boot
-
-* [https://start.spring.io/](https://start.spring.io/)
-
-+ Java 8
-+ MAVEN Project
-    + Devido à minha familiaridade, optei por desenvolver e construir o projeto e gerenciar dependências com Maven
-+ Jar
-+ Spring Web
-+ Spring Data JPA
-+ Spring Cloud
-# Eureka Server
-+ PostgreSQL Driver
-  Versão: 42.2.24
-### Spring Data
-
-* [jpa.query-methods](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods)
-
-### Properties
-
-* [appendix-application-properties](https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html)
-* [jdbc-database-connectio](https://www.codejava.net/java-se/jdbc/jdbc-database-connection-url-for-common-databases)
-
-### Types
-
-* [JsonTypes](https://github.com/vladmihalcea/hibernate-types)
-* [UserType](https://docs.jboss.org/hibernate/orm/3.5/api/org/hibernate/usertype/UserType.html)
-
-## Heroku
-
-* [DevCenter](https://devcenter.heroku.com/articles/getting-started-with-gradle-on-heroku)
-
-## Code Quality
-
-### PMD
-
-+ https://pmd.github.io/pmd-6.8.0/index.html
-
-### Checkstyle
-
-+ https://checkstyle.org/
-
-+ https://checkstyle.org/google_style.html
-
-+ http://google.github.io/styleguide/javaguide.html
-
-```
-wget https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml
-```
-
-
-### OUTRAS REFERÊNCIAS ÚTEIS
-
-#### SPRING REST APPLICATION
-+  https://www.oracle.com/br/technical-resources/articles/dsl/crud-rest-sb2-hibernate.html
-+  https://spring.io/guides/gs/rest-service/
-+  https://spring.io/guides
-+  https://www.tutorialspoint.com/spring/calling_stored_procedure.htm
-+  https://www.tutorialspoint.com/spring_boot/spring_boot_consuming_restful_web_services.htm
-
-
-#### GIT PULL-REQUEST TUTORIAL
-+ https://www.digitalocean.com/community/tutorials/how-to-create-a-pull-request-on-github
-
-#### Discussão sobre injeção de dependência
-+ https://www.oracle.com/br/technical-resources/articles/dsl/crud-rest-sb2-hibernate.html
-
-+ "O Spring automaticamente fornece a injeção de dependência. Este exemplo não está usando a anotação @Autowired pois não é mais considerado
-  uma boa prática para injeção de dependência de atributos obrigatórios. Desde a versão 4 do
-  Spring a prática recomendada é o uso de injeção de dependência por construtor
-  (as IDEs mais modernas inclusive apresentam um alerta quando fazemos o uso do @Autowired)."
-
-
-#### SHELL JAVA
-+ https://stackabuse.com/executing-shell-commands-with-java/
-
-
-#### STRING FORMAT
-+ https://www.javatpoint.com/java-string-format
-
-
-#### TESTE SPRING
-+ https://spring.io/guides/gs/testing-web/
-+ https://www.baeldung.com/spring-boot-testing
-+ https://www.bezkoder.com/spring-boot-unit-test-jpa-repo-datajpatest/
-+ https://www.tutorialspoint.com/spring_boot/spring_boot_rest_controller_unit_test.htm
-+ https://www.baeldung.com/spring-mock-rest-template
-
-
-#### GEOMAPPING - POSTGRESQL X HIBERNATE
-+ https://stackoverflow.com/questions/27624940/map-a-postgis-geometry-point-field-with-hibernate-on-spring-boot
-+ https://docs.jboss.org/hibernate/orm/5.4/userguide/html_single/Hibernate_User_Guide.html#spatial
-+ https://www.baeldung.com/hibernate-spatial
-+ https://stackoverflow.com/questions/31440496/hibernate-spatial-5-geometrytype
-+ https://github.com/Wisienkas/springJpaGeo
-+ https://www.postgresql.org/docs/12/functions-geometry.html
-
-#### USANDO NamedQueries ou NamedNativeQueries COM SPRING DATA
-+ https://thorben-janssen.com/spring-data-jpa-named-queries/
-+ https://howtodoinjava.com/jpa/jpa-native-query-example-select/
-+ https://zetcode.com/springboot/datajpanamedquery/
-
-#### ERROR HANDLING SPRING
-+ https://www.baeldung.com/exception-handling-for-rest-with-spring
-
-#### Redirection controllers
-+ https://www.baeldung.com/spring-redirect-and-forward
-
-
-#### INTERCEPTORS SPRING X CDI
-+ https://rhuanrocha.net/2019/01/06/creating-logger-with-aop-using-cdi-interceptor/
-+ https://www.tutorialspoint.com/spring_boot/spring_boot_interceptor.htm
-+ https://stackoverflow.com/questions/31082981/spring-boot-adding-http-request-interceptors
-
-#### Conversor String para Enum para Receber parametro Minusculo
-+ https://www.baeldung.com/spring-enum-request-param
-+ https://www.baeldung.com/spring-type-conversions
-
-#### Deploy da aplicação Springboot Maven no Heroku
-    Usando o plugin Heroku do Maven
-
-```
-$ mvn clean dependency:copy-dependencies package heroku:deploy
-
-[INFO] -----> Creating build...
-[INFO]        - file: /tmp/heroku-deploy14168471124361201653source-blob.tgz
-[INFO]        - size: 131MB
-[INFO] -----> Uploading build...
-^[[5F[INFO]        - success
-[INFO] -----> Deploying...
-[INFO] remote: 
-[INFO] remote: -----> Building on the Heroku-20 stack
-[INFO] remote: -----> Using buildpack: heroku/jvm
-[INFO] remote: -----> heroku-maven-plugin app detected
-[INFO] remote: -----> Installing JDK 1.8... done
-[INFO] remote: -----> Discovering process types
-[INFO] remote:        Procfile declares types -> web
-[INFO] remote: 
-[INFO] remote: -----> Compressing...
-[INFO] remote:        Done: 183.6M
-[INFO] remote: -----> Launching...
-[INFO] remote:        Released v30
-[INFO] remote:        https://fierce-atoll-34490.herokuapp.com/ deployed to Heroku
-[INFO] remote: 
-[INFO] -----> Done
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  04:41 min
-[INFO] Finished at: 2021-11-17T09:53:40-03:00
-[INFO] ------------------------------------------------------------------------
-```
-```
-$ heroku logs --tail
-
-
-2021-11-17T12:48:12.078750+00:00 heroku[run.7699]: State changed from up to complete
-2021-11-17T12:53:22.000000+00:00 app[api]: Build started by user emmanuel.oliveira3@gmail.com
-2021-11-17T12:53:38.991791+00:00 app[api]: Release v30 created by user emmanuel.oliveira3@gmail.com
-2021-11-17T12:53:38.991791+00:00 app[api]: Deploy 0.0.1-SNAPSHOT by user emmanuel.oliveira3@gmail.com
-2021-11-17T12:53:39.000000+00:00 app[api]: Build succeeded
-2021-11-17T12:53:40.044875+00:00 heroku[web.1]: State changed from crashed to starting
-2021-11-17T12:53:45.766843+00:00 heroku[web.1]: Starting process with command `java -Dserver.port=22517 -jar -Dspring.profiles.active=heroku target/project_cities_api-0.0.1-SNAPSHOT.jar`
-2021-11-17T12:53:47.956815+00:00 app[web.1]: Setting JAVA_TOOL_OPTIONS defaults based on dyno size. Custom settings will override them.
-2021-11-17T12:53:47.964565+00:00 app[web.1]: Picked up JAVA_TOOL_OPTIONS: -Xmx300m -Xss512k -XX:CICompilerCount=2 -Dfile.encoding=UTF-8
-2021-11-17T12:53:49.282528+00:00 app[web.1]: 
-2021-11-17T12:53:49.282650+00:00 app[web.1]: .   ____          _            __ _ _
-2021-11-17T12:53:49.282692+00:00 app[web.1]: /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
-2021-11-17T12:53:49.282733+00:00 app[web.1]: ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
-2021-11-17T12:53:49.282777+00:00 app[web.1]: \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
-2021-11-17T12:53:49.282815+00:00 app[web.1]: '  |____| .__|_| |_|_| |_\__, | / / / /
-2021-11-17T12:53:49.282852+00:00 app[web.1]: =========|_|==============|___/=/_/_/_/
-2021-11-17T12:53:49.283984+00:00 app[web.1]: :: Spring Boot ::                (v2.5.6)
-2021-11-17T12:53:49.284012+00:00 app[web.1]: 
-2021-11-17T12:53:49.439824+00:00 app[web.1]: 2021-11-17 12:53:49.437  INFO 4 --- [           main] b.c.d.a.p.ProjectCitiesApiApplication    : Starting ProjectCitiesApiApplication v0.0.1-SNAPSHOT using Java 1.8.0_312-heroku on 6618f368-20b2-4544-85a9-782d23670d34 with PID 4 (/app/target/project_cities_api-0.0.1-SNAPSHOT.jar started by u9248 in /app)
-2021-11-17T12:53:49.440541+00:00 app[web.1]: 2021-11-17 12:53:49.440  INFO 4 --- [           main] b.c.d.a.p.ProjectCitiesApiApplication    : The following profiles are active: heroku
-2021-11-17T12:53:50.379161+00:00 app[web.1]: 2021-11-17 12:53:50.378  INFO 4 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2021-11-17T12:53:50.468044+00:00 app[web.1]: 2021-11-17 12:53:50.467  INFO 4 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 63 ms. Found 3 JPA repository interfaces.
-2021-11-17T12:53:51.169628+00:00 app[web.1]: 2021-11-17 12:53:51.169  INFO 4 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 22517 (http)
-2021-11-17T12:53:51.181191+00:00 app[web.1]: 2021-11-17 12:53:51.181  INFO 4 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2021-11-17T12:53:51.181338+00:00 app[web.1]: 2021-11-17 12:53:51.181  INFO 4 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.54]
-2021-11-17T12:53:51.235918+00:00 app[web.1]: 2021-11-17 12:53:51.235  INFO 4 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2021-11-17T12:53:51.236045+00:00 app[web.1]: 2021-11-17 12:53:51.235  INFO 4 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1713 ms
-2021-11-17T12:53:51.480657+00:00 app[web.1]: 2021-11-17 12:53:51.479  INFO 4 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2021-11-17T12:53:51.539039+00:00 app[web.1]: 2021-11-17 12:53:51.538  INFO 4 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
-2021-11-17T12:53:51.851441+00:00 app[web.1]: 2021-11-17 12:53:51.851  INFO 4 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2021-11-17T12:53:51.957733+00:00 app[web.1]: 2021-11-17 12:53:51.957  INFO 4 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2021-11-17T12:53:52.297792+00:00 app[web.1]: 2021-11-17 12:53:52.297  INFO 4 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2021-11-17T12:53:52.340627+00:00 app[web.1]: 2021-11-17 12:53:52.340  INFO 4 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL10Dialect
-2021-11-17T12:53:53.089442+00:00 app[web.1]: 2021-11-17 12:53:53.089  INFO 4 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2021-11-17T12:53:53.321481+00:00 app[web.1]: 2021-11-17 12:53:53.321  INFO 4 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2021-11-17T12:53:54.136065+00:00 app[web.1]: 2021-11-17 12:53:54.135  WARN 4 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2021-11-17T12:53:54.789421+00:00 app[web.1]: 2021-11-17 12:53:54.789  INFO 4 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 22517 (http) with context path ''
-2021-11-17T12:53:54.801433+00:00 app[web.1]: 2021-11-17 12:53:54.801  INFO 4 --- [           main] b.c.d.a.p.ProjectCitiesApiApplication    : Started ProjectCitiesApiApplication in 6.057 seconds (JVM running for 6.837)
-2021-11-17T12:53:55.095750+00:00 heroku[web.1]: State changed from starting to up
-
-```
-
-+ https://devcenter.heroku.com/articles/deploying-spring-boot-apps-to-heroku
-+ https://stackoverflow.com/questions/32490217/java-web-app-on-heroku-unable-to-access-jarfile
-+ http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html
-+ https://devcenter.heroku.com/articles/deploying-spring-boot-apps-to-heroku
-
-
-#### Heroku DB Migrations on Release Phase
-+ https://devcenter.heroku.com/articles/running-database-migrations-for-java-apps
-+ https://devcenter.heroku.com/articles/release-phase
-
-#### Conexão Banco de Dados PostgreSQL Heroku Add-on
-+ Heroku configura no ambiente uma variável com URL para conexão ao banco de dados criado na AWS:
-
-```
-heroku config
-
-=== fierce-atoll-34490 Config Vars
-DATABASE_URL: postgres://qmghvbmblxrlba:f623f1e760b51ab39cfc64a8549e62a1f814346dc203d252e0b5699343b298a8@ec2-3-227-149-67.compute-1.amazonaws.com:5432/d7q52pdubr9p5l
-```
-
-Você pode se conectar ao banco via psql utilizando estas credenciais
-e a senha que pode ser vista no seu dashboard no Heroku Dev Center
-
-```
-heroku pg:psql postgresql-clean-54438 --app fierce-atoll-34490
-```
-Outro meio de se conectar diretamente com psql com as credenciais de banco e host fornecidas pelo próprio Heroku
-
-```
-$ heroku pg:info
-
-=== DATABASE_URL
-Plan:                  Hobby-dev
-Status:                Available
-Connections:           0/20
-PG Version:            13.4
-Created:               2021-11-17 01:49 UTC
-Data Size:             9.2 MB/1.00 GB (In compliance)
-Tables:                3
-Rows:                  5849/10000 (In compliance)
-Fork/Follow:           Unsupported
-Rollback:              Unsupported
-Continuous Protection: Off
-Add-on:                postgresql-clean-54438
-```
-
-#### Conversor MarkDown to HTML online
-+ https://markdowntohtml.com/
