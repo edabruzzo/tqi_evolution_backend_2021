@@ -64,7 +64,7 @@ html e execução de ações no sistema de acordo com roles de usuaŕios
 
 
 #### Tela Login
-![img.png](imagens/telaLogin.png)
+![img.png](imagens/telaLoginEmail.png)
 
 
 #### Tela solicitação de empréstimo
