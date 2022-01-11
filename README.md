@@ -8,8 +8,16 @@
 
 #### Microserviços integrados num sistema de cadastro de clientes e pedido de empréstimos
 
-#### GITHUB:
+
+#### GITHUB DO PROJETO EM MICROSSERVIÇOS COM SPRING CLOUD:
 + https://github.com/edabruzzo/tqi_evolution_backend_2021
+
+
+
+#### Github do projeto monolítico em MVC:
++ https://github.com/edabruzzo/monolito_mvc_sistema_controle_emprestimos
+
+
 
 #### DOCKER HUB
 + https://hub.docker.com/repository/docker/edabruzzo/tqi_evolution_backend_2021
