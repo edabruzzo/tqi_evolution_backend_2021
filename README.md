@@ -17,6 +17,9 @@
 #### Github do projeto monolítico em MVC:
 + https://github.com/edabruzzo/monolito_mvc_sistema_controle_emprestimos
 
+Referência do monolito em arquitetura padrão MVC dentro do projeto
++ https://github.com/edabruzzo/tqi_evolution_backend_2021/tree/master/MVC_monolito_sistema_controle_emprestimos/src/main/java/br/com/abruzzo/tqi_backend_evolution_2021 
+
 
 
 #### DOCKER HUB
