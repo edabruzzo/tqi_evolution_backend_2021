@@ -1,0 +1,178 @@
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head th:replace="~{base :: head}"></head>
+<body>
+<div th:replace="~{base :: logo}"></div>
+
+<div class="container">
+    <div th:replace="~{base :: titulo('Requisicão de Novo Empréstimo')}"></div>
+
+
+
+
+    <div sec:authorize="isAuthenticated()"  class="card mt-3">
+        <div sec:authorize="hasAnyRole('ROLE_FUNCIONARIO','ROLE_SUPER_ADMIN')">
+
+        <form th:object="${solicitacaoClienteEmprestimoDTO}" class="card-body"
+              th:action="@{/solicitacao-emprestimo/novo}" method="POST">
+
+            <div th:fragment="form-cadastro-cliente">
+
+            <div class="form-group">
+                <label for="nome">Cliente</label>
+                <input th:field="*{nome}" th:errorClass="is-invalid" class="form-control" placeholder="nome do cliente"/>
+                <small>Informa qual o nome do cliente.</small>
+                <div class="invalid-feedback" th:errors="*{nome}">
+                    Erros do nome do cliente
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="cpf">CPF</label>
+                <input th:field="*{cpf}" th:errorClass="is-invalid" class="form-control" placeholder="CPF: 999.999.999-99"/>
+                <small>Informe o CPF: 999.999.999-99.</small>
+                <div class="invalid-feedback" th:errors="*{cpf}">
+                    Erros no CPF cliente
+                </div>
+            </div>
+
+          
+
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input th:field="*{email}" th:errorClass="is-invalid" class="form-control" placeholder="E-mail cliente"/>
+                <small>Informe o e-mail do cliente.</small>
+                <div class="invalid-feedback" th:errors="*{email}">
+                    Erros no e-mail cliente
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="rg">RG do cliente</label>
+                <input th:field="*{rg}" th:errorClass="is-invalid" class="form-control" placeholder="rg do cliente"/>
+                <small>Informe o RG do cliente RG: 99.999.999-9 ou 99.999.999-X</small>
+                <div class="invalid-feedback" th:errors="*{rg}">
+                    Erros no RG do cliente
+                </div>
+            </div>
+
+
+            
+            <div class="form-group">
+                <label for="enderecoCompleto">Endereco completo do cliente</label>
+                <input th:field="*{enderecoCompleto}" th:errorClass="is-invalid" class="form-control" placeholder="endereco completo do cliente"/>
+                <small>Informe o endereço completo do cliente</small>
+                <div class="invalid-feedback" th:errors="*{enderecoCompleto}">
+                    Erros no endereço completo do cliente
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="renda">Renda do cliente</label>
+                <input th:field="*{renda}" th:errorClass="is-invalid" class="form-control" placeholder="renda do cliente"/>
+                <small>Informe a renda do cliente</small>
+                <div class="invalid-feedback" th:errors="*{renda}">
+                    Erros na renda do cliente
+                </div>
+            </div>
+
+            </div>
+
+            <!-- DADOS DA SOLICITAÇÃO DE EMPRÉSTIMO -->
+
+
+            <div class="form-group">
+                <label for="valor">Valor da solicitação de empréstimo</label>
+                <input th:field="*{valor}" th:errorClass="is-invalid" class="form-control" placeholder="valor emprestimo solicitado pelo cliente"/>
+                <small>Informe o valor do empréstimo solicitado pelo cliente</small>
+                <div class="invalid-feedback" th:errors="*{valor}">
+                    Erros no valor solicitado pelo cliente
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="dataPrimeiraParcela">Data da primeira parcela do empréstimo</label>
+                <input th:field="*{dataPrimeiraParcela}" th:errorClass="is-invalid" class="form-control" placeholder="primeira parcela do emprestimo solicitado pelo cliente"/>
+                <small>Informe a data da primeira parcela do empréstimo solicitado pelo cliente</small>
+                <div class="invalid-feedback" th:errors="*{dataPrimeiraParcela}">
+                    Erros na data da primeira parcela do empréstimo solicitado pelo cliente
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="numeroMaximoParcelas">Número de parcelas do empréstimo</label>
+                <input th:field="*{numeroMaximoParcelas}" th:errorClass="is-invalid" class="form-control" placeholder="número de parcelas do emprestimo solicitado pelo cliente"/>
+                <small>Informe o número de parcelas do empréstimo solicitado pelo cliente</small>
+                <div class="invalid-feedback" th:errors="*{numeroMaximoParcelas}">
+                    Erros no número de parcelas do empréstimo solicitado pelo cliente
+                </div>
+            </div>
+
+            <!-- DADOS DA SOLICITAÇÃO DE EMPRÉSTIMO -->
+
+            <div class="form-group">
+                <label for="senha">Defina uma senha para o cliente</label>
+                <textarea th:field="*{senha}" class="form-control" placeholder="Defina uma senha forte para o cliente."></textarea>
+            </div>
+            <button class="btn btn-primary" type="submit">Solicitar empréstimo</button>
+        </form>
+        </div>
+    </div>
+
+
+    <div sec:authorize="hasAnyRole('ROLE_FUNCIONARIO','ROLE_SUPER_ADMIN')">
+    <div sec:authorize="isAuthenticated()" th:switch="${listaSolicitadoesEmprestimo}">
+        <h2 th:case="null">Nenhums solicitação de empréstimo a ser exibida !</h2>
+        <div th:case="*">
+            <h2>Lista de Solicitações de Empréstimos em andamento</h2>
+            <table>
+                <thead>
+                <tr>
+
+
+                    private Long id;
+                    private Double valor;
+                    private Date data_primeira_parcela;
+                    private Integer numeroMaximoParcelas;
+                    private Long idCliente;
+                    private String status;
+                    private String cpfCliente;
+                    private String emailCliente;
+
+                    <th>Id Solicitação de Empréstimo</th>
+                    <th>Valor</th>
+                    <th>Data da primeira parcela</th>
+                    <th>Número de parcelas</th>
+                    <th sec:authorize="hasRole('FUNCIONARIO')">Id do Cliente</th>
+                    <th>CPF do Cliente</th>
+                    <th sec:authorize="hasRole('ROLE_SUPER_ADMIN')">Edit</th>
+                    <th sec:authorize="hasRole('ROLE_SUPER_ADMIN')">Delete</th>
+
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="solicitacaoEmprestimo : ${listaSolicitadoesEmprestimo}">
+                    <td th:text="${solicitacaoEmprestimo.id}"></td>
+                    <td th:text="${solicitacaoEmprestimo.valor}"></td>
+                    <td th:text="${solicitacaoEmprestimo.dataPrimeiraParcela}"></td>
+                    <td th:text="${solicitacaoEmprestimo.numeroMaximoParcelas}"></td>
+                    <td sec:authorize="hasRole('FUNCIONARIO')"
+                        th:text="${solicitacaoEmprestimo.idCliente}"></td>
+                    <td th:text="${solicitacaoEmprestimo.status}"></td>
+                    <td th:text="${solicitacaoEmprestimo.cpfCliente}"></td>
+                    <td th:text="${solicitacaoEmprestimo.emailCliente}"></td>
+                    <td th:text="${#authentication.get}"></td>
+                    <td><a sec:authorize="hasRole('ROLE_SUPER_ADMIN')" th:href="@{/edit/{id}(id=${solicitacaoEmprestimo.id})}">Edit</a></td>
+                    <td><a sec:authorize="hasRole('ROLE_SUPER_ADMIN')" th:href="@{/delete/{id}(id=${solicitacaoEmprestimo.id})}">Delete</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+    </div>
+</body>
+</html>

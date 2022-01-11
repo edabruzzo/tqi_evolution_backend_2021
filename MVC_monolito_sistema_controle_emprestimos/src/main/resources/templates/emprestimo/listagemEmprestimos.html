@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head th:replace="~{base :: head}"></head>
+
+
+
+<body>
+
+<div th:replace="~{base :: logo}"></div>
+
+
+        <div th:replace="~{base :: navegacao}"></div>
+
+    <div class="jumbotron mb-2 mt-2">
+        <h1 class="display-4" th:text="Lista de Empréstimos"></h1>
+    </div>
+
+
+
+<nav class="navbar navbar-expand navbar-light bg-light d-flex justify-content-between mb-3">
+    <div class="navbar-nav">
+        <a th:classappend="${status} == null ? 'active'" class="nav-item nav-link" href="/home">Todos Empréstimos</a>
+        <a th:classappend="${status} == 'em processamento' ? 'active'" class="nav-item nav-link" href="/home/aguardando">Em processamento</a>
+        <a th:classappend="${status} == 'aguardando aprovação' ? 'active'" class="nav-item nav-link" href="/home/aguardando">Aguardando aprovação</a>
+        <a th:classappend="${status} == 'aprovados' ? 'active'" class="nav-item nav-link" href="/home/aprovado">Aprovados</a>
+        <a th:classappend="${status} == 'Não aprovados' ? 'active'" class="nav-item nav-link" href="/home/aprovado">Não Aprovados</a>
+        <a th:classappend="${status} == 'consolidados' ? 'active'" class="nav-item nav-link" href="/home/entregue">Consolidados</a>
+    </div>
+    <a href="/solicitacao_emprestimo/solicitar"><button class="btn btn-outline-secondary my-2 my-sm-0">Solicitar Novo Empérstimo</button></a>
+</nav>
+
+
+
+<div sec:authorize="isAuthenticated()" th:switch="${listaEmprestimos}">
+    <h2 th:case="null">Nenhum empréstimo a ser exibido!</h2>
+    <div th:case="*">
+        <h2>Lista de Empréstimos</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Id Empréstimo</th>
+                <th>Valor</th>
+                <th>Data da primeira parcela</th>
+                <th>Número de parcelas</th>
+                <th>Id do Cliente</th>
+                <th>CPF do Cliente</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+
+            </thead>
+            <tbody>
+            <tr th:each="emprestimoCliente : ${listaEmprestimos}">
+                <td th:text="${emprestimoCliente.id}"></td>
+                <td th:text="${emprestimoCliente.valor}"></td>
+                <td th:text="${emprestimoCliente.dataPrimeiraParcela}"></td>
+                <td th:text="${emprestimoCliente.numeroMaximoParcelas}"></td>
+
+                <td sec:authorize="hasAnyRole('ROLE_FUNCIONARIO','ROLE_SUPER_ADMIN')"
+                    th:text="${emprestimoCliente.numeroMaximoParcelas}"></td>
+
+                <td th:text="${#authentication.get}"></td>
+                <td><a sec:authorize="hasRole('ROLE_SUPER_ADMIN')" th:href="@{/edit/{id}(id=${emprestimoCliente.id})}">Edit</a></td>
+                <td><a sec:authorize="hasRole('ROLE_SUPER_ADMIN')" th:href="@{/delete/{id}(id=${emprestimoCliente.id})}">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+</body>
+</html>
